@@ -23,6 +23,7 @@ class ConfigMapper:
         "schedulers": {},
         "devices": {},
         "datasets": {},
+        "transforms": {},
     }
 
     @classmethod

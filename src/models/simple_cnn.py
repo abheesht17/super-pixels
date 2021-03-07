@@ -1,8 +1,10 @@
-from torch.nn import Module, Sequential, Conv2d, BatchNorm2d, ReLU, MaxPool2d, Linear
+from src.utils.mapper import configmapper
+from torch.nn import BatchNorm2d, Conv2d, Linear, MaxPool2d, Module, ReLU, Sequential
 
 
+@configmapper.map("models", "simple_cnn")
 class SimpleCnn(Module):
-    def __init__(self):
+    def __init__(self, config):
         super(SimpleCnn, self).__init__()
         self.cnn_layers = Sequential(
             Conv2d(1, 4, kernel_size=3, stride=1, padding=1),

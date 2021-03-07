@@ -1,20 +1,19 @@
 import math
 import os
+
 import torch
+from src.modules.losses import *
+from src.modules.metrics import *
 from src.modules.optimizers import *
 from src.modules.schedulers import *
-from src.modules.metrics import *
-from src.modules.losses import *
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
-
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 
-@configmapper.map("trainers", "base")
+@configmapper.map("trainers", "base_trainer")
 class BaseTrainer:
     def __init__(self, config):
         self._config = config
@@ -191,9 +190,7 @@ class BaseTrainer:
                             "save_on_score": save_on_score,
                         }
 
-                        path = self.train_config.save_on.best_path.format(
-                            self.log_label
-                        )
+                        path = self.train_config.save_on.best_path
 
                         self.save(store_dict, path, save_flag)
 
@@ -301,7 +298,7 @@ class BaseTrainer:
                     "save_on_score": save_on_score,
                 }
 
-                path = self.train_config.save_on.best_path.format(self.log_label)
+                path = self.train_config.save_on.best_path
 
                 self.save(store_dict, path, save_flag)
 
@@ -329,7 +326,7 @@ class BaseTrainer:
                     "save_on_score": save_on_score,
                 }
 
-                path = self.train_config.save_on.final_path.format(self.log_label)
+                path = self.train_config.save_on.final_path
 
                 self.save(store_dict, path, save_flag=1)
                 if train_log_values["hparams"] is not None:

@@ -14,8 +14,6 @@ class Logger:
         self.model_path = os.path.join(log_dir, model, trainer)
         self.writer = SummaryWriter(log_dir=self.model_path, comment=comment)
         try:
-            if not os.path.exists(log_dir):
-                os.makedirs(log_dir)
             if not (os.path.exists(self.model_path)):
                 os.makedirs(self.model_path)
             else:

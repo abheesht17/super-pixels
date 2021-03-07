@@ -4,21 +4,19 @@ import argparse
 
 # import itertools
 import copy
+import os
+
 import numpy as np
-from omegaconf import OmegaConf
 import torch
 import torch.nn as nn
 
-from src.utils.misc import seed, generate_grid_search_configs
-
+from omegaconf import OmegaConf
 from src.datasets import *
 from src.models import *
 from src.trainers import *
-
-from src.utils.mapper import configmapper
 from src.utils.logger import Logger
-
-import os
+from src.utils.mapper import configmapper
+from src.utils.misc import seed
 
 dirname = os.path.dirname(__file__)  ## For Paths Relative to Current File
 
@@ -45,16 +43,23 @@ parser.add_argument(
 
 args = parser.parse_args()
 # print(vars(args))
-model_config = OmegaConf.load(path=args.model)
-train_config = OmegaConf.load(path=args.train)
-data_config = OmegaConf.load(path=args.data)
+model_config = OmegaConf.load(args.model)
+train_config = OmegaConf.load(args.train)
+data_config = OmegaConf.load(args.data)
 
 ## Seed
 seed(train_config.main_config.seed)
 
+# Data
+dataset = configmapper.get_object("datasets", data_config.name)(data_config)
+train_data = dataset.train_dataset["train"]
+val_data = dataset.train_dataset["test"]
+
+# Model
+model = configmapper.get_object("models", model_config.name)(model_config)
 
 ## Trainer
 trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
 
-## Train
+# ## Train
 trainer.train(model, train_data, val_data)
