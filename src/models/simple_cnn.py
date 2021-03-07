@@ -19,7 +19,7 @@ class SimpleCnn(Module):
         self.linear_layers = Sequential(Linear(4 * 7 * 7, 10))
 
     def forward(self, x_in):
-        x_out = self.cnn_layers(x_in)
+        x_out = self.cnn_layers(x_in["image"])
         x_out = x_out.view(x_out.size(0), -1)
         x_out = self.linear_layers(x_out)
         return x_out

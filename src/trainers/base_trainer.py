@@ -35,7 +35,7 @@ class BaseTrainer:
         if optim_params:
             optimizer = configmapper.get_object(
                 "optimizers", self.train_config.optimizer.type
-            )(model.parameters(), **optim_params.as_dict())
+            )(model.parameters(), **dict(optim_params))
         else:
             optimizer = configmapper.get_object(
                 "optimizers", self.train_config.optimizer.type
@@ -46,7 +46,7 @@ class BaseTrainer:
             if scheduler_params:
                 scheduler = configmapper.get_object(
                     "schedulers", self.train_config.scheduler.type
-                )(optimizer, **scheduler_params.as_dict())
+                )(optimizer, **dict(scheduler_params))
             else:
                 scheduler = configmapper.get_object(
                     "schedulers", self.train_config.scheduler.type
@@ -56,16 +56,15 @@ class BaseTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**criterion_params.as_dict())
+            )(**dict(criterion_params))
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )()
 
         train_loader = DataLoader(
-            dataset=train_dataset, **self.train_config.loader_params.as_dict()
+            dataset=train_dataset, **dict(self.train_config.loader_params)
         )
-        # train_logger = Logger(**self.train_config.log.logger_params.as_dict())
 
         max_epochs = self.train_config.max_epochs
         batch_size = self.train_config.loader_params.batch_size
@@ -73,11 +72,11 @@ class BaseTrainer:
         log_interval = self.train_config.log.log_interval
 
         if logger is None:
-            train_logger = Logger(**self.train_config.log.logger_params.as_dict())
+            train_logger = Logger(**dict(self.train_config.log.logger_params))
         else:
             train_logger = logger
 
-        train_log_values = self.train_config.log.values.as_dict()
+        train_log_values = dict(self.train_config.log.vals)
 
         best_score = (
             -math.inf if self.train_config.save_on.desired == "max" else math.inf
@@ -115,7 +114,7 @@ class BaseTrainer:
             for step, batch in enumerate(train_loader):
                 model.train()
                 optimizer.zero_grad()
-                inputs, labels = batch
+                inputs, labels = batch, batch["label"]
 
                 if self.train_config.label_type == "float":  ##Specific to Float Type
                     labels = labels.float()
@@ -398,7 +397,7 @@ class BaseTrainer:
     def update_hparams(self, train_scores, val_scores, desc):
         hparam_list = []
         hparam_name_list = []
-        for hparam in self.train_config.log.values.hparams:
+        for hparam in self.train_config.log.vals.hparams:
             hparam_list.append(dict(self._config, hparam["path"]))
             hparam_name_list.append(hparam["name"])
 
@@ -497,7 +496,7 @@ class BaseTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**criterion_params.as_dict())
+            )(**dict(criterion_params))
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
@@ -505,16 +504,14 @@ class BaseTrainer:
         if train_logger is not None:
             val_logger = train_logger
         else:
-            val_logger = Logger(**self.val_config.log.logger_params.as_dict())
+            val_logger = Logger(**dict(self.val_config.log.logger_params))
 
         if train_log_values is not None:
             val_log_values = train_log_values
         else:
-            val_log_values = self.val_config.log.values.as_dict()
+            val_log_values = dict(self.val_config.log.vals)
 
-        val_loader = DataLoader(
-            dataset=dataset, **self.val_config.loader_params.as_dict()
-        )
+        val_loader = DataLoader(dataset=dataset, **dict(self.val_config.loader_params))
 
         all_outputs = torch.Tensor().to(self.device)
         if self.train_config.label_type == "float":
@@ -529,7 +526,7 @@ class BaseTrainer:
             val_loss = 0
             for j, batch in enumerate(val_loader):
 
-                inputs, labels = batch
+                inputs, labels = batch, batch["label"]
 
                 if self.train_config.label_type == "float":
                     labels = labels.float()

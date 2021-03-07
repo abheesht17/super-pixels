@@ -12,10 +12,11 @@ main_config: &main
 train: &train
   <<: *main
   # Can add the max_epochs vs max_steps functionality
+  label_type: logit
   append_text: train
   max_epochs: 2
   loader_params:
-    batch_size: 2
+    batch_size: 32
     num_workers: 4
     shuffle: true
 
@@ -52,7 +53,7 @@ train: &train
       comment: "Simple CNN trained on MNIST data."
       log_dir: "./logs/mnist/"
     log_label: 1
-    values:
+    vals:
       loss: True
       metrics: True
       hparams: null
@@ -62,6 +63,6 @@ val:
   append_text: val
   max_steps: null
   loader_params:
-    batch_size: 4
+    batch_size: 32
     num_workers: 4
     shuffle: false
