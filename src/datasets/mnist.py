@@ -1,3 +1,4 @@
+import torch
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 from torchvision import transforms
@@ -32,7 +33,7 @@ class Mnist:
         )
 
         self.train_dataset.set_format(
-            "torch", columns=["image", "label"], device="cuda"
+            "torch", columns=["image", "label"], dtype=torch.float32
         )
 
     def prepare_train_features(self, examples):
