@@ -36,11 +36,11 @@ train: &train
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
     desired: min
-    best_path: "${train.checkpoint.checkpoint_dir}train/best_${train.log.log_label}.pth"
-    final_path: "${train.checkpoint.checkpoint_dir}train/final_${train.log.log_label}.pth"
+    best_path: "./ckpts/base_trainer/train/best_1.pth" ## Number should be same as log_label
+    final_path: "./ckpts/base_trainer/train/final_1.pth" ## Number should be same as log_label
 
   checkpoint:
-    checkpoint_dir: "./ckpts/${trainer_name}/" #For checkpoint saving after every epoch.
+    checkpoint_dir: "./ckpts/base_trainer/" #For checkpoint saving after every epoch.
 
   log_and_val_interval: 500 ## Set to null if using different val and log intervals, Overrides log_interval nd val_interval
 
