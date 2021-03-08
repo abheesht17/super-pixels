@@ -8,16 +8,20 @@ class SimpleCnn(Module):
     def __init__(self, config):
         super(SimpleCnn, self).__init__()
         self.cnn_layers = Sequential(
-            Conv2d(1, 4, kernel_size=3, stride=1, padding=1),
-            BatchNorm2d(4),
+            Conv2d(1, 32, kernel_size=3, stride=1, padding=1),
+            BatchNorm2d(32),
             ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
-            Conv2d(4, 4, kernel_size=3, stride=1, padding=1),
-            BatchNorm2d(4),
+            Conv2d(32, 32, kernel_size=3, stride=1, padding=1),
+            BatchNorm2d(32),
+            ReLU(),
+            MaxPool2d(kernel_size=2, stride=2),
+            Conv2d(32, 32, kernel_size=3, stride=1, padding=1),
+            BatchNorm2d(32),
             ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
         )
-        self.linear_layers = Linear(4 * 7 * 7, 10)
+        self.linear_layers = Linear(32 * 3 * 3, 10)
 
     def forward(self, x_in):
         x_out = self.cnn_layers(x_in["image"])
