@@ -1,9 +1,10 @@
+import numpy as np
 import torch
-from torch.utils.data import Dataset
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-from torchvision import transforms, datasets
-import numpy as np
+from torch.utils.data import Dataset
+from torchvision import datasets, transforms
+
 
 @configmapper.map("datasets", "mnist")
 class Mnist(Dataset):
@@ -22,7 +23,12 @@ class Mnist(Dataset):
             transforms.Compose(transformations) if transformations != [] else None
         )
 
-        self.dataset = datasets.MNIST(config.load_dataset_args.path, download=True, train=self.config.train_split, transform=self.transform)
+        self.dataset = datasets.MNIST(
+            config.load_dataset_args.path,
+            download=True,
+            train=self.config.split == "train",
+            transform=self.transform,
+        )
 
     def __len__(self):
         return len(self.dataset)
@@ -30,4 +36,4 @@ class Mnist(Dataset):
     def __getitem__(self, example_idx):
         # essential to return as dict, hence the roundabout way of loading the dataset
         img, label = self.dataset[example_idx]
-        return {"image":img, "label":label}
+        return {"image": img, "label": label}

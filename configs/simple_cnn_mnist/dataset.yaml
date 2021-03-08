@@ -3,8 +3,6 @@ main: &main
   load_dataset_args:
     path: datasets/mnist
   transform_args:
-    - type: ToPILImage
-      params: null
     - type: Grayscale
       params:
         num_output_channels: 1
@@ -22,10 +20,8 @@ main: &main
 
 train: &train
   <<: *main
-  train_split: True
+  split: train
 
 val: &val
   <<: *main
-  train_split: False
-
-    
+  split: val

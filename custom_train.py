@@ -54,7 +54,9 @@ seed(train_config.main_config.seed)
 # dataset = configmapper.get_object("datasets", data_config.name)(data_config)
 train_data_config = data_config.train
 val_data_config = data_config.val
-train_data = configmapper.get_object("datasets", train_data_config.name)(train_data_config)
+train_data = configmapper.get_object("datasets", train_data_config.name)(
+    train_data_config
+)
 val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_config)
 
 # Model
