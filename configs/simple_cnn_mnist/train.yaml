@@ -14,7 +14,7 @@ train: &train
   # Can add the max_epochs vs max_steps functionality
   label_type: logit
   append_text: train
-  max_epochs: 2
+  max_epochs: 10
   loader_params:
     batch_size: 32
     num_workers: 2
