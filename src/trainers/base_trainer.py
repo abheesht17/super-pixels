@@ -2,15 +2,16 @@ import math
 import os
 
 import torch
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+
 from src.modules.losses import *
 from src.modules.metrics import *
 from src.modules.optimizers import *
 from src.modules.schedulers import *
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 
 @configmapper.map("trainers", "base_trainer")

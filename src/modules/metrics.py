@@ -1,12 +1,13 @@
 """Metrics."""
 from sklearn.metrics import (
-    mean_squared_error,
+    accuracy_score,
     f1_score,
+    mean_squared_error,
     precision_score,
     recall_score,
     roc_auc_score,
-    accuracy_score,
 )
+
 from src.utils.mapper import configmapper
 
 configmapper.map("metrics", "sklearn_f1")(f1_score)

@@ -1,10 +1,23 @@
-import numpy as np
-from src.utils.mapper import configmapper
+"""Implementation of a custom CNN with random weights."""
+
 from torch.nn import BatchNorm2d, Conv2d, Linear, MaxPool2d, Module, ReLU, Sequential
+
+from src.utils.mapper import configmapper
 
 
 @configmapper.map("models", "simple_cnn")
 class SimpleCnn(Module):
+    """
+
+    Attributes:
+        cnn_layers (torch.nn.Sequential): Sequential object containing the convolutional layers.
+        linear_layers (torch.nn.Linear): Linear layer for classification.
+
+    Methods:
+        forward
+
+    """
+
     def __init__(self, config):
         super(SimpleCnn, self).__init__()
         self.cnn_layers = Sequential(
