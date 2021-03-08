@@ -7,11 +7,6 @@
     "python.linting.pylintArgs": [
         "--max-line-length=100"
     ],
-    "[python]": {
-       "editor.codeActionsOnSave": {
-           "source.organizeImports": true,
-       }
-    },
     "python.linting.pylintUseMinimalCheckers": false,
     "autoDocstring.docstringFormat": "google",
     "autoDocstring.generateDocstringOnEnter": true,

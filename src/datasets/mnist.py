@@ -1,9 +1,9 @@
-import numpy as np
-import torch
-from src.modules.transforms import *
-from src.utils.mapper import configmapper
+"""Implements MNIST Dataset"""
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
+
+from src.modules.transforms import *
+from src.utils.mapper import configmapper
 
 
 @configmapper.map("datasets", "mnist")

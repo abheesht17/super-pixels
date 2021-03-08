@@ -1,10 +1,11 @@
 from torch.optim.lr_scheduler import (
-    StepLR,
     CosineAnnealingLR,
-    ReduceLROnPlateau,
-    CyclicLR,
     CosineAnnealingWarmRestarts,
+    CyclicLR,
+    ReduceLROnPlateau,
+    StepLR,
 )
+
 from src.utils.mapper import configmapper
 
 configmapper.map("schedulers", "step")(StepLR)
