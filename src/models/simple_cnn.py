@@ -7,7 +7,7 @@ from torch.nn import BatchNorm2d, Conv2d, Linear, MaxPool2d, Module, ReLU, Seque
 class SimpleCnn(Module):
     def __init__(self, config):
         super(SimpleCnn, self).__init__()
-        self.cnn_layers = [
+        self.cnn_layers = Sequential(
             Conv2d(1, 4, kernel_size=3, stride=1, padding=1),
             BatchNorm2d(4),
             ReLU(),
@@ -16,13 +16,11 @@ class SimpleCnn(Module):
             BatchNorm2d(4),
             ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
-        ]
+        )
         self.linear_layers = Linear(4 * 7 * 7, 10)
 
     def forward(self, x_in):
-        x_out = x_in["image"]
-        for layer in self.cnn_layers:
-            x_out = layer(x_out)
+        x_out = self.cnn_layers(x_in["image"])
         x_out = x_out.view(x_out.size(0), -1)
         x_out = self.linear_layers(x_out)
         return x_out

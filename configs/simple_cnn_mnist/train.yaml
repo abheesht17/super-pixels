@@ -7,7 +7,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: "cuda"
+    name: cuda
 
 train: &train
   <<: *main
@@ -17,9 +17,9 @@ train: &train
   max_epochs: 2
   loader_params:
     batch_size: 32
-    num_workers: 4
+    num_workers: 2
     shuffle: true
-
+  save_after_epoch: true
   optimizer:
     type: adam_w
     params:
@@ -64,5 +64,5 @@ val:
   max_steps: null
   loader_params:
     batch_size: 32
-    num_workers: 4
+    num_workers: 2
     shuffle: false
