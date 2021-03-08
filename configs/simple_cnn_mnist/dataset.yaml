@@ -1,20 +1,31 @@
-name: mnist
-load_dataset_args:
-  path: mnist
-transform_args:
-  - type: ToPILImage
-    params: null
-  - type: Grayscale
-    params:
-      num_output_channels: 1
-  - type: ToTensor
-    params: null # Need to write it at as null if no parameters are passed,
-  - type: Normalize
-    params:
-      mean: [0.0]
-      std: [1.0]
+main: &main
+  name: mnist
+  load_dataset_args:
+    path: datasets/mnist
+  transform_args:
+    - type: ToPILImage
+      params: null
+    - type: Grayscale
+      params:
+        num_output_channels: 1
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.0]
+        std: [1.0]
 
-    # - type: Resize
-    #   params:
-    #     size: [224, 224]
-    #     interpolation: 3 #BICUBIC Interpolation
+      # - type: Resize
+      #   params:
+      #     size: [224, 224]
+      #     interpolation: 3 #BICUBIC Interpolation
+
+train: &train
+  <<: *main
+  train_split: True
+
+val: &val
+  <<: *main
+  train_split: False
+
+    

@@ -1,21 +1,15 @@
 import torch
+from torch.utils.data import Dataset
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-from torchvision import transforms
-
-from datasets import load_dataset
-
+from torchvision import transforms, datasets
+import numpy as np
 
 @configmapper.map("datasets", "mnist")
-class Mnist:
+class Mnist(Dataset):
     def __init__(self, config):
         self.config = config
-        self.raw_dataset = load_dataset(config.load_dataset_args.path)
-        self.raw_dataset.set_format(
-            "numpy",
-            columns=["image"],
-            output_all_columns=True,
-        )
+
         transformations = []
         for transform in config.transform_args:
             param_dict = (
@@ -24,29 +18,16 @@ class Mnist:
             transformations.append(
                 configmapper.get_object("transforms", transform["type"])(**param_dict)
             )
-
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )
-        self.train_dataset = self.raw_dataset.map(
-            self.prepare_train_features, batched=True, batch_size=10000
-        )
 
-        self.train_dataset.set_format(
-            "torch", columns=["image"], output_all_columns=True, dtype=torch.float32
-        )
-        self.train_dataset.set_format(
-            "torch", columns=["label"], output_all_columns=True
-        )
+        self.dataset = datasets.MNIST(config.load_dataset_args.path, download=True, train=self.config.train_split, transform=self.transform)
 
-    def prepare_train_features(self, examples):
-        examples["image"] = list(
-            examples["image"]
-        )  ## Need this for proper converstion.
+    def __len__(self):
+        return len(self.dataset)
 
-        if self.transform is not None:
-            for example_idx, example in enumerate(examples["image"]):
-                examples["image"][example_idx] = self.transform(
-                    examples["image"][example_idx]
-                )
-        return examples
+    def __getitem__(self, example_idx):
+        # essential to return as dict, hence the roundabout way of loading the dataset
+        img, label = self.dataset[example_idx]
+        return {"image":img, "label":label}
