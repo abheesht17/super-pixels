@@ -10,12 +10,6 @@ from datasets import load_dataset
 class Mnist:
     def __init__(self, config):
         self.config = config
-        self.raw_dataset = load_dataset(config.load_dataset_args.path)
-        self.raw_dataset.set_format(
-            "numpy",
-            columns=["image"],
-            output_all_columns=True,
-        )
         transformations = []
         for transform in config.transform_args:
             param_dict = (
@@ -28,12 +22,17 @@ class Mnist:
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )
+
+        self.raw_dataset = load_dataset(config.load_dataset_args.path)
+        self.raw_dataset.set_format(
+            "numpy",
+            columns=["image"],
+            output_all_columns=True,
+        )
+        self.train_dataset.set_format("torch", columns=["image", "label"])
+
         self.train_dataset = self.raw_dataset.map(
             self.prepare_train_features, batched=True, batch_size=10000
-        )
-
-        self.train_dataset.set_format(
-            "torch", columns=["image", "label"], dtype=torch.float32
         )
 
     def prepare_train_features(self, examples):
