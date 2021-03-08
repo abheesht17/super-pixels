@@ -1,5 +1,4 @@
 import torchvision.transforms as transforms
-
 from src.utils.mapper import configmapper
 
 configmapper.map("transforms", "Resize")(transforms.Resize)
