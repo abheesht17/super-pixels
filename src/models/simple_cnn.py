@@ -10,11 +10,11 @@ class SimpleCnn(Module):
         self.cnn_layers = [
             Conv2d(1, 4, kernel_size=3, stride=1, padding=1),
             BatchNorm2d(4),
-            ReLU(inplace=True),
+            ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
-            Conv2d(1, 4, kernel_size=3, stride=1, padding=1),
+            Conv2d(4, 4, kernel_size=3, stride=1, padding=1),
             BatchNorm2d(4),
-            ReLU(inplace=True),
+            ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
         ]
         self.linear_layers = Linear(4 * 7 * 7, 10)
