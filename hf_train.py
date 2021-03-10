@@ -17,12 +17,12 @@ from src.models import SimpleCnn
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
+from src.modules.metrics import HFAccuracy
 
 from transformers import TrainingArguments, Trainer
 
 from datasets import load_metric
 
-acc_score = load_metric("accuracy")
 
 ## Config
 parser = argparse.ArgumentParser(prog="train.py", description="Train a model.")
@@ -66,11 +66,8 @@ val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_co
 
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
-
-
-args = TrainingArguments(
-    **train_config.args, label_names=list(train_config.label_names)
-)
+print(OmegaConf.to_container(train_config.args, resolve=True))
+args = TrainingArguments(**OmegaConf.to_container(train_config.args, resolve=True))
 # Checking for Checkpoints
 if not os.path.exists(train_config.args.output_dir):
     os.makedirs(train_config.args.output_dir)
@@ -87,7 +84,9 @@ trainer = Trainer(
     args=args,
     train_dataset=train_data,
     eval_dataset=val_data,
-    compute_metrics=acc_score,
+    compute_metrics=configmapper.get_object(
+        "metrics", train_config.metric
+    ).compute_metrics,
 )
 # ## Train
 if len(checkpoints) != 0:
