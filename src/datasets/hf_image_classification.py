@@ -1,6 +1,6 @@
 """Implements MNIST Dataset"""
 import datasets
-from datasets import load_dataset
+from datasets import load_dataset, DatasetDict
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
@@ -25,7 +25,7 @@ class HFImageClassification:
             transforms.Compose(transformations) if transformations != [] else None
         )
 
-        self.raw_dataset = load_dataset(**self.config.load_dataset_args)
+        self.raw_dataset = load_dataset(**config.load_dataset_args)
         if config.remove_columns is not None:
             self.raw_dataset = self.raw_dataset.remove_columns(config.remove_columns)
         self.raw_dataset.set_format(
@@ -61,8 +61,6 @@ class HFImageClassification:
             )
 
         self.train_dataset.set_format("torch", columns=["image", "label"])
-
-        print(self.train_dataset)
 
     def prepare_features(self, examples):
         images = []

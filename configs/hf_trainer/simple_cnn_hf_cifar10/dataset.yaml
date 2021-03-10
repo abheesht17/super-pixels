@@ -2,6 +2,7 @@ name: hf_image_classification
 image_column_name: img
 label_column_name: label
 channels_first_input: false
+remove_columns: null
 load_dataset_args:
   path: cifar10
 transform_args:

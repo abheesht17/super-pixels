@@ -55,7 +55,7 @@ data_config = OmegaConf.load(args.data)
 seed(train_config.args.seed)  # just in case
 
 # Data
-if data_config.name is None:  # Regular Data
+if "main" in dict(data_config).keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
     train_data = configmapper.get_object("datasets", train_data_config.name)(
