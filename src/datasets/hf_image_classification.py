@@ -1,6 +1,6 @@
 """Implements MNIST Dataset"""
 import datasets
-from datasets import load_dataset, DatasetDict
+from datasets import DatasetDict, load_dataset
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 

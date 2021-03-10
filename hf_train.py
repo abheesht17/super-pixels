@@ -1,29 +1,24 @@
 """Train File."""
 ## Imports
 import argparse
-
 # import itertools
 import copy
 import os
-from datasets.load import load_dataset
 
 import numpy as np
 import torch
 import torch.nn as nn
+from transformers import Trainer, TrainingArguments
 
-
+from datasets import load_metric
+from datasets.load import load_dataset
 from omegaconf import OmegaConf
 from src.datasets import *
 from src.models import *
+from src.modules.metrics import *
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
-from src.modules.metrics import *
-
-from transformers import TrainingArguments, Trainer
-
-from datasets import load_metric
-
 
 ## Config
 parser = argparse.ArgumentParser(prog="train.py", description="Train a model.")
