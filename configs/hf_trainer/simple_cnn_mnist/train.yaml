@@ -1,0 +1,21 @@
+results_dir: "./results/"
+# Need to do this because it becomes of type ListConfig when used in args, 
+# which cannot be stored in JSON objects and raises an error.
+label_names: ['label'] 
+args:
+  output_dir: ./results/ckpts/
+  evaluation_strategy: steps
+  eval_steps: 500
+  logging_steps: 500
+  logging_first_step: true
+  logging_dir: ./results/logs/
+  learning_rate: 1e-5
+  save_steps: 500
+  per_device_train_batch_size: 32
+  per_device_eval_batch_size: 32
+  num_train_epochs: 10 
+  weight_decay: 0.01
+  seed: 42
+
+
+save_model_path: ${results_dir}/final_model/

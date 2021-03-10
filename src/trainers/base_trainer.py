@@ -115,16 +115,18 @@ class BaseTrainer:
             for step, batch in enumerate(train_loader):
                 model.train()
                 optimizer.zero_grad()
-                inputs, labels = batch, batch["label"]
+                for key in batch:
+                    batch[key] = batch[key].to(self.device)
 
-                if self.train_config.label_type == "float":  ##Specific to Float Type
-                    labels = labels.float()
+                inputs, labels = batch["image"], batch["label"]
 
-                for key in inputs:
-                    inputs[key] = inputs[key].to(self.device)
-                labels = labels.to(self.device)
+                ## NOW THIS MUST BE HANDLED IN THE DATASET CLASS
+                # if self.train_config.label_type == "float":  ##Specific to Float Type
+                #     labels = labels.float()
+
                 outputs = model(inputs)
 
+                # Can remove this at a later stage? I think `losses.backward()` should work.
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 loss.backward()
 
@@ -526,17 +528,17 @@ class BaseTrainer:
             model.eval()
             val_loss = 0
             for j, batch in enumerate(val_loader):
+                for key in batch:
+                    batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch, batch["label"]
+                inputs, labels = batch["image"], batch["label"]
 
-                if self.train_config.label_type == "float":
-                    labels = labels.float()
-
-                for key in inputs:
-                    inputs[key] = inputs[key].to(self.device)
-                labels = labels.to(self.device)
+                ## NOW THIS MUST BE HANDLED IN THE DATASET CLASS
+                # if self.train_config.label_type == "float":  ##Specific to Float Type
+                #     labels = labels.float()
 
                 outputs = model(inputs)
+
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 val_loss += loss.item()
 
