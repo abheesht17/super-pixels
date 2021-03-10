@@ -36,11 +36,11 @@ class SimpleCnn(Module):
 
         self.loss_fn = CrossEntropyLoss()
 
-    def forward(self, image, label=None):
+    def forward(self, image, labels=None):
         out = self.cnn_layers(image)
         out = out.view(out.size(0), -1)
         out = self.linear_layers(out)
-        if label is not None:
-            loss = self.loss_fn(out, label)
+        if labels is not None:
+            loss = self.loss_fn(out, labels)
             return loss, out
         return out

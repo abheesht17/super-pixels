@@ -5,6 +5,7 @@ import argparse
 # import itertools
 import copy
 import os
+from datasets.load import load_dataset
 
 import numpy as np
 import torch
@@ -46,12 +47,10 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-# print(vars(args))
 model_config = OmegaConf.load(args.model)
 train_config = OmegaConf.load(args.train)
 data_config = OmegaConf.load(args.data)
 
-print(train_config)
 ## Seed
 seed(train_config.args.seed)  # just in case
 
@@ -66,7 +65,7 @@ val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_co
 
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
-print(OmegaConf.to_container(train_config.args, resolve=True))
+
 args = TrainingArguments(**OmegaConf.to_container(train_config.args, resolve=True))
 # Checking for Checkpoints
 if not os.path.exists(train_config.args.output_dir):
@@ -77,7 +76,6 @@ checkpoints = sorted(
 if len(checkpoints) != 0:
     print("Found Checkpoints:")
     print(checkpoints)
-
 ## Trainer
 trainer = Trainer(
     model=model,

@@ -23,10 +23,10 @@ configmapper.map("metrics", "sklearn_mse")(mean_squared_error)
 
 @configmapper.map("metrics", "hf_accuracy")
 class HFAccuracy:
-    def __init__(self):
-        self.acc_metric = load_metric("accuracy")
+    acc_metric = load_metric("accuracy")
 
-    def compute_metrics(self, eval_pred):
+    @classmethod
+    def compute_metrics(cls, eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
-        return self.acc_metric.compute(predictions=predictions, references=labels)
+        return cls.acc_metric.compute(predictions=predictions, references=labels)

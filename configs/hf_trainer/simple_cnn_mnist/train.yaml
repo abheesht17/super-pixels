@@ -17,5 +17,5 @@ args:
   weight_decay: 0.01
   seed: 42
   label_names: 
-    - 'label'
+    - 'labels'
 save_model_path: ${results_dir}/final_model/

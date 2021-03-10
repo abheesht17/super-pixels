@@ -118,7 +118,7 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch["image"], batch["label"]
+                inputs, labels = batch["image"], batch["labels"]
 
                 ## NOW THIS MUST BE HANDLED IN THE DATASET CLASS
                 # if self.train_config.label_type == "float":  ##Specific to Float Type
@@ -531,7 +531,7 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch["image"], batch["label"]
+                inputs, labels = batch["image"], batch["labels"]
 
                 ## NOW THIS MUST BE HANDLED IN THE DATASET CLASS
                 # if self.train_config.label_type == "float":  ##Specific to Float Type
