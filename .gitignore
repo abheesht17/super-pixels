@@ -1,2 +1,4 @@
 *.pyc
 *superpixels-env*
+*ckpts/*
+*logs/*
