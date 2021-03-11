@@ -14,6 +14,10 @@ env: requirements.txt | ${VENV}
 # black --check --line-length 119 --target-version py38 src ./*.py
 # isort --check-only src ./*.py #Remove these, black and isort contradict each other
 
+clean:
+	find . -type f -name "*.py[co]" -delete
+	find . -type d -name "__pycache__" -delete
+
 quality:
 	flake8 --ignore F401,F403,W503 --max-line-length 119 src ./*.py
 
@@ -21,5 +25,5 @@ style:
 	black --line-length 119 --target-version py38 src *.py
 	isort src *.py
 
-final: style | ${VENV}
+final: style clean
 	pip freeze>requirements.txt
