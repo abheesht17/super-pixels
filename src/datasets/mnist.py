@@ -13,9 +13,15 @@ class Mnist(Dataset):
 
         transformations = []
         for transform in config.transform_args:
-            param_dict = dict(transform["params"]) if transform["params"] is not None else {}
-            transformations.append(configmapper.get_object("transforms", transform["type"])(**param_dict))
-        self.transform = transforms.Compose(transformations) if transformations != [] else None
+            param_dict = (
+                dict(transform["params"]) if transform["params"] is not None else {}
+            )
+            transformations.append(
+                configmapper.get_object("transforms", transform["type"])(**param_dict)
+            )
+        self.transform = (
+            transforms.Compose(transformations) if transformations != [] else None
+        )
 
         self.dataset = datasets.MNIST(
             config.load_dataset_args.path,

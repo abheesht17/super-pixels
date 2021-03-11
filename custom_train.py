@@ -13,8 +13,12 @@ from src.utils.misc import seed
 dirname = os.path.dirname(__file__)  # For Paths Relative to Current File
 
 # Config
-parser = argparse.ArgumentParser(prog="train.py", description="Train a model with HF Trainer.")
-parser.add_argument("--config_dir", type=str, action="store", help="The directory for all config files.")
+parser = argparse.ArgumentParser(
+    prog="train.py", description="Train a model with HF Trainer."
+)
+parser.add_argument(
+    "--config_dir", type=str, action="store", help="The directory for all config files."
+)
 # parser.add_argument(
 #     "--model",
 #     type=str,
@@ -47,8 +51,12 @@ seed(train_config.main_config.seed)
 if "main" in dict(data_config).keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
-    train_data = configmapper.get_object("datasets", train_data_config.name)(train_data_config)
-    val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_config)
+    train_data = configmapper.get_object("datasets", train_data_config.name)(
+        train_data_config
+    )
+    val_data = configmapper.get_object("datasets", val_data_config.name)(
+        val_data_config
+    )
 
 else:  # HF Type Data
     dataset = configmapper.get_object("datasets", data_config.name)(data_config)

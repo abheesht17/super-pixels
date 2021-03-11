@@ -1,7 +1,15 @@
 """Implementation of a custom CNN with random weights."""
 
-from torch.nn import (BatchNorm2d, Conv2d, CrossEntropyLoss, Linear, MaxPool2d,
-                      Module, ReLU, Sequential)
+from torch.nn import (
+    BatchNorm2d,
+    Conv2d,
+    CrossEntropyLoss,
+    Linear,
+    MaxPool2d,
+    Module,
+    ReLU,
+    Sequential,
+)
 
 from src.utils.mapper import configmapper
 
