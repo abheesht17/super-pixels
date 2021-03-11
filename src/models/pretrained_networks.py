@@ -18,12 +18,7 @@ class VGG(Module):
     """
 
     def __init__(self, config):
-        super(VGG, self).__init__()
-        # if config.grayscale: 
-        #     self.vgg16 = models.vgg16(pretrained=True)
-        #     self.vgg16.features[0] = Conv2d(1, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        # else:
-        #     
+        super(VGG, self).__init__()    
         self.vgg16 = models.vgg16(pretrained=True)
         self.linear_layers = Linear(1000, config.num_labels)
         self.loss_fn = CrossEntropyLoss()
@@ -39,5 +34,5 @@ class VGG(Module):
         x_out = self.linear_layers(x_out)
         if labels is not None:
             loss = self.loss_fn(x_out, labels)
-            return loss, out
+            return loss, x_out
         return x_out

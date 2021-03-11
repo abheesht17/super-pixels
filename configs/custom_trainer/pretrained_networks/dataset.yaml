@@ -10,8 +10,8 @@ main: &main
         mean: [0.0]
         std: [1.0]
     - type: Resize
-      params:p
-        size: !!python/tuple [224, 224]
+      params:
+        size: [224, 224]
         # interpolation: 3 #BICUBIC Interpolation
 
 train: &train

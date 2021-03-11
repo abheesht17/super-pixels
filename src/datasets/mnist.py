@@ -16,6 +16,8 @@ class Mnist(Dataset):
             param_dict = (
                 dict(transform["params"]) if transform["params"] is not None else {}
             )
+            if transform['type'] == 'Resize':
+                param_dict['size'] = tuple(param_dict['size'])
             transformations.append(
                 configmapper.get_object("transforms", transform["type"])(**param_dict)
             )

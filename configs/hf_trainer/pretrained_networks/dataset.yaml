@@ -11,7 +11,7 @@ main: &main
         std: [1.0]
     - type: Resize
       params:
-        size: !!python/tuple [224, 224]
+        size: [224, 224]
         # interpolation: 3 #BICUBIC Interpolation
 
 train: &train
