@@ -1,5 +1,5 @@
 
-.PHONY: env style requirements python-reqs
+.PHONY: env style requirements python-reqs clean
 
 VENV = superpixels-env
 export VIRTUAL_ENV := $(abspath ${VENV})
