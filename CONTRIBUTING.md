@@ -18,7 +18,7 @@
 	git checkout -b a-descriptive-name-for-my-changes
 	```
 
-	**DO NOT** work on the `master` branch. Use `-` (hyphens) for separating words in branch names. Avoid uppercase branch names.
+	**DO NOT** work on the `main` branch. Use `-` (hyphens) for separating words in branch names. Avoid uppercase branch names.
 
 4. Set up a development environment by running the following command in a virtual environment:
 
@@ -77,13 +77,13 @@
 
     ```bash
     git fetch upstream
-	git rebase upstream/master
+	git rebase upstream/main
     ``` 
     If the branch already exists on your remote origin, then you can merge before pushing your changes:
 
 	```bash
 	git fetch upstream
-	git merge upstream/master
+	git merge upstream/main
     ```
 
 11. Push the changes to your account using:
