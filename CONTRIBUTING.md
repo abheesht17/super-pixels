@@ -88,8 +88,8 @@
 
 11. Push the changes to your account using:
 
-   ```bash
-   git push -u origin a-descriptive-name-for-my-changes
-   ```
+	```bash
+	git push -u origin a-descriptive-name-for-my-changes
+	```
 
 12. Once you are satisfied, go the webpage of your fork on GitHub. Click on "Pull request" to send your to the project maintainers for review. If your PR has the potential to solve an issue, mention it in the comments.
