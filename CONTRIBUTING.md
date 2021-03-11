@@ -1,6 +1,6 @@
 # How to contribute to super-pixels?
 
-**Note**: We use VSCode for managing our project. Hence, we strongly recommend that you do the same. You can check the settings for the workspace in `.vscode` directory. However, you can also choose to work without VSCode :) Our commands are flexible enough to work with 
+**Note**: We use VSCode for managing our project. Hence, we strongly recommend that you do the same. You can check the settings for the workspace in `.vscode` directory. However, you can also choose to work without VSCode :) Our commands work with any kind of project management tool.
 
 1. Fork the [repository](https://github.com/abheesht17/super-pixels) by clicking on the 'Fork' button on the repository's page. This creates a copy of the code under your GitHub user account.
 
