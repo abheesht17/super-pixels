@@ -1,3 +1,4 @@
 name: vgg
+variant: 16 #11, 13, 16, 19
 num_labels: 10 
 grayscale: true
