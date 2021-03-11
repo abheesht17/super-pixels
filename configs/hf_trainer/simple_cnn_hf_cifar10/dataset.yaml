@@ -1,0 +1,30 @@
+name: hf_image_classification
+image_column_name: img
+label_column_name: label
+channels_first_input: false
+remove_columns: null
+load_dataset_args:
+  path: cifar10
+transform_args:
+  - type: ToPILImage
+    params: null
+  - type: ToTensor
+    params: null # Need to write it at as null if no parameters are passed,
+  - type: Normalize
+    params:
+      mean: [0.0, 0.0,0.0]
+      std: [1.0, 1.0, 1.0]
+features:
+  image_output_shape: [3,32,32]
+  label_names: 
+    - "airplane"
+    - "automobile"
+    - "bird"
+    - "cat"
+    - "deer"
+    - "dog"
+    - "frog"
+    - "horse"
+    - "ship"
+    - "truck"
+                        
