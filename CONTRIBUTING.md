@@ -62,6 +62,8 @@
 	```
 	**Note**: We ignore "unused imports" and "unable to detect undefined names" issue. We do this because we use a `configmapper` to map the classes, which uses the imports indirectly and hence leads to these issue. Therefore, try not to have unused imports and `import *` as much as possible because we don't check for them :)
 
+	**Note**: We also ignore "whitespace before ':'" because `black` tends to produce such lines.
+
 	**Note**: We also ignore "line break before binary operator" because `black` often tends to produce such lines.
 
 	**Note**: VSCode settings do not ignore any such warnings, so you are aware of these issues.

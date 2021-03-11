@@ -11,7 +11,7 @@ ${VENV}:
 env: requirements.txt | ${VENV}
 	pip install --upgrade -r requirements.txt
 
-# black --check --line-length 119 --target-version py38 src ./*.py
+# black --check --line-length 88 --target-version py38 src ./*.py
 # isort --check-only src ./*.py #Remove these, black and isort contradict each other
 
 clean:
@@ -19,11 +19,12 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 quality:
-	flake8 --ignore F401,F403,W503 --max-line-length 119 src ./*.py
+	flake8 --extend-ignore E203,F401,F403,W503 --max-line-length 88 src ./*.py
 
+#Black compatibilty: https://black.readthedocs.io/en/stable/compatible_configs.html
 style:
-	black --line-length 119 --target-version py38 src *.py
-	isort src *.py
+	black --line-length 88 --target-version py38 src *.py
+	isort --sp isort.cfg src *.py
 
 final: style clean
 	pip freeze>requirements.txt

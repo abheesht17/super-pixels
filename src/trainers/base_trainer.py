@@ -34,28 +34,38 @@ class BaseTrainer:
         model.to(self.device)
         optim_params = self.train_config.optimizer.params
         if optim_params:
-            optimizer = configmapper.get_object("optimizers", self.train_config.optimizer.type)(
-                model.parameters(), **dict(optim_params)
-            )
+            optimizer = configmapper.get_object(
+                "optimizers", self.train_config.optimizer.type
+            )(model.parameters(), **dict(optim_params))
         else:
-            optimizer = configmapper.get_object("optimizers", self.train_config.optimizer.type)(model.parameters())
+            optimizer = configmapper.get_object(
+                "optimizers", self.train_config.optimizer.type
+            )(model.parameters())
 
         if self.train_config.scheduler is not None:
             scheduler_params = self.train_config.scheduler.params
             if scheduler_params:
-                scheduler = configmapper.get_object("schedulers", self.train_config.scheduler.type)(
-                    optimizer, **dict(scheduler_params)
-                )
+                scheduler = configmapper.get_object(
+                    "schedulers", self.train_config.scheduler.type
+                )(optimizer, **dict(scheduler_params))
             else:
-                scheduler = configmapper.get_object("schedulers", self.train_config.scheduler.type)(optimizer)
+                scheduler = configmapper.get_object(
+                    "schedulers", self.train_config.scheduler.type
+                )(optimizer)
 
         criterion_params = self.train_config.criterion.params
         if criterion_params:
-            criterion = configmapper.get_object("losses", self.train_config.criterion.type)(**dict(criterion_params))
+            criterion = configmapper.get_object(
+                "losses", self.train_config.criterion.type
+            )(**dict(criterion_params))
         else:
-            criterion = configmapper.get_object("losses", self.train_config.criterion.type)()
+            criterion = configmapper.get_object(
+                "losses", self.train_config.criterion.type
+            )()
 
-        train_loader = DataLoader(dataset=train_dataset, **dict(self.train_config.loader_params))
+        train_loader = DataLoader(
+            dataset=train_dataset, **dict(self.train_config.loader_params)
+        )
 
         max_epochs = self.train_config.max_epochs
         batch_size = self.train_config.loader_params.batch_size
@@ -69,7 +79,9 @@ class BaseTrainer:
 
         train_log_values = dict(self.train_config.log.vals)
 
-        best_score = -math.inf if self.train_config.save_on.desired == "max" else math.inf
+        best_score = (
+            -math.inf if self.train_config.save_on.desired == "max" else math.inf
+        )
         save_on_score = self.train_config.save_on.score
         best_step = -1
 
@@ -83,7 +95,9 @@ class BaseTrainer:
 
         global_step = 0
         for epoch in range(1, max_epochs + 1):
-            print("Epoch: {}/{}, Global Step: {}".format(epoch, max_epochs, global_step))
+            print(
+                "Epoch: {}/{}, Global Step: {}".format(epoch, max_epochs, global_step)
+            )
             train_loss = 0
             if self.train_config.label_type == "float":
                 all_labels = torch.FloatTensor().to(self.device)
@@ -107,12 +121,14 @@ class BaseTrainer:
                 inputs, labels = batch["image"], batch["label"]
 
                 # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
-                # if self.train_config.label_type == "float": # Specific to Float Type
+                # if self.train_config.label_type == "float":
+                # # Specific to Float Type
                 #     labels = labels.float()
 
                 outputs = model(inputs)
 
-                # Can remove this at a later stage? I think `losses.backward()` should work.
+                # Can remove this at a later stage?
+                # I think `losses.backward()` should work.
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 loss.backward()
 
@@ -121,7 +137,9 @@ class BaseTrainer:
                 if self.train_config.label_type == "float":
                     all_outputs = torch.cat((all_outputs, outputs), 0)
                 else:
-                    all_outputs = torch.cat((all_outputs, torch.argmax(outputs, axis=1)), 0)
+                    all_outputs = torch.cat(
+                        (all_outputs, torch.argmax(outputs, axis=1)), 0
+                    )
 
                 train_loss += loss.item()
                 optimizer.step()
@@ -186,7 +204,9 @@ class BaseTrainer:
                                 best_hparam_name_list,
                                 best_metrics_list,
                                 best_metrics_name_list,
-                            ) = self.update_hparams(train_scores, val_scores, desc="best_val")
+                            ) = self.update_hparams(
+                                train_scores, val_scores, desc="best_val"
+                            )
                 # pbar.close()
                 if (global_step - 1) % log_interval == 0:
                     # print("\nLogging\n")
@@ -199,7 +219,9 @@ class BaseTrainer:
                         )
                         for metric in self.metrics
                     ]
-                    metric_name_list = [metric["type"] for metric in self._config.main_config.metrics]
+                    metric_name_list = [
+                        metric["type"] for metric in self._config.main_config.metrics
+                    ]
 
                     train_scores = self.log(
                         train_loss / (step + 1),
@@ -238,9 +260,14 @@ class BaseTrainer:
             # print("\nLogging\n")
             train_loss_name = self.train_config.criterion.type
             metric_list = [
-                metric(all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]) for metric in self.metrics
+                metric(
+                    all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]
+                )
+                for metric in self.metrics
             ]
-            metric_name_list = [metric["type"] for metric in self._config.main_config.metrics]
+            metric_name_list = [
+                metric["type"] for metric in self._config.main_config.metrics
+            ]
 
             train_scores = self.log(
                 train_loss / len(train_loader),
@@ -265,7 +292,9 @@ class BaseTrainer:
                     all_labels,
                 )
 
-                best_score, best_step, save_flag = self.check_best(val_scores, save_on_score, best_score, global_step)
+                best_score, best_step, save_flag = self.check_best(
+                    val_scores, save_on_score, best_score, global_step
+                )
 
                 store_dict = {
                     "model_state_dict": model.state_dict(),
@@ -336,9 +365,12 @@ class BaseTrainer:
         avg_loss = loss / divisor
 
         metric_list = [
-            metric(all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]) for metric in self.metrics
+            metric(all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric])
+            for metric in self.metrics
         ]
-        metric_name_list = [metric["type"] for metric in self._config.main_config.metrics]
+        metric_name_list = [
+            metric["type"] for metric in self._config.main_config.metrics
+        ]
 
         return dict(zip([loss_name] + metric_name_list, [avg_loss] + metric_list))
 
@@ -374,7 +406,8 @@ class BaseTrainer:
             val_keys[i] = f"hparams/{desc}_val_" + val_keys[i]
         for i, key in enumerate(train_keys):
             train_keys[i] = f"hparams/{desc}_train_" + train_keys[i]
-        # train_logger.save_hyperparams(hparam_list, hparam_name_list,train_values+val_values,train_keys+val_keys, )
+        # train_logger.save_hyperparams(hparam_list, hparam_name_list,\
+        # train_values+val_values,train_keys+val_keys, )
         return (
             hparam_list,
             hparam_name_list,
@@ -425,7 +458,9 @@ class BaseTrainer:
             )
 
         for i in range(len(metric_name_list)):
-            metric_name_list[i] = f"{append_text}_{self.log_label}_{metric_name_list[i]}"
+            metric_name_list[
+                i
+            ] = f"{append_text}_{self.log_label}_{metric_name_list[i]}"
         if log_values["metrics"]:
             logger.save_params(
                 metric_list,
@@ -455,9 +490,13 @@ class BaseTrainer:
         append_text = self.val_config.append_text
         criterion_params = self.train_config.criterion.params
         if criterion_params:
-            criterion = configmapper.get_object("losses", self.train_config.criterion.type)(**dict(criterion_params))
+            criterion = configmapper.get_object(
+                "losses", self.train_config.criterion.type
+            )(**dict(criterion_params))
         else:
-            criterion = configmapper.get_object("losses", self.train_config.criterion.type)()
+            criterion = configmapper.get_object(
+                "losses", self.train_config.criterion.type
+            )()
         if train_logger is not None:
             val_logger = train_logger
         else:
@@ -499,7 +538,9 @@ class BaseTrainer:
                 if self.train_config.label_type == "float":
                     all_outputs = torch.cat((all_outputs, outputs), 0)
                 else:
-                    all_outputs = torch.cat((all_outputs, torch.argmax(outputs, axis=1)), 0)
+                    all_outputs = torch.cat(
+                        (all_outputs, torch.argmax(outputs, axis=1)), 0
+                    )
 
             val_loss = val_loss / len(val_loader)
 
@@ -507,9 +548,14 @@ class BaseTrainer:
 
             # print(all_outputs, all_labels)
             metric_list = [
-                metric(all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]) for metric in self.metrics
+                metric(
+                    all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]
+                )
+                for metric in self.metrics
             ]
-            metric_name_list = [metric["type"] for metric in self._config.main_config.metrics]
+            metric_name_list = [
+                metric["type"] for metric in self._config.main_config.metrics
+            ]
             return_dic = dict(
                 zip(
                     [
