@@ -79,7 +79,7 @@ class Logger:
                 hparam_list[i] = ",".join(list(map(str, hparam_list[i])))
             if isinstance(hparam_list[i], dict):
                 hparam_list[i] = json.dumps(hparam_list[i])
-            if type(hparam_list[i]) == DictConfig:  ## Need to Fix this
+            if type(hparam_list[i]) == DictConfig:  # Need to Fix this
                 hparam_list[i] = str(hparam_list[i])
             if hparam_list[i] is None:
                 hparam_list[i] = "None"
@@ -89,7 +89,7 @@ class Logger:
             dict(zip(metric_name_list, metric_list)),
         )
 
-    def save_models(self, model_list, model_names_list, epoch):  ## Need to check is epoch is needed
+    def save_models(self, model_list, model_names_list, epoch):  # Need to check is epoch is needed
         for model_name, model in zip(model_names_list, model_list):
             torch.save(model.state_dict(), os.path.join(self.model_path, model_name))
 

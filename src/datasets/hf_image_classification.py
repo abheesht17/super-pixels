@@ -1,4 +1,6 @@
 """Implements MNIST Dataset"""
+from torchvision import transforms
+
 import datasets
 from datasets import DatasetDict, load_dataset
 from src.modules.transforms import *

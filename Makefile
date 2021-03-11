@@ -11,13 +11,14 @@ ${VENV}:
 env: requirements.txt | ${VENV}
 	pip install --upgrade -r requirements.txt
 
+# black --check --line-length 119 --target-version py38 src ./*.py
+# isort --check-only src ./*.py #Remove these, black and isort contradict each other
+
 quality:
-	black --check --line-length 119 --target-version py36 src ./*.py
-	isort --check-only src ./*.py
-	flake8  src ./*.py
+	flake8 --ignore F401,F403,W503 --max-line-length 119 src ./*.py
 
 style:
-	black --line-length 119 --target-version py36 src *.py
+	black --line-length 119 --target-version py38 src *.py
 	isort src *.py
 
 final: style | ${VENV}

@@ -1,5 +1,5 @@
 """Train File."""
-## Imports
+# Imports
 import argparse
 # import itertools
 import copy
@@ -20,7 +20,7 @@ from src.utils.logger import Logger
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
 
-## Config
+# Config
 parser = argparse.ArgumentParser(prog="train.py", description="Train a model.")
 parser.add_argument(
     "--model",
@@ -46,7 +46,7 @@ model_config = OmegaConf.load(args.model)
 train_config = OmegaConf.load(args.train)
 data_config = OmegaConf.load(args.data)
 
-## Seed
+# Seed
 seed(train_config.args.seed)  # just in case
 
 # Data
@@ -73,7 +73,7 @@ checkpoints = sorted(os.listdir(train_config.args.output_dir), key=lambda x: int
 if len(checkpoints) != 0:
     print("Found Checkpoints:")
     print(checkpoints)
-## Trainer
+# Trainer
 trainer = Trainer(
     model=model,
     args=args,
@@ -81,9 +81,9 @@ trainer = Trainer(
     eval_dataset=val_data,
     compute_metrics=configmapper.get_object("metrics", train_config.metric).compute_metrics,
 )
-# ## Train
+# Train
 if len(checkpoints) != 0:
-    trainer.train(os.path.join(train_config.args.output_dir, checkpoints[-1]))  ## Load from checkpoint
+    trainer.train(os.path.join(train_config.args.output_dir, checkpoints[-1]))  # Load from checkpoint
 else:
     trainer.train()
 if not os.path.exists(train_config.save_model_path):
