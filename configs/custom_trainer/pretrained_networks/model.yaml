@@ -1,0 +1,3 @@
+name: vgg
+num_labels: 10 
+grayscale: true

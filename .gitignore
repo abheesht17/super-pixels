@@ -2,3 +2,5 @@
 *superpixels-env*
 *ckpts/*
 *logs/*
+*datasets/*
+*.vscode

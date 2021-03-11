@@ -1,0 +1,23 @@
+main: &main
+  name: mnist
+  load_dataset_args:
+    path: datasets/mnist
+  transform_args:
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.0]
+        std: [1.0]
+    - type: Resize
+      params:p
+        size: !!python/tuple [224, 224]
+        # interpolation: 3 #BICUBIC Interpolation
+
+train: &train
+  <<: *main
+  split: train
+
+val: &val
+  <<: *main
+  split: val
