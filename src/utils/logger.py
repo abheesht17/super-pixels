@@ -48,9 +48,7 @@ class Logger:
                         Logger._global_step(epoch, batch_size, batch),
                     )
                 else:
-                    self.writer.add_scalar(
-                        param_name_list[i], param_list[i], global_step
-                    )
+                    self.writer.add_scalar(param_name_list[i], param_list[i], global_step)
 
         else:
             scalar_dict = dict(zip(param_name_list, param_list))
@@ -63,9 +61,7 @@ class Logger:
             else:
                 self.writer.add_scalars(combine_name, scalar_dict, global_step)
 
-    def save_batch_images(
-        self, image_name, image_batch, epoch, batch_size, batch=None, dataformats="CHW"
-    ):
+    def save_batch_images(self, image_name, image_batch, epoch, batch_size, batch=None, dataformats="CHW"):
         self.writer.add_images(
             image_name,
             image_batch,
@@ -74,13 +70,9 @@ class Logger:
         )
 
     def save_prcurve(self, labels, preds, epoch, batch_size, batch=None):
-        self.writer.add_pr_curve(
-            "pr_curve", labels, preds, Logger._global_step(epoch, batch_size, batch)
-        )
+        self.writer.add_pr_curve("pr_curve", labels, preds, Logger._global_step(epoch, batch_size, batch))
 
-    def save_hyperparams(
-        self, hparam_list, hparam_name_list, metric_list, metric_name_list
-    ):
+    def save_hyperparams(self, hparam_list, hparam_name_list, metric_list, metric_name_list):
 
         for i in range(len(hparam_list)):
             if isinstance(hparam_list[i], list):
@@ -97,16 +89,12 @@ class Logger:
             dict(zip(metric_name_list, metric_list)),
         )
 
-    def save_models(
-        self, model_list, model_names_list, epoch
-    ):  ## Need to check is epoch is needed
+    def save_models(self, model_list, model_names_list, epoch):  ## Need to check is epoch is needed
         for model_name, model in zip(model_names_list, model_list):
             torch.save(model.state_dict(), os.path.join(self.model_path, model_name))
 
     def save_fig(self, fig, fig_name, epoch, batch_size, batch=None):
-        self.writer.add_figure(
-            fig_name, fig, Logger._global_step(epoch, batch_size, batch)
-        )
+        self.writer.add_figure(fig_name, fig, Logger._global_step(epoch, batch_size, batch))
 
     # def display_params(self,
     #     params_list, params_name_list, epoch, num_epochs, batch_size, batch
