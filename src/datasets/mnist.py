@@ -36,4 +36,4 @@ class Mnist(Dataset):
     def __getitem__(self, example_idx):
         # essential to return as dict, hence the roundabout way of loading the dataset
         img, label = self.dataset[example_idx]
-        return {"image": img, "labels": label}
+        return {"image": img, "label": label}

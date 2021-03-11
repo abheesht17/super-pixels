@@ -1,29 +1,24 @@
 """Train File."""
 ## Imports
 import argparse
-
 # import itertools
 import copy
 import os
-from datasets.load import load_dataset
 
 import numpy as np
 import torch
 import torch.nn as nn
+from transformers import Trainer, TrainingArguments
 
-
+from datasets import load_metric
+from datasets.load import load_dataset
 from omegaconf import OmegaConf
-from src.datasets import Mnist
-from src.models import SimpleCnn
+from src.datasets import *
+from src.models import *
+from src.modules.metrics import *
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
-from src.modules.metrics import HFAccuracy
-
-from transformers import TrainingArguments, Trainer
-
-from datasets import load_metric
-
 
 ## Config
 parser = argparse.ArgumentParser(prog="train.py", description="Train a model.")
@@ -55,13 +50,21 @@ data_config = OmegaConf.load(args.data)
 seed(train_config.args.seed)  # just in case
 
 # Data
-# dataset = configmapper.get_object("datasets", data_config.name)(data_config)
-train_data_config = data_config.train
-val_data_config = data_config.val
-train_data = configmapper.get_object("datasets", train_data_config.name)(
-    train_data_config
-)
-val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_config)
+if "main" in dict(data_config).keys():  # Regular Data
+    train_data_config = data_config.train
+    val_data_config = data_config.val
+    train_data = configmapper.get_object("datasets", train_data_config.name)(
+        train_data_config
+    )
+    val_data = configmapper.get_object("datasets", val_data_config.name)(
+        val_data_config
+    )
+
+else:  # HF Type Data
+    dataset = configmapper.get_object("datasets", data_config.name)(data_config)
+    train_data = dataset.train_dataset["train"]
+    val_data = dataset.train_dataset["test"]
+
 
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
