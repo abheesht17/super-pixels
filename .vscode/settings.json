@@ -5,7 +5,7 @@
     "python.linting.lintOnSave": true,
     "python.linting.pylintEnabled": true,
     "python.linting.pylintArgs": [
-        "--max-line-length=100"
+        "--max-line-length=119"
     ],
     "python.linting.pylintUseMinimalCheckers": false,
     "autoDocstring.docstringFormat": "google",

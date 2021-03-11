@@ -1,7 +1,6 @@
 """Train File."""
 ## Imports
 import argparse
-
 # import itertools
 import copy
 import os
@@ -55,12 +54,8 @@ seed(train_config.main_config.seed)
 if "main" in dict(data_config).keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
-    train_data = configmapper.get_object("datasets", train_data_config.name)(
-        train_data_config
-    )
-    val_data = configmapper.get_object("datasets", val_data_config.name)(
-        val_data_config
-    )
+    train_data = configmapper.get_object("datasets", train_data_config.name)(train_data_config)
+    val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_config)
 
 else:  # HF Type Data
     dataset = configmapper.get_object("datasets", data_config.name)(data_config)

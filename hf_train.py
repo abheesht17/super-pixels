@@ -53,12 +53,8 @@ seed(train_config.args.seed)  # just in case
 if "main" in dict(data_config).keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
-    train_data = configmapper.get_object("datasets", train_data_config.name)(
-        train_data_config
-    )
-    val_data = configmapper.get_object("datasets", val_data_config.name)(
-        val_data_config
-    )
+    train_data = configmapper.get_object("datasets", train_data_config.name)(train_data_config)
+    val_data = configmapper.get_object("datasets", val_data_config.name)(val_data_config)
 
 else:  # HF Type Data
     dataset = configmapper.get_object("datasets", data_config.name)(data_config)
@@ -73,9 +69,7 @@ args = TrainingArguments(**OmegaConf.to_container(train_config.args, resolve=Tru
 # Checking for Checkpoints
 if not os.path.exists(train_config.args.output_dir):
     os.makedirs(train_config.args.output_dir)
-checkpoints = sorted(
-    os.listdir(train_config.args.output_dir), key=lambda x: int(x.split("-")[1])
-)
+checkpoints = sorted(os.listdir(train_config.args.output_dir), key=lambda x: int(x.split("-")[1]))
 if len(checkpoints) != 0:
     print("Found Checkpoints:")
     print(checkpoints)
@@ -85,15 +79,11 @@ trainer = Trainer(
     args=args,
     train_dataset=train_data,
     eval_dataset=val_data,
-    compute_metrics=configmapper.get_object(
-        "metrics", train_config.metric
-    ).compute_metrics,
+    compute_metrics=configmapper.get_object("metrics", train_config.metric).compute_metrics,
 )
 # ## Train
 if len(checkpoints) != 0:
-    trainer.train(
-        os.path.join(train_config.args.output_dir, checkpoints[-1])
-    )  ## Load from checkpoint
+    trainer.train(os.path.join(train_config.args.output_dir, checkpoints[-1]))  ## Load from checkpoint
 else:
     trainer.train()
 if not os.path.exists(train_config.save_model_path):
