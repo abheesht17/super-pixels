@@ -1,7 +1,6 @@
 """Train File."""
 # Imports
 import argparse
-# import itertools
 import os
 
 from omegaconf import OmegaConf
@@ -14,31 +13,31 @@ from src.utils.misc import seed
 dirname = os.path.dirname(__file__)  # For Paths Relative to Current File
 
 # Config
-parser = argparse.ArgumentParser(prog="train.py", description="Train a model.")
-parser.add_argument(
-    "--model",
-    type=str,
-    action="store",
-    help="The configuration for model",
-)
-parser.add_argument(
-    "--train",
-    type=str,
-    action="store",
-    help="The configuration for model training/evaluation",
-)
-parser.add_argument(
-    "--data",
-    type=str,
-    action="store",
-    help="The configuration for data",
-)
+parser = argparse.ArgumentParser(prog="train.py", description="Train a model with HF Trainer.")
+parser.add_argument("--config_dir", type=str, action="store", help="The directory for all config files.")
+# parser.add_argument(
+#     "--model",
+#     type=str,
+#     action="store",
+#     help="The configuration for model",
+# )
+# parser.add_argument(
+#     "--train",
+#     type=str,
+#     action="store",
+#     help="The configuration for model training/evaluation",
+# )
+# parser.add_argument(
+#     "--data",
+#     type=str,
+#     action="store",
+#     help="The configuration for data",
+# )
 
 args = parser.parse_args()
-# print(vars(args))
-model_config = OmegaConf.load(args.model)
-train_config = OmegaConf.load(args.train)
-data_config = OmegaConf.load(args.data)
+model_config = OmegaConf.load(os.path.join(args.config_dir, "model.yaml"))
+train_config = OmegaConf.load(os.path.join(args.config_dir, "train.yaml"))
+data_config = OmegaConf.load(os.path.join(args.config_dir, "dataset.yaml"))
 
 # Seed
 seed(train_config.main_config.seed)
