@@ -12,8 +12,10 @@ transform_args:
     params: null # Need to write it at as null if no parameters are passed,
   - type: Normalize
     params:
-      mean: [0.0, 0.0,0.0]
-      std: [1.0, 1.0, 1.0]
+      mean: [0.49139968, 0.48215827, 0.44653124]
+      std: [0.24703233, 0.24348505, 0.26158768] 
+
+ 
 features:
   image_output_shape: [3,32,32]
   label_names: 

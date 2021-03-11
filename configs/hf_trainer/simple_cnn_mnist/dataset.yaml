@@ -10,8 +10,8 @@ main: &main
       params: null # Need to write it at as null if no parameters are passed,
     - type: Normalize
       params:
-        mean: [0.0]
-        std: [1.0]
+        mean: [0.13066062]
+        std: [0.30810776]
 
       # - type: Resize
       #   params:
