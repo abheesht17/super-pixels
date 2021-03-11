@@ -2,10 +2,9 @@ import json
 import os
 
 import torch
+from omegaconf.dictconfig import DictConfig
 from torch.autograd import Variable
 from torch.utils.tensorboard import SummaryWriter
-
-from omegaconf.dictconfig import DictConfig
 
 # from torchvision.utils import make_grid
 # from torchviz import make_dot
