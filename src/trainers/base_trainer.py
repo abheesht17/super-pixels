@@ -115,16 +115,20 @@ class BaseTrainer:
             for step, batch in enumerate(train_loader):
                 model.train()
                 optimizer.zero_grad()
-                inputs, labels = batch, batch["label"]
+                for key in batch:
+                    batch[key] = batch[key].to(self.device)
 
-                if self.train_config.label_type == "float":  ##Specific to Float Type
-                    labels = labels.float()
+                inputs, labels = batch["image"], batch["label"]
 
-                for key in inputs:
-                    inputs[key] = inputs[key].to(self.device)
-                labels = labels.to(self.device)
+                # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
+                # if self.train_config.label_type == "float":
+                # # Specific to Float Type
+                #     labels = labels.float()
+
                 outputs = model(inputs)
 
+                # Can remove this at a later stage?
+                # I think `losses.backward()` should work.
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 loss.backward()
 
@@ -169,7 +173,7 @@ class BaseTrainer:
                     # save_flag = 0
                     if self.train_config.save_on is not None:
 
-                        ## BEST SCORES UPDATING
+                        # BEST SCORES UPDATING
 
                         train_scores = self.get_scores(
                             train_loss,
@@ -238,7 +242,8 @@ class BaseTrainer:
                     "model_state_dict": model.state_dict(),
                 }
 
-                path = f"{self.train_config.checkpoint.checkpoint_dir}_{str(self.train_config.log.log_label)}_{str(epoch)}.pth"
+                path = f"{self.train_config.checkpoint.checkpoint_dir}_\
+                    {str(self.train_config.log.log_label)}_{str(epoch)}.pth"
 
                 self.save(store_dict, path, save_flag=1)
 
@@ -277,7 +282,7 @@ class BaseTrainer:
 
             if self.train_config.save_on is not None:
 
-                ## BEST SCORES UPDATING
+                # BEST SCORES UPDATING
 
                 train_scores = self.get_scores(
                     train_loss,
@@ -310,7 +315,7 @@ class BaseTrainer:
                         best_metrics_name_list,
                     ) = self.update_hparams(train_scores, val_scores, desc="best_val")
 
-                ## FINAL SCORES UPDATING + STORING
+                # FINAL SCORES UPDATING + STORING
                 train_scores = self.get_scores(
                     train_loss,
                     len(train_loader),
@@ -352,8 +357,8 @@ class BaseTrainer:
                     )
                     #
 
-    ## Need to check if we want same loggers of different loggers for train and eval
-    ## Evaluate
+    # Need to check if we want same loggers of different loggers for train and eval
+    # Evaluate
 
     def get_scores(self, loss, divisor, loss_name, all_outputs, all_labels):
 
@@ -367,18 +372,7 @@ class BaseTrainer:
             metric["type"] for metric in self._config.main_config.metrics
         ]
 
-        return dict(
-            zip(
-                [
-                    loss_name,
-                ]
-                + metric_name_list,
-                [
-                    avg_loss,
-                ]
-                + metric_list,
-            )
-        )
+        return dict(zip([loss_name] + metric_name_list, [avg_loss] + metric_list))
 
     def check_best(self, val_scores, save_on_score, best_score, global_step):
         save_flag = 0
@@ -412,7 +406,8 @@ class BaseTrainer:
             val_keys[i] = f"hparams/{desc}_val_" + val_keys[i]
         for i, key in enumerate(train_keys):
             train_keys[i] = f"hparams/{desc}_train_" + train_keys[i]
-        # train_logger.save_hyperparams(hparam_list, hparam_name_list,train_values+val_values,train_keys+val_keys, )
+        # train_logger.save_hyperparams(hparam_list, hparam_name_list,\
+        # train_values+val_values,train_keys+val_keys, )
         return (
             hparam_list,
             hparam_name_list,
@@ -520,23 +515,21 @@ class BaseTrainer:
         else:
             all_labels = torch.LongTensor().to(self.device)
 
-        batch_size = self.val_config.loader_params.batch_size
-
         with torch.no_grad():
             model.eval()
             val_loss = 0
             for j, batch in enumerate(val_loader):
+                for key in batch:
+                    batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch, batch["label"]
+                inputs, labels = batch["image"], batch["label"]
 
-                if self.train_config.label_type == "float":
-                    labels = labels.float()
-
-                for key in inputs:
-                    inputs[key] = inputs[key].to(self.device)
-                labels = labels.to(self.device)
+                # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
+                # if self.train_config.label_type == "float":  #Specific to Float Type
+                #     labels = labels.float()
 
                 outputs = model(inputs)
+
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 val_loss += loss.item()
 

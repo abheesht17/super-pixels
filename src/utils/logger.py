@@ -2,10 +2,9 @@ import json
 import os
 
 import torch
+from omegaconf.dictconfig import DictConfig
 from torch.autograd import Variable
 from torch.utils.tensorboard import SummaryWriter
-
-from omegaconf.dictconfig import DictConfig
 
 # from torchvision.utils import make_grid
 # from torchviz import make_dot
@@ -87,7 +86,7 @@ class Logger:
                 hparam_list[i] = ",".join(list(map(str, hparam_list[i])))
             if isinstance(hparam_list[i], dict):
                 hparam_list[i] = json.dumps(hparam_list[i])
-            if type(hparam_list[i]) == DictConfig:  ## Need to Fix this
+            if type(hparam_list[i]) == DictConfig:
                 hparam_list[i] = str(hparam_list[i])
             if hparam_list[i] is None:
                 hparam_list[i] = "None"
@@ -99,7 +98,7 @@ class Logger:
 
     def save_models(
         self, model_list, model_names_list, epoch
-    ):  ## Need to check is epoch is needed
+    ):  # Need to check is epoch is needed
         for model_name, model in zip(model_names_list, model_list):
             torch.save(model.state_dict(), os.path.join(self.model_path, model_name))
 
@@ -108,19 +107,22 @@ class Logger:
             fig_name, fig, Logger._global_step(epoch, batch_size, batch)
         )
 
-    # def display_params(self,
-    #     params_list, params_name_list, epoch, num_epochs, batch_size, batch
+    # def display_params(
+    #     self, params_list, params_name_list, epoch, num_epochs, batch_size, batch
     # ):
     #     for i in range(len(params_list)):
     #         if isinstance(params_list[i], Variable):
     #             params_list[i] = params_list[i].data.cpu().numpy()
-    #     print("Epoch: {}/{}, Batch: {}/{}".format(epoch, num_epochs, batch, batch_size))
+    #     print("Epoch: {}/{}, Batch: {}/{}".format(epoch,\
+    # num_epochs, batch, batch_size))
     #     for i in range(len(params_list)):
     #         print("{}:{}".format(params_name_list[i], params_list[i]))
-    #
-    # def draw_model_architecture(self,model, output, input, input_name, save_name):
+
+    # def draw_model_architecture(self, model, output, input, \
+    # input_name, save_name):
     #     make_dot(
-    #         output, params=dict(list(model.named_parameters())) + [(input_name, input)]
+    #         output, params=dict(list(model.named_parameters())) + \
+    # [(input_name, input)]
     #     )
 
     def close(self):

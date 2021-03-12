@@ -3,16 +3,17 @@
 import argparse
 import os
 
+from transformers import Trainer, TrainingArguments
+
 from omegaconf import OmegaConf
 from src.datasets import *
 from src.models import *
-from src.trainers import *
+from src.modules.metrics import *
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
 
-dirname = os.path.dirname(__file__)  # For Paths Relative to Current File
-
 # Config
+
 parser = argparse.ArgumentParser(
     prog="train.py", description="Train a model with HF Trainer."
 )
@@ -44,8 +45,7 @@ train_config = OmegaConf.load(os.path.join(args.config_dir, "train.yaml"))
 data_config = OmegaConf.load(os.path.join(args.config_dir, "dataset.yaml"))
 
 # Seed
-seed(train_config.main_config.seed)
-
+seed(train_config.args.seed)  # just in case
 
 # Data
 if "main" in dict(data_config).keys():  # Regular Data
@@ -63,11 +63,37 @@ else:  # HF Type Data
     train_data = dataset.train_dataset["train"]
     val_data = dataset.train_dataset["test"]
 
+
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
 
+args = TrainingArguments(**OmegaConf.to_container(train_config.args, resolve=True))
+# Checking for Checkpoints
+if not os.path.exists(train_config.args.output_dir):
+    os.makedirs(train_config.args.output_dir)
+checkpoints = sorted(
+    os.listdir(train_config.args.output_dir), key=lambda x: int(x.split("-")[1])
+)
+if len(checkpoints) != 0:
+    print("Found Checkpoints:")
+    print(checkpoints)
 # Trainer
-trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
-
+trainer = Trainer(
+    model=model,
+    args=args,
+    train_dataset=train_data,
+    eval_dataset=val_data,
+    compute_metrics=configmapper.get_object(
+        "metrics", train_config.metric
+    ).compute_metrics,
+)
 # Train
-trainer.train(model, train_data, val_data)
+if len(checkpoints) != 0:
+    trainer.train(
+        os.path.join(train_config.args.output_dir, checkpoints[-1])
+    )  # Load from checkpoint
+else:
+    trainer.train()
+if not os.path.exists(train_config.save_model_path):
+    os.makedirs(train_config.save_model_path)
+trainer.save_model(train_config.save_model_path)

@@ -54,8 +54,8 @@ class ConfigMapper:
         """"""
         try:
             return cls.dicts[key][name]
-        except:
-            raise NotImplementedError("Key:{name} Undefined".format(name=name))
+        except Exception as e:
+            raise NotImplementedError(f"Key:{name} Undefined. Error caught: {e}")
 
 
 configmapper = ConfigMapper()

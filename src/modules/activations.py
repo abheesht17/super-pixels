@@ -1,4 +1,5 @@
 import torch.nn as nn
+
 from src.utils.mapper import configmapper
 
 configmapper.map("activations", "relu")(nn.ReLU)
