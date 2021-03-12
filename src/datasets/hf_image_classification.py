@@ -65,10 +65,10 @@ class HFImageClassification:
 
         self.train_dataset.set_format("torch", columns=["image", "label"])
 
-        print(
-            np.mean(self.train_dataset["train"]["image"].numpy(), axis=(0, 2, 3)),
-            np.std(self.train_dataset["train"]["image"].numpy(), axis=(0, 2, 3)),
-        )
+        # print(
+        #     np.mean(self.train_dataset["train"]["image"].numpy(), axis=(0, 2, 3)),
+        #     np.std(self.train_dataset["train"]["image"].numpy(), axis=(0, 2, 3)),
+        # )
 
     def prepare_features(self, examples):
         images = []
