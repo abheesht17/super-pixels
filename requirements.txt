@@ -71,7 +71,7 @@ tensorboard-plugin-wit==1.8.0
 threadpoolctl==2.1.0
 tokenizers==0.10.1
 toml==0.10.2
-torch==1.8.0+cu111
+torch==1.8.0
 torch-cluster==1.5.9
 torch-geometric==1.6.3
 torch-scatter==2.0.6
