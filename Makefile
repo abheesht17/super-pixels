@@ -11,7 +11,7 @@ ${VENV}:
 env: requirements | ${VENV}
 	
 requirements:	
-	pip install --upgrade -r requirements.txt --find-links https://pytorch-geometric.com/whl/torch-1.8.0+cu111.html
+	pip install --upgrade -r requirements.txt --find-links https://pytorch-geometric.com/whl/torch-1.8.0+cu111.html --find-links https://download.pytorch.org/whl/torch_stable.html 
 
 # black --check --line-length 88 --target-version py38 src ./*.py
 # isort --check-only src ./*.py #Remove these, black and isort contradict each other

@@ -1,0 +1,4 @@
+name: simple_gcn
+num_node_features: 1
+hidden_channels: 32
+num_classes: 10

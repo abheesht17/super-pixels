@@ -1,5 +1,5 @@
 main: &main
-  name: fashion_mnist
+  name: mnist # MNIST Loader can be used with FashionMNIST Data
   transform_args:
     - type: ToPILImage
       params: null

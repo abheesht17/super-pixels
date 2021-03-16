@@ -1,15 +1,17 @@
-"""Implements FashionMNIST Dataset"""
+"""Implements MNIST Dataset"""
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
-
+import time
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 import numpy as np
 import struct
 import torch
 import matplotlib.pyplot as plt
-@configmapper.map("datasets", "fashion_mnist")
-class FashionMnist(Dataset):
+from src.utils.viz import visualize_geometric_graph
+
+@configmapper.map("datasets", "mnist_slic")
+class MnistSlic(Dataset):
     def __init__(self, config):
         super().__init__()
         self.config = config
@@ -46,8 +48,13 @@ class FashionMnist(Dataset):
         image = self.images[idx]
         label = self.labels[idx]
         if self.transform is not None:
-            image = self.transform(image)
+            graph = self.transform(image)
 
-        return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
+        # plt.imsave('test_img.png', np.squeeze(graph.img))
+        # plt.imsave('test_seg.png', np.squeeze(graph.seg))
+        # visualize_geometric_graph(graph)
+        # time.sleep(5)
+
+        return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}
 
 
