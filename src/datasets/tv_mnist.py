@@ -1,5 +1,4 @@
-import numpy as np
-import torch
+"""Implements MNIST Dataset"""
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 
@@ -7,8 +6,8 @@ from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("datasets", "mnist_slic")
-class MnistSlic(Dataset):
+@configmapper.map("datasets", "tv_mnist")
+class TvMnist(Dataset):
     def __init__(self, config):
         self.config = config
 

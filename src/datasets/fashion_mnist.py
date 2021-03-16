@@ -1,4 +1,4 @@
-"""Implements MNIST Dataset"""
+"""Implements FashionMNIST Dataset"""
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 
@@ -8,8 +8,8 @@ import numpy as np
 import struct
 import torch
 import matplotlib.pyplot as plt
-@configmapper.map("datasets", "mnist")
-class Mnist(Dataset):
+@configmapper.map("datasets", "fashion_mnist")
+class FashionMnist(Dataset):
     def __init__(self, config):
         super().__init__()
         self.config = config
