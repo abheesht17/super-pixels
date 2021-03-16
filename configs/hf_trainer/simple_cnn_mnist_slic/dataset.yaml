@@ -10,8 +10,8 @@ main: &main
       params: null # Need to write it at as null if no parameters are passed,
     - type: Normalize
       params:
-        mean: [0.0]
-        std: [1.0]
+        mean: [0.13066062]
+        std: [0.30810776]
     - type: ToSLIC
       params:
         add_seg: False
@@ -22,17 +22,17 @@ main: &main
         sigma: 0
         spacing: None
         multichannel: True
-        convert2lab: None
+        convert2lab: False # Need this to be False for 2D image
         enforce_connectivity: True
         min_size_factor: 0.5
         max_size_factor: 3
         slic_zero: False
-        start_label: None
 
-    # - type: Resize
-    #   params:
-    #     size: [224, 224]
-    #     interpolation: 3 #BICUBIC Interpolation
+
+      # - type: Resize
+      #   params:
+      #     size: [224, 224]
+      #     interpolation: 3 #BICUBIC Interpolation
 
 train: &train
   <<: *main

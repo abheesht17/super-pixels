@@ -1,0 +1,42 @@
+main: &main
+  name: mnist
+  load_dataset_args:
+    path: datasets/mnist
+  transform_args:
+    - type: Grayscale
+      params:
+        num_output_channels: 1
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.0]
+        std: [1.0]
+    - type: ToSLIC
+      params:
+        add_seg: False
+        add_img: False
+        n_segments: 100
+        compactness: 10.0
+        max_iter: 10
+        sigma: 0
+        spacing: None
+        multichannel: True
+        convert2lab: None
+        enforce_connectivity: True
+        min_size_factor: 0.5
+        max_size_factor: 3
+        slic_zero: False
+
+    # - type: Resize
+    #   params:
+    #     size: [224, 224]
+    #     interpolation: 3 #BICUBIC Interpolation
+
+train: &train
+  <<: *main
+  split: train
+
+val: &val
+  <<: *main
+  split: val

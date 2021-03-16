@@ -1,2 +1,3 @@
+from src.datasets.hf_graph_classification import HFGraphClassification
 from src.datasets.hf_image_classification import HFImageClassification
 from src.datasets.mnist import Mnist
