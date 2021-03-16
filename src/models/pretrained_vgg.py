@@ -24,23 +24,58 @@ class PretrainedVGG(Module):
         super(PretrainedVGG, self).__init__()
 
         vgg_version = config.vgg_version
+        num_layers = int(vgg_version)
+
+        # check that the config.num_layers_freeze < number of layers in the network
+        num_layers_freeze = config.num_layers_freeze
+        assert num_layers_freeze < int(
+            vgg_version
+        ), "(num_layers_freeze) should be greater than (number of layers in network - 1)"
+
         if config.batch_norm:
             vgg_version += "_" + "bn"
+        assert vgg_version in STR_MODEL_MAPPING, "VGG version incorrect."
 
-        assert vgg_version in STR_MODEL_MAPPING, "VGG Version incorrect."
+        # load the pretrained model
         self.pretrained_vgg = STR_MODEL_MAPPING[vgg_version](pretrained=True)
+
+        # freeze specified number of layers
+        num_cls_layers_freeze = 3 - num_layers + num_layers_freeze
+        if num_cls_layers_freeze > 0:
+            num_enc_layers_freeze = num_layers_freeze - num_cls_layers_freeze
+        else:
+            num_cls_layers_freeze = 0
+            num_enc_layers_freeze = num_layers_freeze
+
+        if config.batch_norm:
+            self.pretrained_vgg.features = self.freeze_layers(
+                self.pretrained_vgg.features, num_enc_layers_freeze, 4
+            )
+        else:
+            self.pretrained_vgg.features = self.freeze_layers(
+                self.pretrained_vgg.features, num_enc_layers_freeze, 2
+            )
+
+        self.pretrained_vgg.classifier = self.freeze_layers(
+            self.pretrained_vgg.classifier, num_cls_layers_freeze, 2
+        )
 
         # modify the last linear layer
         in_features_dim = self.pretrained_vgg.classifier[-1].in_features
         self.pretrained_vgg.classifier[-1] = Linear(in_features_dim, config.num_classes)
 
-        # freeze the encoder
-        # can add functionality later to freeze a specified number of layers
-        if config.freeze_encoder:
-            for param in self.pretrained_vgg.features.parameters():
-                param.requires_grad = False
-
         self.loss_fn = CrossEntropyLoss()
+
+    def freeze_layers(self, model, num_layers_freeze_param, mod):
+        ct_unique = 0
+        k = 0
+        for name, param in model.named_parameters():
+            if k % mod == 0:
+                ct_unique += 1
+            if param.requires_grad and ct_unique <= num_layers_freeze_param:
+                param.requires_grad = False
+            k += 1
+        return model
 
     def forward(self, image, labels=None):
         if image.shape[1] == 1:

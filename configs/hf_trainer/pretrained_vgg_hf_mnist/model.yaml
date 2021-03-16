@@ -1,5 +1,5 @@
 name: pretrained_vgg
 vgg_version: "11"
 batch_norm: False
-freeze_encoder: True
+num_layers_freeze: 8
 num_classes: 10
