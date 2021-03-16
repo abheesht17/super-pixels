@@ -1,7 +1,7 @@
 from torch_geometric.nn import GCNConv, global_mean_pool
 from torch.nn import Module, Linear
 from torch.nn.functional import relu, dropout
-
+import torch
 from src.utils.mapper import configmapper
 
 
@@ -16,6 +16,7 @@ class SimpleGcn(Module):
     
     def forward(self, data):
         out, edge_index, batch = data.x, data.edge_index, data.batch
+        out = torch.cat([data.pos, data.x], dim = 1)
         out = self.conv1(out, edge_index)
         out = relu(out)
         out = self.conv2(out, edge_index)
@@ -24,7 +25,7 @@ class SimpleGcn(Module):
         out = relu(out)
 
         out = global_mean_pool(out, batch)
-        out = dropout(out, p=0.5, training=self.training)
+        out = dropout(out,p=0.2, training=self.training)
         out = self.lin(out)
 
         return out
