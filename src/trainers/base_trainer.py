@@ -163,11 +163,7 @@ class BaseTrainer:
                 if val_dataset is not None and (global_step - 1) % val_interval == 0:
                     # print("\nEvaluating\n")
                     val_scores = self.val(
-                        model,
-                        val_dataset,
-                        global_step,
-                        train_logger,
-                        train_log_values,
+                        model, val_dataset, global_step, train_logger, train_log_values,
                     )
 
                     # save_flag = 0
@@ -250,11 +246,7 @@ class BaseTrainer:
         if epoch == max_epochs:
             # print("\nEvaluating\n")
             val_scores = self.val(
-                model,
-                val_dataset,
-                global_step,
-                train_logger,
-                train_log_values,
+                model, val_dataset, global_step, train_logger, train_log_values,
             )
 
             # print("\nLogging\n")
@@ -344,14 +336,8 @@ class BaseTrainer:
                     train_logger.save_hyperparams(
                         best_hparam_list,
                         best_hparam_name_list,
-                        [
-                            int(self.log_label),
-                        ]
-                        + best_metrics_list
-                        + final_metrics_list,
-                        [
-                            "hparams/log_label",
-                        ]
+                        [int(self.log_label),] + best_metrics_list + final_metrics_list,
+                        ["hparams/log_label",]
                         + best_metrics_name_list
                         + final_metrics_name_list,
                     )
@@ -434,18 +420,7 @@ class BaseTrainer:
         append_text,
     ):
 
-        return_dic = dict(
-            zip(
-                [
-                    loss_name,
-                ]
-                + metric_name_list,
-                [
-                    loss,
-                ]
-                + metric_list,
-            )
-        )
+        return_dic = dict(zip([loss_name,] + metric_name_list, [loss,] + metric_list,))
 
         loss_name = f"{append_text}_{self.log_label}_{loss_name}"
         if log_values["loss"]:
@@ -557,16 +532,7 @@ class BaseTrainer:
                 metric["type"] for metric in self._config.main_config.metrics
             ]
             return_dic = dict(
-                zip(
-                    [
-                        val_loss_name,
-                    ]
-                    + metric_name_list,
-                    [
-                        val_loss,
-                    ]
-                    + metric_list,
-                )
+                zip([val_loss_name,] + metric_name_list, [val_loss,] + metric_list,)
             )
             if log:
                 val_scores = self.log(

@@ -1,0 +1,25 @@
+name: hf_image_classification
+image_column_name: image
+label_column_name: label
+channels_first_input: true
+remove_columns: null
+load_dataset_args:
+  path: mnist
+transform_args:
+  - type: ToPILImage
+    params: null
+  - type: Resize
+    params:
+      size: 224
+  - type: Grayscale
+    params:
+      num_output_channels: 1
+  - type: ToTensor
+    params: null # Need to write it at as null if no parameters are passed,
+  - type: Normalize
+    params:
+      mean: [0.13066062]
+      std: [0.30810776]
+features:
+  image_output_shape: [1,224,224]
+  label_names: ["0","1","2","3","4","5","6","7","8","9"]

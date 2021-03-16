@@ -1,0 +1,5 @@
+name: pretrained_vgg
+vgg_version: "11"
+batch_norm: False
+freeze_encoder: True
+num_classes: 10
