@@ -33,7 +33,8 @@ class SimpleCnn(Module):
             MaxPool2d(kernel_size=2, stride=2),
         )
         self.linear_layers = Linear(
-            32 * (config.input_dim // 8) * (config.input_dim // 8), config.num_classes,
+            32 * (config.input_dim // 8) * (config.input_dim // 8),
+            config.num_classes,
         )
 
         self.loss_fn = CrossEntropyLoss()

@@ -48,7 +48,10 @@ class HFImageClassification:
         )
 
         self.train_dataset = self.raw_dataset.map(
-            self.prepare_features, features=features, batched=True, batch_size=64,
+            self.prepare_features,
+            features=features,
+            batched=True,
+            batch_size=64,
         )
 
         if self.image_column_name != "image":

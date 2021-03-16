@@ -1,17 +1,8 @@
 """Implementation of a CNN for classfication with VGG Encoder."""
 
-from torch.nn import (
-    BatchNorm2d,
-    Conv2d,
-    CrossEntropyLoss,
-    Linear,
-    MaxPool2d,
-    Module,
-    ReLU,
-    Sequential,
-)
-
+import torch
 import torchvision.models as models
+from torch.nn import CrossEntropyLoss, Linear, Module
 
 from src.utils.mapper import configmapper
 
@@ -31,7 +22,6 @@ STR_MODEL_MAPPING = {
 class PretrainedVGG(Module):
     def __init__(self, config):
         super(PretrainedVGG, self).__init__()
-        self.config = config
 
         vgg_version = config.vgg_version
         if config.batch_norm:
@@ -58,5 +48,5 @@ class PretrainedVGG(Module):
         logits = self.pretrained_vgg(image)
         if labels is not None:
             loss = self.loss_fn(logits, labels)
-            return loss, out
-        return out
+            return loss, logits
+        return logits
