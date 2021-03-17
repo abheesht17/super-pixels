@@ -8,7 +8,7 @@ export PATH := ${VIRTUAL_ENV}/bin:${PATH}
 ${VENV}:
 	python3 -m venv $@
 
-env: requirements | ${VENV}
+env: ${VENV} requirements
 	
 requirements:	
 	pip install --upgrade -r requirements.txt --find-links https://pytorch-geometric.com/whl/torch-1.8.0+cu111.html --find-links https://download.pytorch.org/whl/torch_stable.html 
