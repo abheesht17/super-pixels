@@ -8,18 +8,18 @@ load_dataset_args:
 transform_args:
   - type: ToPILImage
     params: null
-  - type: Resize
-    params:
-      size: 224
   - type: Grayscale
     params:
-      num_output_channels: 1
+      num_output_channels: 3
   - type: ToTensor
     params: null # Need to write it at as null if no parameters are passed,
   - type: Normalize
     params:
       mean: [0.13066062]
       std: [0.30810776]
+  - type: Resize
+    params:
+      size: 224
 features:
-  image_output_shape: [1,224,224]
+  image_output_shape: [3,224,224]
   label_names: ["0","1","2","3","4","5","6","7","8","9"]

@@ -78,8 +78,7 @@ class PretrainedVGG(Module):
         return model
 
     def forward(self, image, labels=None):
-        if image.shape[1] == 1:
-            image = torch.cat((image, image, image), dim=1)
+        
         logits = self.pretrained_vgg(image)
         if labels is not None:
             loss = self.loss_fn(logits, labels)
