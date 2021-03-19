@@ -30,11 +30,11 @@ class PretrainedVGG(Module):
         num_layers_freeze = config.num_layers_freeze
         assert num_layers_freeze < int(
             vgg_version
-        ), "(num_layers_freeze) should be greater than (number of layers in network - 1)"
+        ), "(num_layers_freeze) should be greater than (number of layers in network - 1). num_layers_freeze = " + str(num_layers_freeze) + " and number of layers in network = " + vgg_version
 
         if config.batch_norm:
             vgg_version += "_" + "bn"
-        assert vgg_version in STR_MODEL_MAPPING, "VGG version incorrect."
+        assert vgg_version in STR_MODEL_MAPPING, "VGG version incorrect, should be in [\"11\",\"13\",\"16\",\"19\"]"
 
         # load the pretrained model
         self.pretrained_vgg = STR_MODEL_MAPPING[vgg_version](pretrained=True)
