@@ -38,4 +38,4 @@ class TgMnistSlic(Dataset):
     def __getitem__(self, example_idx):
         # essential to return as dict, hence the roundabout way of loading the dataset
         graph_data = self.dataset[example_idx]
-        return {"graph": graph_data, "label": graph_data.y}
+        return {"graph": graph_data, "label": graph_data.y[0]}
