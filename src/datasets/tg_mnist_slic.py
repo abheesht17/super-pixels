@@ -13,7 +13,7 @@ class TgMnistSlic(Dataset):
         self.config = config
 
         transformations = []
-        if config.transform_args:
+        if hasattr(config, transform_args):
             for transform in config.transform_args:
                 param_dict = (
                     dict(transform["params"]) if transform["params"] is not None else {}
