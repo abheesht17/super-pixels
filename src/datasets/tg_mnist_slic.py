@@ -7,8 +7,8 @@ from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("datasets", "tv_mnist_slic")
-class TvMnist(Dataset):
+@configmapper.map("datasets", "tg_mnist_slic")
+class TgMnistSlic(Dataset):
     def __init__(self, config):
         self.config = config
 
@@ -37,5 +37,5 @@ class TvMnist(Dataset):
 
     def __getitem__(self, example_idx):
         # essential to return as dict, hence the roundabout way of loading the dataset
-        img, label = self.dataset[example_idx]
-        return {"image": img, "label": label}
+        graph_data = self.dataset[example_idx]
+        return {"graph": graph_data, "label": graph_data.y}
