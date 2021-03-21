@@ -1,0 +1,13 @@
+main: &main
+  name: tg_mnist_slic
+  load_dataset_args:
+    path: data/tg_mnist_slic
+  transform_args:
+    - type: PolarTransformation
+      params: null
+train: &train
+  <<: *main
+  split: train
+val: &val
+  <<: *main
+  split: val
