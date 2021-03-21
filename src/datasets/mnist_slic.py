@@ -1,5 +1,6 @@
 """Implements MNIST Dataset"""
 import struct
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,10 +10,11 @@ from torchvision import datasets, transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
+from src.utils.viz import visualize_geometric_graph
 
 
-@configmapper.map("datasets", "mnist")
-class Mnist(Dataset):
+@configmapper.map("datasets", "mnist_slic")
+class MnistSlic(Dataset):
     def __init__(self, config):
         super().__init__()
         self.config = config
@@ -48,6 +50,11 @@ class Mnist(Dataset):
         image = self.images[idx]
         label = self.labels[idx]
         if self.transform is not None:
-            image = self.transform(image)
+            graph = self.transform(image)
 
-        return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
+        # plt.imsave('test_img.png', np.squeeze(graph.img))
+        # plt.imsave('test_seg.png', np.squeeze(graph.seg))
+        # visualize_geometric_graph(graph)
+        # time.sleep(5)
+
+        return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}

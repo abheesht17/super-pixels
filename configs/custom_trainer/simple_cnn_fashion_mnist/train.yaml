@@ -9,7 +9,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cuda
+    name: cpu
 
 train: &train
   <<: *main

@@ -4,6 +4,7 @@ import os
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
+from torch_geometric.data import DataLoader as GeometricDataLoader
 from tqdm import tqdm
 
 from src.modules.losses import *
@@ -62,10 +63,14 @@ class BaseTrainer:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )()
-
-        train_loader = DataLoader(
-            dataset=train_dataset, **dict(self.train_config.loader_params)
-        )
+        if self._config.dataloader_type == "geometric":
+            train_loader = GeometricDataLoader(
+                train_dataset, **dict(self.train_config.loader_params)
+            )
+        else:
+            train_loader = DataLoader(
+                dataset=train_dataset, **dict(self.train_config.loader_params)
+            )
 
         max_epochs = self.train_config.max_epochs
         batch_size = self.train_config.loader_params.batch_size
@@ -118,7 +123,7 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch["image"], batch["label"]
+                inputs, labels = batch[self._config.input_key], batch["label"]
 
                 # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
                 # if self.train_config.label_type == "float":
@@ -507,7 +512,14 @@ class BaseTrainer:
         else:
             val_log_values = dict(self.val_config.log.vals)
 
-        val_loader = DataLoader(dataset=dataset, **dict(self.val_config.loader_params))
+        if self._config.dataloader_type == "geometric":
+            val_loader = GeometricDataLoader(
+                dataset, **dict(self.val_config.loader_params)
+            )
+        else:
+            val_loader = DataLoader(
+                dataset=dataset, **dict(self.val_config.loader_params)
+            )
 
         all_outputs = torch.Tensor().to(self.device)
         if self.train_config.label_type == "float":
@@ -522,7 +534,7 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch["image"], batch["label"]
+                inputs, labels = batch[self._config.input_key], batch["label"]
 
                 # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
                 # if self.train_config.label_type == "float":  #Specific to Float Type

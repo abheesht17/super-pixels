@@ -1,5 +1,6 @@
 main: &main
-  name: mnist
+  name: mnist_slic
+  add_slic_mask: true
   transform_args:
     - type: ToPILImage
       params: null
@@ -12,6 +13,15 @@ main: &main
       params:
         mean: [0.13066062]
         std: [0.30810776]
+    - type: MnistSLIC
+      params:
+        n_segments: 74
+        add_seg: true
+        add_img: true
+    - type: KNNGraph
+      params:
+        k: 6
+        force_undirected: true
 
 train: &train
   <<: *main

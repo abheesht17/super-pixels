@@ -1,7 +1,5 @@
 trainer_name: base_trainer
 version: 1.0
-dataloader_type: regular
-input_key: image
 main_config: &main
   seed: 42
   metrics:
@@ -9,7 +7,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cuda
+    name: cpu
 
 train: &train
   <<: *main
