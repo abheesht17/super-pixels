@@ -13,7 +13,7 @@ def normalized_cut_2d(edge_index, pos):
     edge_attr = torch.norm(pos[row] - pos[col], p=2, dim=1)
     return normalized_cut(edge_index, edge_attr, num_nodes=pos.size(0))
 
-@configmapper.map("models", "MoNET")
+@configmapper.map("models", "monet")
 class MoNet(torch.nn.Module):
     def __init__(self, config):
         super(MoNet, self).__init__()
