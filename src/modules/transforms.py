@@ -1,11 +1,13 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
 import torch_geometric.transforms as torch_geometric_transforms
 import torchvision.transforms as transforms
-import torch
-from torch_scatter import scatter_mean
 from torch_geometric.data import Data
-import numpy as np
-import matplotlib.pyplot as plt
+from torch_scatter import scatter_mean
+
 from src.utils.mapper import configmapper
+
 
 configmapper.map("transforms", "Resize")(transforms.Resize)
 configmapper.map("transforms", "Normalize")(transforms.Normalize)
@@ -15,11 +17,10 @@ configmapper.map("transforms", "Grayscale")(transforms.Grayscale)
 configmapper.map("transforms", "ToSLIC")(
     torch_geometric_transforms.to_superpixels.ToSLIC
 )
-configmapper.map("transforms", "KNNGraph")(
-    torch_geometric_transforms.KNNGraph
-)
+configmapper.map("transforms", "KNNGraph")(torch_geometric_transforms.KNNGraph)
 
-@configmapper.map("transforms","MnistSLIC")
+
+@configmapper.map("transforms", "MnistSLIC")
 class MnistSLIC(object):
     def __init__(self, add_seg=False, add_img=False, **kwargs):
         self.add_seg = add_seg
@@ -31,7 +32,12 @@ class MnistSLIC(object):
 
         img = img.permute(1, 2, 0)
         h, w, c = img.size()
-        seg = slic(img.to(torch.double).numpy(), start_label=1, mask = np.squeeze(img>0.5), **self.kwargs)
+        seg = slic(
+            img.to(torch.double).numpy(),
+            start_label=1,
+            mask=np.squeeze(img > 0.5),
+            **self.kwargs,
+        )
         seg = torch.from_numpy(seg)
 
         x = scatter_mean(img.view(h * w, c), seg.view(h * w), dim=0)

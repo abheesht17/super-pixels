@@ -21,7 +21,7 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 quality:
-	flake8 --extend-ignore E203,F401,F403,W503 --max-line-length 88 src ./*.py
+	flake8 --extend-ignore E203,F401,F403,W503 --max-line-length 88 src *.py
 
 #Black compatibilty: https://black.readthedocs.io/en/stable/compatible_configs.html
 style:

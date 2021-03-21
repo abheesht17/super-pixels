@@ -5,6 +5,7 @@ from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
+from src.utils.viz import visualize_geometric_graph
 
 
 @configmapper.map("datasets", "tg_mnist_slic")
@@ -19,9 +20,11 @@ class TgMnistSlic(Dataset):
                     dict(transform["params"]) if transform["params"] is not None else {}
                 )
                 transformations.append(
-                    configmapper.get_object("transforms", transform["type"])(**param_dict)
+                    configmapper.get_object("transforms", transform["type"])(
+                        **param_dict
+                    )
                 )
-        
+
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )

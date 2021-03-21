@@ -12,6 +12,7 @@ from sklearn.metrics import (
 from datasets import load_metric
 from src.utils.mapper import configmapper
 
+
 configmapper.map("metrics", "sklearn_f1")(f1_score)
 configmapper.map("metrics", "sklearn_p")(precision_score)
 configmapper.map("metrics", "sklearn_r")(recall_score)

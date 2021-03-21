@@ -1,13 +1,16 @@
 """Implements MNIST Dataset"""
+import struct
+
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-import numpy as np
-import struct
-import torch
-import matplotlib.pyplot as plt
+
+
 @configmapper.map("datasets", "mnist")
 class Mnist(Dataset):
     def __init__(self, config):
@@ -34,11 +37,10 @@ class Mnist(Dataset):
             self.images = np.frombuffer(f.read(), dtype=np.uint8).reshape(size, 28, 28)
         # Labels
         with open(config.filepath.labels, "rb") as f:
-           # First 8 bytes contain some metadata
+            # First 8 bytes contain some metadata
             _ = f.read(8)
             self.labels = np.frombuffer(f.read(), dtype=np.uint8)
 
-        
     def __len__(self):
         return self.labels.shape[0]
 
@@ -49,5 +51,3 @@ class Mnist(Dataset):
             image = self.transform(image)
 
         return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
-
-

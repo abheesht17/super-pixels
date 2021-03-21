@@ -8,6 +8,7 @@ from torch.optim.lr_scheduler import (
 
 from src.utils.mapper import configmapper
 
+
 configmapper.map("schedulers", "step")(StepLR)
 configmapper.map("schedulers", "cosineanneal")(CosineAnnealingLR)
 configmapper.map("schedulers", "reduceplateau")(ReduceLROnPlateau)

@@ -63,8 +63,10 @@ class BaseTrainer:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )()
-        if self._config.dataloader_type == 'geometric':
-            train_loader = GeometricDataLoader(train_dataset, **dict(self.train_config.loader_params))
+        if self._config.dataloader_type == "geometric":
+            train_loader = GeometricDataLoader(
+                train_dataset, **dict(self.train_config.loader_params)
+            )
         else:
             train_loader = DataLoader(
                 dataset=train_dataset, **dict(self.train_config.loader_params)
@@ -510,8 +512,10 @@ class BaseTrainer:
         else:
             val_log_values = dict(self.val_config.log.vals)
 
-        if self._config.dataloader_type == 'geometric':
-            val_loader = GeometricDataLoader(dataset, **dict(self.val_config.loader_params))
+        if self._config.dataloader_type == "geometric":
+            val_loader = GeometricDataLoader(
+                dataset, **dict(self.val_config.loader_params)
+            )
         else:
             val_loader = DataLoader(
                 dataset=dataset, **dict(self.val_config.loader_params)
