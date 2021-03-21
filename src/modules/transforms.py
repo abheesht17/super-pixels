@@ -18,7 +18,7 @@ configmapper.map("transforms", "ToSLIC")(
     torch_geometric_transforms.to_superpixels.ToSLIC
 )
 configmapper.map("transforms", "KNNGraph")(torch_geometric_transforms.KNNGraph)
-
+configmapper.map("transforms", "PolarTransformation")(torch_geometric_transforms.Polar)
 
 @configmapper.map("transforms", "MnistSLIC")
 class MnistSLIC(object):

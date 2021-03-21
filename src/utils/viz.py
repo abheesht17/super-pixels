@@ -27,9 +27,6 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print(g.nodes)
     pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
     nx.draw_networkx(g, pos=pos_dic, node_color=colors)
-<<<<<<< HEAD
     plt.savefig(file_name, format="PNG")
     plt.clf()
-=======
-    plt.savefig("Graph", format="PNG")
->>>>>>> a7657d30afbc8000abc98cc40ce33113781cbc53
+

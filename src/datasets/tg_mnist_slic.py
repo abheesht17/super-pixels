@@ -29,10 +29,24 @@ class TgMnistSlic(Dataset):
             transforms.Compose(transformations) if transformations != [] else None
         )
 
+        pre_transformations = []
+        if hasattr(config, "pre_transform_args"):
+            for pre_transform in config.pre_transform_args:
+                param_dict = (
+                    dict(pre_transform["params"]) if pre_transform["params"] is not None else {}
+                )
+                pre_transformations.append(
+                    configmapper.get_object("transforms", pre_transform["type"])(
+                        **param_dict
+                    )
+                )
+
+        self.pre_transform = (transforms.Compose(pre_transformations) if pre_transformations != [] else None )
         self.dataset = datasets.MNISTSuperpixels(
             root=config.load_dataset_args.path,
             train=self.config.split == "train",
             transform=self.transform,
+            pre_transform=self.pre_transform,
         )
 
     def __len__(self):
