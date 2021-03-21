@@ -8,7 +8,6 @@ def switch_coordinates(coordinates_list):
     b = coordinates_list[:, 1]
     return np.array(list(zip(b, a)))
 
-
 def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print("Pos",graph.pos.shape)
     # print("X", graph.x.shape)
