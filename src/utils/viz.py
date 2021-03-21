@@ -8,6 +8,10 @@ def switch_coordinates(coordinates_list):
     b = coordinates_list[:, 1]
     return np.array(list(zip(b, a)))
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a7657d30afbc8000abc98cc40ce33113781cbc53
 def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print("Pos",graph.pos.shape)
     # print("X", graph.x.shape)
@@ -27,5 +31,9 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print(g.nodes)
     pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
     nx.draw_networkx(g, pos=pos_dic, node_color=colors)
+<<<<<<< HEAD
     plt.savefig(file_name, format="PNG")
     plt.clf()
+=======
+    plt.savefig("Graph", format="PNG")
+>>>>>>> a7657d30afbc8000abc98cc40ce33113781cbc53
