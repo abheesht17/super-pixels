@@ -19,9 +19,11 @@ class TgMnistSlic(Dataset):
                     dict(transform["params"]) if transform["params"] is not None else {}
                 )
                 transformations.append(
-                    configmapper.get_object("transforms", transform["type"])(**param_dict)
+                    configmapper.get_object("transforms", transform["type"])(
+                        **param_dict
+                    )
                 )
-        
+
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )

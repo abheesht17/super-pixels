@@ -1,13 +1,15 @@
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 
-def switch_coordinates(coordinates_list):
-    a = coordinates_list[:,0]
-    b = coordinates_list[:,1]
-    return np.array(list(zip(b,a)))
 
-def visualize_geometric_graph(graph, file_name='Graph.png'):
+def switch_coordinates(coordinates_list):
+    a = coordinates_list[:, 0]
+    b = coordinates_list[:, 1]
+    return np.array(list(zip(b, a)))
+
+
+def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print("Pos",graph.pos.shape)
     # print("X", graph.x.shape)
     # print("Edge Index",graph.edge_index.shape)
@@ -27,4 +29,3 @@ def visualize_geometric_graph(graph, file_name='Graph.png'):
     pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
     nx.draw_networkx(g, pos=pos_dic, node_color=colors)
     plt.savefig("Graph", format="PNG")
-
