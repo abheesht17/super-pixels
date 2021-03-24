@@ -51,7 +51,7 @@ class HFImageClassification:
             self.prepare_features,
             features=features,
             batched=True,
-            batch_size=1000,
+            batch_size=64,
         )
 
         if self.image_column_name != "image":
