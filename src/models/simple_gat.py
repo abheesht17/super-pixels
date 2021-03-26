@@ -11,9 +11,9 @@ class SimpleGAT(Module):
     def __init__(self, config):
         super(SimpleGAT, self).__init__()
 
-        gat_hidden_layer_sizes = [
-            config.num_node_features
-        ] + list(config.gat_params.hidden_layer_sizes)
+        gat_hidden_layer_sizes = [config.num_node_features] + list(
+            config.gat_params.hidden_layer_sizes
+        )
         linear_layer_sizes = (
             [gat_hidden_layer_sizes[-1]]
             + list(config.linear_layer_params.intermediate_layer_sizes)
