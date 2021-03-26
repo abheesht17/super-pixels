@@ -13,10 +13,10 @@ class SimpleGAT(Module):
 
         gat_hidden_layer_sizes = [
             config.num_node_features
-        ] + config.gat_params.hidden_layer_sizes
+        ] + list(config.gat_params.hidden_layer_sizes)
         linear_layer_sizes = (
             [gat_hidden_layer_sizes[-1]]
-            + config.linear_layer_params.intermediate_layer_sizes
+            + list(config.linear_layer_params.intermediate_layer_sizes)
             + [config.num_classes]
         )
 
@@ -36,11 +36,16 @@ class SimpleGAT(Module):
                 )
             ]
         )
+        # print(self.gatconv_layers)
 
     def forward(self, data):
         out, edge_index = data.x, data.edge_index
+        # out = torch.cat([data.pos, data.x], dim=1)
+        # print(edge_index.shape)
+        # print(out.shape)
 
         for gatconv_layer in self.gatconv_layers:
+            # print(out.shape)
             out = gatconv_layer(out, edge_index)
 
         for linear_layer in self.linear_layers:
