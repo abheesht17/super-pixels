@@ -5,6 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from skimage.segmentation import mark_boundaries
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 
@@ -52,9 +53,14 @@ class MnistSlic(Dataset):
         if self.transform is not None:
             graph = self.transform(image)
 
-        # plt.imsave('test_img.png', np.squeeze(graph.img))
-        # plt.imsave('test_seg.png', np.squeeze(graph.seg))
-        # visualize_geometric_graph(graph)
-        # time.sleep(5)
+        # print(graph.x.shape)
+        # plt.imsave(f"test_img_{label}.png", np.squeeze(graph.img))
+        # plt.imsave(f"test_seg_{label}.png", np.squeeze(graph.seg))
+
+        # plt.imsave(
+        #     f"segmented_img_{label}.jpg",
+        #     mark_boundaries(image, graph.seg.squeeze().numpy(), color=(0.1)),
+        # )
+        # visualize_geometric_graph(graph, f"graph_{label}.png")
 
         return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}
