@@ -123,14 +123,17 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch[self._config.input_key], batch["label"]
+                inputs = {}
+                for key in self._config.input_key:
+                    inputs[key] = batch[key]
+                labels = batch["label"]
 
                 # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
                 # if self.train_config.label_type == "float":
                 # # Specific to Float Type
                 #     labels = labels.float()
 
-                outputs = model(inputs)
+                outputs = model(**inputs)
 
                 # Can remove this at a later stage?
                 # I think `losses.backward()` should work.
@@ -534,13 +537,17 @@ class BaseTrainer:
                 for key in batch:
                     batch[key] = batch[key].to(self.device)
 
-                inputs, labels = batch[self._config.input_key], batch["label"]
+                inputs = {}
+                for key in self._config.input_key:
+                    inputs[key] = batch[key]
+                labels = batch["label"]
 
                 # NOW THIS MUST BE HANDLED IN THE DATASET CLASS
-                # if self.train_config.label_type == "float":  #Specific to Float Type
+                # if self.train_config.label_type == "float":
+                # # Specific to Float Type
                 #     labels = labels.float()
 
-                outputs = model(inputs)
+                outputs = model(**inputs)
 
                 loss = criterion(torch.squeeze(outputs, dim=1), labels)
                 val_loss += loss.item()

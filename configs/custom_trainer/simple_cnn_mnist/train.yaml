@@ -1,7 +1,8 @@
 trainer_name: base_trainer
 version: 1.0
 dataloader_type: regular
-input_key: image
+input_key: 
+  - image
 main_config: &main
   seed: 42
   metrics:
