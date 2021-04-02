@@ -13,8 +13,8 @@ from src.utils.mapper import configmapper
 from src.utils.viz import visualize_geometric_graph
 
 
-@configmapper.map("datasets", "mnist_slic")
-class MnistSlic(Dataset):
+@configmapper.map("datasets", "mnist_img_slic")
+class MnistImgSlic(Dataset):
     def __init__(self, config):
         super().__init__()
         self.config = config

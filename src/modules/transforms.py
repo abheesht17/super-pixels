@@ -19,6 +19,7 @@ configmapper.map("transforms", "ToSLIC")(
     torch_geometric_transforms.to_superpixels.ToSLIC
 )
 configmapper.map("transforms", "KNNGraph")(torch_geometric_transforms.KNNGraph)
+configmapper.map("transforms", "RadiusGraph")(torch_geometric_transforms.RadiusGraph)
 
 # https://github.com/phcavelar/mnist-superpixel
 @configmapper.map("transforms", "RAGGraph")

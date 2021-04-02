@@ -2,7 +2,8 @@ trainer_name: base_trainer
 version: 1.0
 dataloader_type: geometric
 input_key: 
-  graph
+  - graph
+  - image
 
 main_config: &main
   seed: 42
@@ -11,7 +12,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cpu
+    name: cuda
 
 train: &train
   <<: *main
