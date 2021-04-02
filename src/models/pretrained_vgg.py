@@ -6,6 +6,7 @@ from torch.nn import CrossEntropyLoss, Linear, Module
 
 from src.utils.mapper import configmapper
 
+
 STR_MODEL_MAPPING = {
     "11": models.vgg11,
     "13": models.vgg13,
