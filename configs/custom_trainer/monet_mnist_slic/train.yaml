@@ -54,11 +54,7 @@ train: &train
       model: monet
       trainer: base_trainer
       comment: "MoNet trained on MNIST data."
-<<<<<<< HEAD
-      log_dir: "./logs/mnist_slic/"
-=======
-      log_dir: "./logs/monet_tg_mnist_slic/"
->>>>>>> 40730c2017884fad222d50db2c37189d08d77832
+      log_dir: "./logs/monet_mnist_slic/"
     log_label: 1
     vals:
       loss: True
