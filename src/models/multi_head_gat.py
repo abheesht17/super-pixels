@@ -12,22 +12,29 @@ class MultiHeadGAT(Module):
         super(MultiHeadGAT, self).__init__()
 
         num_heads = config.gat_params.num_heads
+        gat_hidden_layer_sizes = list(config.gat_params.hidden_layer_sizes)
+        # gat_hidden_layer_sizes = [layer_size*num_head for layer_size,num_head in zip(gat_hidden_layer_sizes,num_heads)]
 
-        gat_hidden_layer_sizes = [
-            config.num_node_features
-        ] + config.gat_params.hidden_layer_sizes
+        gat_hidden_layer_sizes = [config.num_node_features] + gat_hidden_layer_sizes
 
         linear_layer_sizes = (
             [gat_hidden_layer_sizes[-1] * num_heads[-1]]
-            + config.linear_layer_params.intermediate_layer_sizes
+            + list(config.linear_layer_params.intermediate_layer_sizes)
             + [config.num_classes]
         )
 
         self.gatconv_layers = ModuleList(
             [
-                GATConv(in_channels=in_channels, out_channels=out_channels, heads=heads)
-                for in_channels, out_channels, heads in zip(
-                    gat_hidden_layer_sizes[:-1], gat_hidden_layer_sizes[1:], num_heads
+                GATConv(
+                    in_channels=in_channels * head_mul,
+                    out_channels=out_channels,
+                    heads=heads,
+                )
+                for in_channels, out_channels, heads, head_mul in zip(
+                    gat_hidden_layer_sizes[:-1],
+                    gat_hidden_layer_sizes[1:],
+                    num_heads,
+                    [1] + num_heads[1:],
                 )
             ]
         )
@@ -41,11 +48,14 @@ class MultiHeadGAT(Module):
         )
 
     def forward(self, data):
-        out, edge_index = data.x, data.edge_index
+        out, edge_index, batch = data.x, data.edge_index, data.batch
+        out = torch.cat([data.pos, data.x], dim=1)
 
         for gatconv_layer in self.gatconv_layers:
             out = gatconv_layer(out, edge_index)
 
+        out = global_mean_pool(out, batch)
+        out = dropout(out, p=0.2, training=self.training)
         for linear_layer in self.linear_layers:
             out = linear_layer(out)
             out = relu(out)
