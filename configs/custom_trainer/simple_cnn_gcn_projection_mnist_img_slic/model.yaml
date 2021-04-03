@@ -1,0 +1,12 @@
+name: cnn_gcn_projection
+cnn_config:  
+  name: simple_cnn
+  num_input_channels: 1
+  num_classes: 100
+  input_dim: 28
+gcn_config:
+  name: simple_gcn
+  num_node_features: 3
+  hidden_channels: 64
+  num_classes: 100
+num_classes: 10
