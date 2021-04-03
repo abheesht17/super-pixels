@@ -68,6 +68,7 @@ else:  # HF Type Data
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
 
+print(model)
 # Trainer
 trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
 

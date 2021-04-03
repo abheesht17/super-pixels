@@ -44,6 +44,8 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     g.add_edges_from(edgelist)
 
     # print(g.nodes)
+    pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
+    nx.draw_networkx(g, pos=pos_dic, node_color=colors)
     # base = plt.gca().transData
     # tr = transforms.Affine2D().rotate_deg(90)
 
@@ -51,17 +53,18 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     # pos_dic = dict(zip(list(range(0, colors.shape[0])), rotate_coordinates_by_90(switch_coordinates(pos))))
 
     # For RAG
-    pos_dic = dict(
-        zip(
-            list(range(0, colors.shape[0])),
-            horizontal_flip(rotate_coordinates_by_90(rotate_coordinates_by_90(pos))),
-        )
-    )
+    # pos_dic = dict(
+    #     zip(
+    #         list(range(0, colors.shape[0])),
+    #         horizontal_flip(rotate_coordinates_by_90(rotate_coordinates_by_90(pos))),
+    #     )
+    # )
 
-    nx.draw_networkx(
-        g,
-        pos=pos_dic,
-        node_color=colors,
-    )
+    # nx.draw_networkx(
+    #     g,
+    #     pos=pos_dic,
+    #     node_color=colors,
+    # )
+
     plt.savefig(file_name, format="PNG")
     plt.clf()
