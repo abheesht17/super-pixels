@@ -1,3 +1,4 @@
+""" Implementation of "Gaussian Mixture Model Convolutional Networks" (CVPR 17) """
 import math
 import torch
 from torch.nn import Parameter
