@@ -1,9 +1,8 @@
 trainer_name: base_trainer
 version: 1.0
-dataloader_type: regular
-input_key: 
-  - image
-  
+dataloader_type: geometric
+input_key: graph
+
 main_config: &main
   seed: 42
   metrics:
@@ -11,7 +10,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cpu
+    name: cuda
 
 train: &train
   <<: *main
@@ -21,7 +20,7 @@ train: &train
   max_epochs: 10
   loader_params:
     batch_size: 32
-    num_workers: 2
+    num_workers: 4
     shuffle: true
   save_after_epoch: true
   optimizer:
@@ -52,10 +51,10 @@ train: &train
   log:
     log_interval: 500 # Global Steps
     logger_params:
-      model: simple_cnn
+      model: simple_gcn
       trainer: base_trainer
       comment: "Simple CNN trained on MNIST data."
-      log_dir: "./logs/mnist/"
+      log_dir: "./logs/mnist_slic/"
     log_label: 1
     vals:
       loss: True

@@ -32,7 +32,7 @@ class SimpleCnn(Module):
             ReLU(),
             MaxPool2d(kernel_size=2, stride=2),
         )
-        self.linear_layers = Linear(
+        self.linear_layer = Linear(
             32 * (config.input_dim // 8) * (config.input_dim // 8),
             config.num_classes,
         )
@@ -42,7 +42,7 @@ class SimpleCnn(Module):
     def forward(self, image, labels=None):
         out = self.cnn_layers(image)
         out = out.view(out.size(0), -1)
-        out = self.linear_layers(out)
+        out = self.linear_layer(out)
         if labels is not None:
             loss = self.loss_fn(out, labels)
             return loss, out

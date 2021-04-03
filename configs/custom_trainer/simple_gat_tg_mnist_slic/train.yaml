@@ -1,9 +1,8 @@
 trainer_name: base_trainer
 version: 1.0
-dataloader_type: regular
-input_key: 
-  - image
-  
+dataloader_type: geometric
+input_key: graph
+
 main_config: &main
   seed: 42
   metrics:
@@ -11,17 +10,17 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cpu
+    name: cuda
 
 train: &train
   <<: *main
   # Can add the max_epochs vs max_steps functionality
   label_type: logit
   append_text: train
-  max_epochs: 10
+  max_epochs: 100
   loader_params:
-    batch_size: 32
-    num_workers: 2
+    batch_size: 256
+    num_workers: 4
     shuffle: true
   save_after_epoch: true
   optimizer:
@@ -52,10 +51,10 @@ train: &train
   log:
     log_interval: 500 # Global Steps
     logger_params:
-      model: simple_cnn
+      model: simple_gat
       trainer: base_trainer
-      comment: "Simple CNN trained on MNIST data."
-      log_dir: "./logs/mnist/"
+      comment: "Simple GAT trained on MNIST Superpixels data."
+      log_dir: "./logs/mnist_slic/"
     log_label: 1
     vals:
       loss: True
@@ -67,6 +66,6 @@ val:
   append_text: val
   max_steps: null
   loader_params:
-    batch_size: 32
-    num_workers: 2
+    batch_size: 256
+    num_workers: 4
     shuffle: false

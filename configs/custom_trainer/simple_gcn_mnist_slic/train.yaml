@@ -1,7 +1,8 @@
 trainer_name: base_trainer
 version: 1.0
 dataloader_type: geometric
-input_key: graph
+input_key: 
+  - graph
 
 main_config: &main
   seed: 42
@@ -10,7 +11,7 @@ main_config: &main
       params:
         normalize: True
   device:
-    name: cpu
+    name: cuda
 
 train: &train
   <<: *main
@@ -20,7 +21,7 @@ train: &train
   max_epochs: 10
   loader_params:
     batch_size: 32
-    num_workers: 2
+    num_workers: 4
     shuffle: true
   save_after_epoch: true
   optimizer:
