@@ -89,7 +89,7 @@ threadpoolctl==2.1.0
 tifffile==2021.3.5
 tokenizers==0.10.1
 toml==0.10.2
-torch==1.8.1+cu101
+torch==1.8.0+cu101
 torch-cluster==1.5.9
 torch-geometric==1.6.3
 torch-scatter==2.0.6
