@@ -65,6 +65,6 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     #     pos=pos_dic,
     #     node_color=colors,
     # )
-    
+
     plt.savefig(file_name, format="PNG")
     plt.clf()
