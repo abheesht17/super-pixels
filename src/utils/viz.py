@@ -46,6 +46,11 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
     # print(g.nodes)
     pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
     nx.draw_networkx(g, pos=pos_dic, node_color=colors)
+<<<<<<< HEAD
+    plt.savefig(file_name, format="PNG")
+    plt.clf()
+
+=======
     # base = plt.gca().transData
     # tr = transforms.Affine2D().rotate_deg(90)
 
@@ -68,3 +73,4 @@ def visualize_geometric_graph(graph, file_name="Graph.png"):
 
     plt.savefig(file_name, format="PNG")
     plt.clf()
+>>>>>>> upstream/master
