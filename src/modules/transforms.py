@@ -19,9 +19,7 @@ configmapper.map("transforms", "ToSLIC")(
     torch_geometric_transforms.to_superpixels.ToSLIC
 )
 configmapper.map("transforms", "KNNGraph")(torch_geometric_transforms.KNNGraph)
-<<<<<<< HEAD
 configmapper.map("transforms", "PolarTransformation")(torch_geometric_transforms.Polar)
-=======
 configmapper.map("transforms", "RadiusGraph")(torch_geometric_transforms.RadiusGraph)
 
 # https://github.com/phcavelar/mnist-superpixel
@@ -125,7 +123,6 @@ class RAGGraph(object):
 
         return data
 
->>>>>>> upstream/master
 
 @configmapper.map("transforms", "MnistSLIC")
 class MnistSLIC(object):
