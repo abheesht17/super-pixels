@@ -17,11 +17,11 @@ train: &train
   <<: *main
   split: train
   filepath:
-    image: ../raw_data/FashionMNIST/train-images-idx3-ubyte
-    labels: ../raw_data/FashionMNIST/train-labels-idx1-ubyte
+    image: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-images-idx3-ubyte
+    labels: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-labels-idx1-ubyte
 val: &val
   <<: *main
   split: val
   filepath: 
-    image: ../raw_data/FashionMNIST/t10k-images-idx3-ubyte
-    labels: ../raw_data/FashionMNIST/t10k-labels-idx1-ubyte
+    image: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/t10k-images-idx3-ubyte
+    labels: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/t10k-labels-idx1-ubyte

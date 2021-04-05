@@ -10,7 +10,6 @@ from src.utils.mapper import configmapper
 class SimpleGAT(Module):
     def __init__(self, config):
         super(SimpleGAT, self).__init__()
-
         gat_hidden_layer_sizes = [config.num_node_features] + list(
             config.gat_params.hidden_layer_sizes
         )
@@ -22,7 +21,8 @@ class SimpleGAT(Module):
 
         self.gatconv_layers = ModuleList(
             [
-                GATConv(in_channels=in_channels, out_channels=out_channels, heads=1)
+                GATConv(in_channels=in_channels,
+                        out_channels=out_channels, heads=1)
                 for in_channels, out_channels in zip(
                     gat_hidden_layer_sizes[:-1], gat_hidden_layer_sizes[1:]
                 )

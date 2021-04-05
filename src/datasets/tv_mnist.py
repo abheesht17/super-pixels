@@ -1,4 +1,4 @@
-"""Implements MNIST Dataset"""
+"""Implements TV MNIST Dataset"""
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
 
@@ -14,13 +14,16 @@ class TvMnist(Dataset):
         transformations = []
         for transform in config.transform_args:
             param_dict = (
-                dict(transform["params"]) if transform["params"] is not None else {}
+                dict(transform["params"]
+                     ) if transform["params"] is not None else {}
             )
             transformations.append(
-                configmapper.get_object("transforms", transform["type"])(**param_dict)
+                configmapper.get_object(
+                    "transforms", transform["type"])(**param_dict)
             )
         self.transform = (
-            transforms.Compose(transformations) if transformations != [] else None
+            transforms.Compose(
+                transformations) if transformations != [] else None
         )
 
         self.dataset = datasets.MNIST(
