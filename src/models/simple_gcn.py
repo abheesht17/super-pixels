@@ -1,10 +1,9 @@
 import torch
-from torch.nn import Linear, Module
+from torch.nn import Linear, Module, ModuleList
 from torch.nn.functional import dropout, relu
 from torch_geometric.nn import GCNConv, global_mean_pool
 
 from src.utils.mapper import configmapper
-
 
 @configmapper.map("models", "simple_gcn")
 class SimpleGcn(Module):
@@ -23,7 +22,7 @@ class SimpleGcn(Module):
         self.gcnconv_layers = ModuleList(
             [
                 GCNConv(in_channels=in_channels,
-                        out_channels=out_channels, heads=1)
+                        out_channels=out_channels)
                 for in_channels, out_channels in zip(
                     gcn_hidden_layer_sizes[:-1], gcn_hidden_layer_sizes[1:]
                 )
