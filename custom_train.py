@@ -44,23 +44,25 @@ if "main" in dict(data_config).keys():  # Regular Data
     )
 
 else:  # HF Type Data
-    dataset = configmapper.get_object(
-        "datasets", data_config.name)(data_config)
+    dataset = configmapper.get_object("datasets", data_config.name)(data_config)
     train_data = dataset.train_dataset["train"]
     val_data = dataset.train_dataset["test"]
 
 # Logger
 
-logger = Logger(log_path=os.path.join(
-    "/content/drive/MyDrive/SuperPixels/logs/", args.config_dir.strip('/').split('/')[-1]))
+logger = Logger(
+    log_path=os.path.join(
+        "/content/drive/MyDrive/SuperPixels/logs/",
+        args.config_dir.strip("/").split("/")[-1],
+    )
+)
 
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
 
 print(model)
 # Trainer
-trainer = configmapper.get_object(
-    "trainers", train_config.trainer_name)(train_config)
+trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
 
 # Train
 trainer.train(model, train_data, val_data, logger)

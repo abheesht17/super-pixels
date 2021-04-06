@@ -16,8 +16,7 @@ class TgMnistSlic(Dataset):
         if hasattr(config, "transform_args"):
             for transform in config.transform_args:
                 param_dict = (
-                    dict(transform["params"]
-                         ) if transform["params"] is not None else {}
+                    dict(transform["params"]) if transform["params"] is not None else {}
                 )
                 transformations.append(
                     configmapper.get_object("transforms", transform["type"])(
@@ -26,16 +25,16 @@ class TgMnistSlic(Dataset):
                 )
 
         self.transform = (
-            transforms.Compose(
-                transformations) if transformations != [] else None
+            transforms.Compose(transformations) if transformations != [] else None
         )
 
         pre_transformations = []
         if hasattr(config, "pre_transform_args"):
             for pre_transform in config.pre_transform_args:
                 param_dict = (
-                    dict(
-                        pre_transform["params"]) if pre_transform["params"] is not None else {}
+                    dict(pre_transform["params"])
+                    if pre_transform["params"] is not None
+                    else {}
                 )
                 pre_transformations.append(
                     configmapper.get_object("transforms", pre_transform["type"])(
@@ -43,8 +42,11 @@ class TgMnistSlic(Dataset):
                     )
                 )
 
-        self.pre_transform = (transforms.Compose(
-            pre_transformations) if pre_transformations != [] else None)
+        self.pre_transform = (
+            transforms.Compose(pre_transformations)
+            if pre_transformations != []
+            else None
+        )
         self.dataset = datasets.MNISTSuperpixels(
             root=config.load_dataset_args.path,
             train=self.config.split == "train",

@@ -2,3 +2,11 @@
 *superpixels-env*
 *ckpts/*
 *logs/*
+data/tg_mnist_slic/processed/pre_filter.pt
+.gitignore
+*.ipynb
+data/tg_mnist_slic/processed/pre_transform.pt
+data/tg_mnist_slic/processed/training.pt
+data/tg_mnist_slic/processed/test.pt
+data/tg_mnist_slic/raw/training.pt
+data/tg_mnist_slic/raw/test.pt

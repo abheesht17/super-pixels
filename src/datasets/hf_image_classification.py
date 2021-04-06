@@ -19,22 +19,18 @@ class HFImageClassification:
         transformations = []
         for transform in config.transform_args:
             param_dict = (
-                dict(transform["params"]
-                     ) if transform["params"] is not None else {}
+                dict(transform["params"]) if transform["params"] is not None else {}
             )
             transformations.append(
-                configmapper.get_object(
-                    "transforms", transform["type"])(**param_dict)
+                configmapper.get_object("transforms", transform["type"])(**param_dict)
             )
         self.transform = (
-            transforms.Compose(
-                transformations) if transformations != [] else None
+            transforms.Compose(transformations) if transformations != [] else None
         )
 
         self.raw_dataset = load_dataset(**config.load_dataset_args)
         if config.remove_columns is not None:
-            self.raw_dataset = self.raw_dataset.remove_columns(
-                config.remove_columns)
+            self.raw_dataset = self.raw_dataset.remove_columns(config.remove_columns)
         self.raw_dataset.set_format(
             "torch", columns=self.raw_dataset["train"].column_names
         )
@@ -76,12 +72,10 @@ class HFImageClassification:
             if self.channels_first_input:
                 if self.transform is not None:
                     images.append(
-                        self.transform(
-                            examples[self.image_column_name][example_idx])
+                        self.transform(examples[self.image_column_name][example_idx])
                     )
                 else:
-                    images.append(
-                        examples[self.image_column_name][example_idx])
+                    images.append(examples[self.image_column_name][example_idx])
             else:
                 if self.transform is not None:
                     images.append(
@@ -93,11 +87,9 @@ class HFImageClassification:
                     )
                 else:
                     images.append(
-                        examples[self.image_column_name][example_idx].permute(
-                            2, 0, 1)
+                        examples[self.image_column_name][example_idx].permute(2, 0, 1)
                     )
 
             labels.append(examples[self.label_column_name][example_idx])
-        output = {self.label_column_name: labels,
-                  self.image_column_name: images}
+        output = {self.label_column_name: labels, self.image_column_name: images}
         return output

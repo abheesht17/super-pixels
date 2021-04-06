@@ -1,5 +1,6 @@
 """Implements MNIST Img Slic sDataset"""
 import struct
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset
@@ -18,12 +19,10 @@ class MnistImgSlic(Dataset):
         graph_transformations = []
         for transform in config.graph_transform_args:
             param_dict = (
-                dict(transform["params"]
-                     ) if transform["params"] is not None else {}
+                dict(transform["params"]) if transform["params"] is not None else {}
             )
             graph_transformations.append(
-                configmapper.get_object(
-                    "transforms", transform["type"])(**param_dict)
+                configmapper.get_object("transforms", transform["type"])(**param_dict)
             )
         self.graph_transform = (
             transforms.Compose(graph_transformations)
@@ -34,12 +33,10 @@ class MnistImgSlic(Dataset):
         image_transformations = []
         for transform in config.image_transform_args:
             param_dict = (
-                dict(transform["params"]
-                     ) if transform["params"] is not None else {}
+                dict(transform["params"]) if transform["params"] is not None else {}
             )
             image_transformations.append(
-                configmapper.get_object(
-                    "transforms", transform["type"])(**param_dict)
+                configmapper.get_object("transforms", transform["type"])(**param_dict)
             )
         self.image_transform = (
             transforms.Compose(image_transformations)
@@ -52,8 +49,7 @@ class MnistImgSlic(Dataset):
             _ = f.read(4)
             size = struct.unpack(">I", f.read(4))[0]
             _ = f.read(8)
-            self.images = np.frombuffer(
-                f.read(), dtype=np.uint8).reshape(size, 28, 28)
+            self.images = np.frombuffer(f.read(), dtype=np.uint8).reshape(size, 28, 28)
         # Labels
         with open(config.filepath.labels, "rb") as f:
             # First 8 bytes contain some metadata

@@ -21,8 +21,7 @@ class SimpleGAT(Module):
 
         self.gatconv_layers = ModuleList(
             [
-                GATConv(in_channels=in_channels,
-                        out_channels=out_channels, heads=1)
+                GATConv(in_channels=in_channels, out_channels=out_channels, heads=1)
                 for in_channels, out_channels in zip(
                     gat_hidden_layer_sizes[:-1], gat_hidden_layer_sizes[1:]
                 )
@@ -37,9 +36,9 @@ class SimpleGAT(Module):
             ]
         )
 
-    def forward(self, data):
-        out, edge_index, batch = data.x, data.edge_index, data.batch
-        out = torch.cat([data.pos, data.x], dim=1)
+    def forward(self, graph):
+        out, edge_index, batch = graph.x, graph.edge_index, graph.batch
+        out = torch.cat([graph.pos, graph.x], dim=1)
 
         for gatconv_layer in self.gatconv_layers:
             out = gatconv_layer(out, edge_index)

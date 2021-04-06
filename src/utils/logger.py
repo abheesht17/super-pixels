@@ -75,8 +75,7 @@ class Logger:
 
     def save_prcurve(self, labels, preds, epoch, batch_size, batch=None):
         self.writer.add_pr_curve(
-            "pr_curve", labels, preds, Logger._global_step(
-                epoch, batch_size, batch)
+            "pr_curve", labels, preds, Logger._global_step(epoch, batch_size, batch)
         )
 
     def save_hyperparams(
@@ -102,8 +101,7 @@ class Logger:
         self, model_list, model_names_list, epoch
     ):  # Need to check is epoch is needed
         for model_name, model in zip(model_names_list, model_list):
-            torch.save(model.state_dict(), os.path.join(
-                self.log_path, model_name))
+            torch.save(model.state_dict(), os.path.join(self.log_path, model_name))
 
     def save_fig(self, fig, fig_name, epoch, batch_size, batch=None):
         self.writer.add_figure(

@@ -47,9 +47,9 @@ class MultiHeadGAT(Module):
             ]
         )
 
-    def forward(self, data):
-        out, edge_index, batch = data.x, data.edge_index, data.batch
-        out = torch.cat([data.pos, data.x], dim=1)
+    def forward(self, graph):
+        out, edge_index, batch = graph.x, graph.edge_index, graph.batch
+        out = torch.cat([graph.pos, graph.x], dim=1)
 
         for gatconv_layer in self.gatconv_layers:
             out = gatconv_layer(out, edge_index)

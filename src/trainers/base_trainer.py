@@ -101,8 +101,7 @@ class BaseTrainer:
         global_step = 0
         for epoch in range(1, max_epochs + 1):
             print(
-                "Epoch: {}/{}, Global Step: {}".format(
-                    epoch, max_epochs, global_step)
+                "Epoch: {}/{}, Global Step: {}".format(epoch, max_epochs, global_step)
             )
             train_loss = 0
             if self.train_config.label_type == "float":
@@ -204,7 +203,8 @@ class BaseTrainer:
                         }
 
                         path = os.path.join(
-                            train_logger.log_path, self.train_config.save_on.best_path)
+                            train_logger.log_path, self.train_config.save_on.best_path
+                        )
 
                         self.save(store_dict, path, save_flag)
 
@@ -244,9 +244,17 @@ class BaseTrainer:
                         append_text=self.train_config.append_text,
                     )
             pbar.close()
-            if not os.path.exists(os.path.join(train_logger.log_path, self.train_config.checkpoint.checkpoint_dir)):
-                os.makedirs(os.path.join(train_logger.log_path,
-                            self.train_config.checkpoint.checkpoint_dir))
+            if not os.path.exists(
+                os.path.join(
+                    train_logger.log_path, self.train_config.checkpoint.checkpoint_dir
+                )
+            ):
+                os.makedirs(
+                    os.path.join(
+                        train_logger.log_path,
+                        self.train_config.checkpoint.checkpoint_dir,
+                    )
+                )
 
             if self.train_config.save_after_epoch:
                 store_dict = {
@@ -315,7 +323,8 @@ class BaseTrainer:
                 }
 
                 path = os.path.join(
-                    train_logger.log_path, self.train_config.save_on.best_path)
+                    train_logger.log_path, self.train_config.save_on.best_path
+                )
 
                 self.save(store_dict, path, save_flag)
 
@@ -344,7 +353,8 @@ class BaseTrainer:
                 }
 
                 path = os.path.join(
-                    train_logger.log_path, self.train_config.save_on.final_path)
+                    train_logger.log_path, self.train_config.save_on.final_path
+                )
 
                 self.save(store_dict, path, save_flag=1)
                 if train_log_values["hparams"] is not None:
@@ -378,8 +388,7 @@ class BaseTrainer:
         avg_loss = loss / divisor
 
         metric_list = [
-            metric(all_labels.cpu(), all_outputs.detach().cpu(),
-                   **self.metrics[metric])
+            metric(all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric])
             for metric in self.metrics
         ]
         metric_name_list = [

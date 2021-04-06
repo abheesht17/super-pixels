@@ -19,16 +19,13 @@ class MnistSlic(Dataset):
         transformations = []
         for transform in config.transform_args:
             param_dict = (
-                dict(transform["params"]
-                     ) if transform["params"] is not None else {}
+                dict(transform["params"]) if transform["params"] is not None else {}
             )
             transformations.append(
-                configmapper.get_object(
-                    "transforms", transform["type"])(**param_dict)
+                configmapper.get_object("transforms", transform["type"])(**param_dict)
             )
         self.transform = (
-            transforms.Compose(
-                transformations) if transformations != [] else None
+            transforms.Compose(transformations) if transformations != [] else None
         )
 
         with open(config.filepath.image, "rb") as f:
@@ -36,8 +33,7 @@ class MnistSlic(Dataset):
             _ = f.read(4)
             size = struct.unpack(">I", f.read(4))[0]
             _ = f.read(8)
-            self.images = np.frombuffer(
-                f.read(), dtype=np.uint8).reshape(size, 28, 28)
+            self.images = np.frombuffer(f.read(), dtype=np.uint8).reshape(size, 28, 28)
         # Labels
         with open(config.filepath.labels, "rb") as f:
             # First 8 bytes contain some metadata
