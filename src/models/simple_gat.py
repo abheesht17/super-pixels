@@ -43,11 +43,13 @@ class SimpleGAT(Module):
 
         for gatconv_layer in self.gatconv_layers:
             out = gatconv_layer(out, edge_index)
+            out = relu(out)
 
         out = global_mean_pool(out, batch)
         out = dropout(out, p=0.2, training=self.training)
-        for linear_layer in self.linear_layers:
+        for linear_layer in self.linear_layers[:-1]:
             out = linear_layer(out)
             out = relu(out)
 
+        out = self.linear_layers[-1](out)
         return out

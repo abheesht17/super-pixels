@@ -1,4 +1,7 @@
 name: simple_gcn
 num_node_features: 3
-hidden_channels: 64
+gcn_params:
+  hidden_layer_sizes: [32,64,64]
+linear_layer_params:
+  intermediate_layer_sizes: [32]
 num_classes: 10
