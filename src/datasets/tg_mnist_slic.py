@@ -1,11 +1,10 @@
-"""Implements MNIST Dataset"""
+"""Implements TG MNIST SLIC Dataset"""
 from torch.utils.data import Dataset
 from torch_geometric import datasets
 from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-from src.utils.viz import visualize_geometric_graph
 
 
 @configmapper.map("datasets", "tg_mnist_slic")
@@ -33,7 +32,9 @@ class TgMnistSlic(Dataset):
         if hasattr(config, "pre_transform_args"):
             for pre_transform in config.pre_transform_args:
                 param_dict = (
-                    dict(pre_transform["params"]) if pre_transform["params"] is not None else {}
+                    dict(pre_transform["params"])
+                    if pre_transform["params"] is not None
+                    else {}
                 )
                 pre_transformations.append(
                     configmapper.get_object("transforms", pre_transform["type"])(
@@ -41,7 +42,11 @@ class TgMnistSlic(Dataset):
                     )
                 )
 
-        self.pre_transform = (transforms.Compose(pre_transformations) if pre_transformations != [] else None )
+        self.pre_transform = (
+            transforms.Compose(pre_transformations)
+            if pre_transformations != []
+            else None
+        )
         self.dataset = datasets.MNISTSuperpixels(
             root=config.load_dataset_args.path,
             train=self.config.split == "train",

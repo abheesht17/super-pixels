@@ -1,16 +1,13 @@
-"""Implements MNIST Dataset"""
+"""Implements MNIST Img Slic sDataset"""
 import struct
-import time
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from torchvision import datasets, transforms
+from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-from src.utils.viz import visualize_geometric_graph
 
 
 @configmapper.map("datasets", "mnist_img_slic")
@@ -70,10 +67,6 @@ class MnistImgSlic(Dataset):
 
         if self.image_transform is not None:
             image = self.image_transform(image)
-        # plt.imsave('test_img.png', np.squeeze(graph.img))
-        # plt.imsave('test_seg.png', np.squeeze(graph.seg))
-        # visualize_geometric_graph(graph)
-        # time.sleep(5)
 
         return {
             "graph": graph,

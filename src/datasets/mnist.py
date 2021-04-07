@@ -1,11 +1,10 @@
 """Implements MNIST Dataset"""
 import struct
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from torch.utils.data import Dataset
-from torchvision import datasets, transforms
+from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper

@@ -1,5 +1,5 @@
 import torch
-from torch.nn import Linear, Module, ModuleList
+from torch.nn import CrossEntropyLoss, Linear, Module, ModuleList
 from torch.nn.functional import dropout, relu
 from torch_geometric.nn import GATConv, global_mean_pool
 
@@ -10,7 +10,6 @@ from src.utils.mapper import configmapper
 class SimpleGAT(Module):
     def __init__(self, config):
         super(SimpleGAT, self).__init__()
-
         gat_hidden_layer_sizes = [config.num_node_features] + list(
             config.gat_params.hidden_layer_sizes
         )
@@ -37,17 +36,24 @@ class SimpleGAT(Module):
             ]
         )
 
-    def forward(self, data):
-        out, edge_index, batch = data.x, data.edge_index, data.batch
-        out = torch.cat([data.pos, data.x], dim=1)
+        self.loss_fn = CrossEntropyLoss()
+
+    def forward(self, graph, labels=None):
+        out, edge_index, batch = graph.x, graph.edge_index, graph.batch
+        out = torch.cat([graph.pos, graph.x], dim=1)
 
         for gatconv_layer in self.gatconv_layers:
             out = gatconv_layer(out, edge_index)
+            out = relu(out)
 
         out = global_mean_pool(out, batch)
         out = dropout(out, p=0.2, training=self.training)
-        for linear_layer in self.linear_layers:
+        for linear_layer in self.linear_layers[:-1]:
             out = linear_layer(out)
             out = relu(out)
 
+        out = self.linear_layers[-1](out)
+        if labels is not None:
+            loss = self.loss_fn(out, labels)
+            return loss, out
         return out

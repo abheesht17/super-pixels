@@ -3,12 +3,13 @@ version: 1.0
 dataloader_type: regular
 input_key: 
   - image
+
 main_config: &main
   seed: 42
   metrics:
     - type: sklearn_acc
       params:
-        normalize: True
+        normalize: true
   device:
     name: cuda
 
@@ -17,10 +18,10 @@ train: &train
   # Can add the max_epochs vs max_steps functionality
   label_type: logit
   append_text: train
-  max_epochs: 10
+  max_epochs: 100
   loader_params:
-    batch_size: 32
-    num_workers: 2
+    batch_size: 64
+    num_workers: 4
     shuffle: true
   save_after_epoch: true
   optimizer:
@@ -39,26 +40,21 @@ train: &train
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
     desired: min
-    best_path: "${..checkpoint.checkpoint_dir}train/best_${..log.log_label}.pth" ## Number should be same as log_label
-    final_path: "${..checkpoint.checkpoint_dir}train/final_${..log.log_label}.pth" ## Number should be same as log_label
+    best_path: "${..checkpoint.checkpoint_dir}/best_${..log.log_label}.pth" ## Number should be same as log_label
+    final_path: "${..checkpoint.checkpoint_dir}/final_${..log.log_label}.pth" ## Number should be same as log_label
 
   checkpoint:
-    checkpoint_dir: "./ckpts/base_trainer/" #For checkpoint saving after every epoch.
+    checkpoint_dir: "ckpts/" #For checkpoint saving after every epoch.
 
   log_and_val_interval: 500 ## Set to null if using different val and log intervals, Overrides log_interval nd val_interval
 
   val_interval: 500 # Global steps
   log:
     log_interval: 500 # Global Steps
-    logger_params:
-      model: pretrained_vgg
-      trainer: base_trainer
-      comment: "Pretrained VGG trained on MNIST data."
-      log_dir: "./logs/mnist/"
     log_label: 1
     vals:
-      loss: True
-      metrics: True
+      loss: true
+      metrics: true
       hparams: null
 
 val:
@@ -66,6 +62,6 @@ val:
   append_text: val
   max_steps: null
   loader_params:
-    batch_size: 32
-    num_workers: 2
+    batch_size: 64
+    num_workers: 4
     shuffle: false

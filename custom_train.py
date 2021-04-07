@@ -8,6 +8,7 @@ from omegaconf import OmegaConf
 from src.datasets import *
 from src.models import *
 from src.trainers import *
+from src.utils.logger import Logger
 from src.utils.mapper import configmapper
 from src.utils.misc import seed
 
@@ -16,29 +17,11 @@ dirname = os.path.dirname(__file__)  # For Paths Relative to Current File
 
 # Config
 parser = argparse.ArgumentParser(
-    prog="train.py", description="Train a model with HF Trainer."
+    prog="train.py", description="Train a model with Base Trainer."
 )
 parser.add_argument(
     "--config_dir", type=str, action="store", help="The directory for all config files."
 )
-# parser.add_argument(
-#     "--model",
-#     type=str,
-#     action="store",
-#     help="The configuration for model",
-# )
-# parser.add_argument(
-#     "--train",
-#     type=str,
-#     action="store",
-#     help="The configuration for model training/evaluation",
-# )
-# parser.add_argument(
-#     "--data",
-#     type=str,
-#     action="store",
-#     help="The configuration for data",
-# )
 
 args = parser.parse_args()
 model_config = OmegaConf.load(os.path.join(args.config_dir, "model.yaml"))
@@ -65,6 +48,15 @@ else:  # HF Type Data
     train_data = dataset.train_dataset["train"]
     val_data = dataset.train_dataset["test"]
 
+# Logger
+
+logger = Logger(
+    log_path=os.path.join(
+        "/content/drive/MyDrive/SuperPixels/logs/",
+        args.config_dir.strip("/").split("/")[-1],
+    )
+)
+
 # Model
 model = configmapper.get_object("models", model_config.name)(model_config)
 
@@ -73,4 +65,4 @@ print(model)
 trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
 
 # Train
-trainer.train(model, train_data, val_data)
+trainer.train(model, train_data, val_data, logger)

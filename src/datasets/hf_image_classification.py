@@ -1,9 +1,9 @@
-"""Implements MNIST Dataset"""
+"""Implements HF Image Classification Dataset"""
 import numpy as np
 from torchvision import transforms
 
 import datasets
-from datasets import DatasetDict, load_dataset
+from datasets import load_dataset
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 

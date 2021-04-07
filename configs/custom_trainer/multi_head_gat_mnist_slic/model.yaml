@@ -5,5 +5,4 @@ gat_params:
   num_heads: [2,2,2]
 linear_layer_params:
   intermediate_layer_sizes: [32]
-
 num_classes: 10

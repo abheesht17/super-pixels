@@ -12,12 +12,12 @@ from torch.utils.tensorboard import SummaryWriter
 
 
 class Logger:
-    def __init__(self, model, trainer, log_dir, comment=None):
-        self.model_path = os.path.join(log_dir, model, trainer)
-        self.writer = SummaryWriter(log_dir=self.model_path, comment=comment)
+    def __init__(self, log_path, comment=None):
+        self.log_path = log_path
+        self.writer = SummaryWriter(log_dir=self.log_path, comment=comment)
         try:
-            if not (os.path.exists(self.model_path)):
-                os.makedirs(self.model_path)
+            if not (os.path.exists(self.log_path)):
+                os.makedirs(self.log_path)
             else:
                 pass
                 # print("Directory Already Exists.")
@@ -101,7 +101,7 @@ class Logger:
         self, model_list, model_names_list, epoch
     ):  # Need to check is epoch is needed
         for model_name, model in zip(model_names_list, model_list):
-            torch.save(model.state_dict(), os.path.join(self.model_path, model_name))
+            torch.save(model.state_dict(), os.path.join(self.log_path, model_name))
 
     def save_fig(self, fig, fig_name, epoch, batch_size, batch=None):
         self.writer.add_figure(

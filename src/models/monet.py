@@ -1,18 +1,23 @@
 """ Implementation of "Gaussian Mixture Model Convolutional Networks" (CVPR 17) """
 import math
+
 import torch
 from torch.nn import (Parameter,ModuleList,Sequential,ReLU,Linear, Module)
 from torch_geometric.nn import GMMConv
 import torch.nn.functional as F
 import torch_geometric.transforms as T
-from src.utils.mapper import configmapper
+from torch.nn import Parameter
+from torch_geometric.nn import GMMConv, global_mean_pool, graclus, max_pool
 from torch_geometric.utils import normalized_cut
-from torch_geometric.nn import (graclus, max_pool, global_mean_pool)
+
+from src.utils.mapper import configmapper
+
 
 def normalized_cut_2d(edge_index, pos):
     row, col = edge_index
     edge_attr = torch.norm(pos[row] - pos[col], p=2, dim=1)
     return normalized_cut(edge_index, edge_attr, num_nodes=pos.size(0))
+
 
 @configmapper.map("models", "monet")
 class MoNet(Module):
