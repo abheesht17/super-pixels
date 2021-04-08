@@ -1,8 +1,19 @@
-
 main: &main
-  name: mnist_slic
-  add_slic_mask: true
-  transform_args:
+  name: mnist_img_slic
+  image_transform_args:
+    - type: ToPILImage
+      params: null
+    - type: Grayscale
+      params:
+        num_output_channels: 1
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.2860402]
+        std: [0.3530239]
+
+  graph_transform_args:
     - type: ToPILImage
       params: null
     - type: Grayscale
@@ -23,16 +34,6 @@ main: &main
       params:
         r: 5
 
-
-    # - type: MnistSLIC
-    #   params:
-    #     n_segments: 74
-    #     add_seg: true
-    #     add_img: true
-    # - type: KNNGraph
-    #   params:
-    #     k: 3
-    #     force_undirected: true
 
 train: &train
   <<: *main

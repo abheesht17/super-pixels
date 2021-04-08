@@ -1,7 +1,8 @@
 trainer_name: base_trainer
 version: 1.0
-dataloader_type: regular
+dataloader_type: geometric
 input_key: 
+  - graph
   - image
 
 main_config: &main
@@ -9,7 +10,7 @@ main_config: &main
   metrics:
     - type: sklearn_acc
       params:
-        normalize: True
+        normalize: true
   device:
     name: cuda
 
@@ -53,8 +54,8 @@ train: &train
     log_interval: 500 # Global Steps
     log_label: 1
     vals:
-      loss: True
-      metrics: True
+      loss: true
+      metrics: true
       hparams: null
 
 val:

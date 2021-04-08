@@ -1,4 +1,3 @@
-
 main: &main
   name: mnist_slic
   add_slic_mask: true
@@ -23,23 +22,12 @@ main: &main
       params:
         r: 5
 
-
-    # - type: MnistSLIC
-    #   params:
-    #     n_segments: 74
-    #     add_seg: true
-    #     add_img: true
-    # - type: KNNGraph
-    #   params:
-    #     k: 3
-    #     force_undirected: true
-
 train: &train
   <<: *main
   split: train
   filepath:
     image: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-images-idx3-ubyte
-    labels: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-labels-idx1-ubyte
+    labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
 val: &val
   <<: *main
   split: val

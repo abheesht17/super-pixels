@@ -1,4 +1,3 @@
-
 main: &main
   name: mnist_slic
   add_slic_mask: true
@@ -22,17 +21,6 @@ main: &main
     - type: RadiusGraph
       params:
         r: 5
-
-
-    # - type: MnistSLIC
-    #   params:
-    #     n_segments: 74
-    #     add_seg: true
-    #     add_img: true
-    # - type: KNNGraph
-    #   params:
-    #     k: 3
-    #     force_undirected: true
 
 train: &train
   <<: *main
