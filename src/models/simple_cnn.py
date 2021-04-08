@@ -15,7 +15,6 @@ from torch.nn.functional import avg_pool2d, dropout, relu
 
 from src.utils.mapper import configmapper
 
-
 class ConvBlock(Module):
     def __init__(self, in_channels, out_channels):
         super(ConvBlock, self).__init__()
