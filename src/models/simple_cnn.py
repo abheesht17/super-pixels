@@ -15,6 +15,7 @@ from torch.nn.functional import avg_pool2d, dropout, relu
 
 from src.utils.mapper import configmapper
 
+
 class ConvBlock(Module):
     def __init__(self, in_channels, out_channels):
         super(ConvBlock, self).__init__()
@@ -66,7 +67,7 @@ class SimpleCnn(Module):
     def forward(self, image, labels=None):
         out = image
         for cnn_layer in self.cnn_layers:
-            out = self.cnn_layer(out)
+            out = cnn_layer(out)
         # out = out.view(out.size(0), -1)
         # Global Mean Pooling
         out = avg_pool2d(out, kernel_size=out.size()[2:]).view(out.size()[0], -1)
