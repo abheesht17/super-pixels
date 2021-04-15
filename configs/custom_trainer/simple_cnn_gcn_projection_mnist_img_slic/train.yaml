@@ -28,9 +28,9 @@ train: &train
   optimizer:
     type: adam_w
     params:
-      lr: 1e-3
+      lr: !!float 1e-3
       betas: [0.9, 0.998]
-      eps: 1e-8
+      eps: !!float 1e-8
 
   scheduler: null
 
@@ -41,8 +41,8 @@ train: &train
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
     desired: min
-    best_path: "${..checkpoint.checkpoint_dir}/best_${..log.log_label}.pth" ## Number should be same as log_label
-    final_path: "${..checkpoint.checkpoint_dir}/final_${..log.log_label}.pth" ## Number should be same as log_label
+    best_path: "ckpts/best_{}.pth" ## Number should be same as log_label
+    final_path: "ckpts/final_{}.pth" ## Number should be same as log_label
 
   checkpoint:
     checkpoint_dir: "ckpts/" #For checkpoint saving after every epoch.
@@ -66,3 +66,52 @@ val:
     batch_size: 64
     num_workers: 2
     shuffle: false
+
+grid_search:
+  directory: null
+  hyperparams:
+    train:
+      max_epochs: 
+        - !!int 50
+      loader_params:
+        batch_size:
+          - !!int 64
+          - !!int 128
+          - !!int 256
+      optimizer:
+        type:
+          - adam_w
+          # - adam
+        params:
+          lr:
+            - !!float 1e-3
+            - !!float 1e-4
+            - !!float 1e-5
+          weight_decay:
+            - 0
+            - 0.001
+            - 0.0001
+
+      log:
+        log_label: null
+        vals:
+          hparams:  ## Can have lists inside hparams
+             - name: epochs
+               path:
+                - train
+                - max_epochs
+             - name: batch_size
+               path:
+                  - train
+                  - loader_params
+                  - batch_size
+             - name: optimizer_params
+               path:
+                 - train
+                 - optimizer
+                 - params
+             - name: optimizer_type
+               path:
+                 - train
+                 - optimizer
+                 - type

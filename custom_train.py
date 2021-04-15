@@ -3,14 +3,13 @@
 import argparse
 import os
 
-from omegaconf import OmegaConf
-
 from src.datasets import *
 from src.models import *
 from src.trainers import *
+from src.utils.configuration import Config
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
-from src.utils.misc import seed
+from src.utils.misc import generate_grid_search_configs, seed
 
 
 dirname = os.path.dirname(__file__)  # For Paths Relative to Current File
@@ -23,17 +22,24 @@ parser.add_argument(
     "--config_dir", type=str, action="store", help="The directory for all config files."
 )
 
-args = parser.parse_args()
-model_config = OmegaConf.load(os.path.join(args.config_dir, "model.yaml"))
-train_config = OmegaConf.load(os.path.join(args.config_dir, "train.yaml"))
-data_config = OmegaConf.load(os.path.join(args.config_dir, "dataset.yaml"))
+parser.add_argument(
+    "--grid_search",
+    action="store_true",
+    help="Whether to do a grid_search",
+    default=False,
+)
 
+args = parser.parse_args()
+model_config = Config(path=os.path.join(args.config_dir, "model.yaml"))
+train_config = Config(path=os.path.join(args.config_dir, "train.yaml"))
+data_config = Config(path=os.path.join(args.config_dir, "dataset.yaml"))
+grid_search = args.grid_search
 # Seed
 seed(train_config.main_config.seed)
 
 
 # Data
-if "main" in dict(data_config).keys():  # Regular Data
+if "main" in data_config.as_dict().keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
     train_data = configmapper.get_object("datasets", train_data_config.name)(
@@ -48,21 +54,47 @@ else:  # HF Type Data
     train_data = dataset.train_dataset["train"]
     val_data = dataset.train_dataset["test"]
 
+
 # Logger
 
 logger = Logger(
     log_path=os.path.join(
-        "/content/drive/MyDrive/SuperPixels/logs/",
-        args.config_dir.strip("/").split("/")[-1],
+        "./logs/",
+        args.config_dir.strip("/").split("/")[-1]
     )
 )
 
-# Model
-model = configmapper.get_object("models", model_config.name)(model_config)
+if grid_search:
+    train_configs = generate_grid_search_configs(train_config, train_config.grid_search)
+    print(f"Total Configurations Generated: {len(train_configs)}")
 
-print(model)
-# Trainer
-trainer = configmapper.get_object("trainers", train_config.trainer_name)(train_config)
+    for train_config in train_configs:
+        print(train_config)
+        
 
-# Train
-trainer.train(model, train_data, val_data, logger)
+        ## Seed
+        seed(train_config.main_config.seed)
+
+        model = configmapper.get_object("models", model_config.name)(model_config)
+        # Trainer
+        trainer = configmapper.get_object("trainers", train_config.trainer_name)(
+            train_config
+        )
+
+        ## Train
+        trainer.train(model, train_data, val_data, logger)
+
+else:
+    ## Seed
+    seed(train_config.main_config.seed)
+
+    model = configmapper.get_object("models", model_config.name)(model_config)
+
+
+    ## Trainer
+    trainer = configmapper.get_object("trainers", train_config.trainer_name)(
+        train_config
+    )
+
+    ## Train
+    trainer.train(model, train_data, val_data, logger)

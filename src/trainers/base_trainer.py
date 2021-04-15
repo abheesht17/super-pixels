@@ -37,7 +37,7 @@ class BaseTrainer:
         if optim_params:
             optimizer = configmapper.get_object(
                 "optimizers", self.train_config.optimizer.type
-            )(model.parameters(), **dict(optim_params))
+            )(model.parameters(), **optim_params.as_dict())
         else:
             optimizer = configmapper.get_object(
                 "optimizers", self.train_config.optimizer.type
@@ -48,7 +48,7 @@ class BaseTrainer:
             if scheduler_params:
                 scheduler = configmapper.get_object(
                     "schedulers", self.train_config.scheduler.type
-                )(optimizer, **dict(scheduler_params))
+                )(optimizer, **scheduler_params.as_dict())
             else:
                 scheduler = configmapper.get_object(
                     "schedulers", self.train_config.scheduler.type
@@ -58,18 +58,18 @@ class BaseTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**dict(criterion_params))
+            )(**criterion_params.as_dict())
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )()
         if self._config.dataloader_type == "geometric":
             train_loader = GeometricDataLoader(
-                train_dataset, **dict(self.train_config.loader_params)
+                train_dataset, **self.train_config.loader_params.as_dict()
             )
         else:
             train_loader = DataLoader(
-                dataset=train_dataset, **dict(self.train_config.loader_params)
+                dataset=train_dataset, **self.train_config.loader_params.as_dict()
             )
 
         max_epochs = self.train_config.max_epochs
@@ -78,11 +78,11 @@ class BaseTrainer:
         log_interval = self.train_config.log.log_interval
 
         if logger is None:
-            train_logger = Logger(**dict(self.train_config.log.logger_params))
+            train_logger = Logger(**self.train_config.log.logger_params.as_dict())
         else:
             train_logger = logger
 
-        train_log_values = dict(self.train_config.log.vals)
+        train_log_values = self.train_config.log.vals.as_dict()
 
         best_score = (
             -math.inf if self.train_config.save_on.desired == "max" else math.inf
@@ -203,7 +203,7 @@ class BaseTrainer:
                         }
 
                         path = os.path.join(
-                            train_logger.log_path, self.train_config.save_on.best_path
+                            train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
                         )
 
                         self.save(store_dict, path, save_flag)
@@ -515,7 +515,7 @@ class BaseTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**dict(criterion_params))
+            )(**criterion_params.as_dict())
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
@@ -523,20 +523,20 @@ class BaseTrainer:
         if train_logger is not None:
             val_logger = train_logger
         else:
-            val_logger = Logger(**dict(self.val_config.log.logger_params))
+            val_logger = Logger(**self.val_config.log.logger_params.as_dict())
 
         if train_log_values is not None:
             val_log_values = train_log_values
         else:
-            val_log_values = dict(self.val_config.log.vals)
+            val_log_values = self.val_config.log.vals.as_dict()
 
         if self._config.dataloader_type == "geometric":
             val_loader = GeometricDataLoader(
-                dataset, **dict(self.val_config.loader_params)
+                dataset, **self.val_config.loader_params.as_dict()
             )
         else:
             val_loader = DataLoader(
-                dataset=dataset, **dict(self.val_config.loader_params)
+                dataset=dataset, **self.val_config.loader_params.as_dict()
             )
 
         all_outputs = torch.Tensor().to(self.device)
