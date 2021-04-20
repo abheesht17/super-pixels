@@ -40,7 +40,7 @@ train: &train
 
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
-    desired: min
+    desired: max
     best_path: "ckpts/best_{}.pth" ## Number should be same as log_label
     final_path: "ckpts/final_{}.pth" ## Number should be same as log_label
 

@@ -39,7 +39,7 @@ train: &train
 
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
-    desired: min
+    desired: max
     best_path: "ckpts/best_{}.pth"
     final_path: "ckpts/final_{}.pth"
 
