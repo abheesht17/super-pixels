@@ -43,7 +43,7 @@ class MnistImgSlic(Dataset):
             if image_transformations != []
             else None
         )
-        filtered_indices = list(pd.read_csv(config.filepath.indices_csv)['index'])
+        filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["index"])
 
         with open(config.filepath.image, "rb") as f:
             # First 16 bytes contain some metadata
