@@ -22,15 +22,34 @@ main: &main
       params:
         r: 5
 
+train_val:
+  train: &train_2
+    <<: *main
+    split: train
+    filepath:
+      image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-images-idx3-ubyte
+      labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/MNIST_training.csv
+  val: &val_2
+    <<: *main
+    split: val
+    filepath: 
+      image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-images-idx3-ubyte
+      labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/MNIST_validation.csv
+
+
 train: &train
   <<: *main
   split: train
   filepath:
     image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-images-idx3-ubyte
     labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
+    indices_csv: null
 val: &val
   <<: *main
   split: val
   filepath: 
     image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/t10k-images-idx3-ubyte
     labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/t10k-labels-idx1-ubyte
+    indices_csv: null

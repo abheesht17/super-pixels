@@ -44,16 +44,12 @@ seed(train_config.main_config.seed)
 
 # Data
 if "main" in data_config.as_dict().keys():  # Regular Data
-    train_data_config = data_config.train
-    val_data_config = data_config.val
-    if not args.validation:
-        train_filepath_config = train_data_config.filepath
-        train_filepath_config.set_value('indices_csv', None)
-        train_data_config.set_value('filepath',train_filepath_config) 
-        
-        val_filepath_config = val_data_config.filepath
-        val_filepath_config.set_value('indices_csv', None)
-        val_data_config.set_value('filepath',val_filepath_config) 
+    if args.validation:
+        train_data_config = data_config.train_val.train
+        val_data_config = data_config.train_val.val
+    else:
+        train_data_config = data_config.train
+        val_data_config = data_config.val
 
     train_data = configmapper.get_object("datasets", train_data_config.name)(
         train_data_config
@@ -72,7 +68,7 @@ else:  # HF Type Data
 
 logger = Logger(
     log_path=os.path.join(
-        "./logs/",
+        "/content/drive/MyDrive/SuperPixels/logs/",
         args.config_dir.strip("/").split("/")[-1]
     )
 )
