@@ -2,6 +2,7 @@
 import struct
 
 import numpy as np
+import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
@@ -41,6 +42,11 @@ class Mnist(Dataset):
             
         if config.filepath.indices_csv != None:
             filtered_indices = list(pd.read_csv(config.filepath.indices_csv)['index'])
+            self.images = np.take(self.images, filtered_indices, axis=0)
+            self.labels = np.take(self.labels, filtered_indices, axis=0)
+
+        if config.filepath.indices_csv != None:
+            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["index"])
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
 

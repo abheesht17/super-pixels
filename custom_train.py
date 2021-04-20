@@ -30,7 +30,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--validation",
-    action='store_true',
+    action="store_true",
     help="Whether to use validation data or test data",
     default=False,
 )
@@ -69,19 +69,14 @@ else:  # HF Type Data
 # Logger
 
 logger = Logger(
-    log_path=os.path.join(
-        log_dir,
-        args.config_dir.strip("/").split("/")[-1]
-    )
+    log_path=os.path.join(log_dir, args.config_dir.strip("/").split("/")[-1])
 )
 
 if grid_search:
     train_configs = generate_grid_search_configs(train_config, train_config.grid_search)
     print(f"Total Configurations Generated: {len(train_configs)}")
-
     for train_config in train_configs:
         print(train_config)
-        
 
         ## Seed
         seed(train_config.main_config.seed)
@@ -91,7 +86,6 @@ if grid_search:
         trainer = configmapper.get_object("trainers", train_config.trainer_name)(
             train_config
         )
-
         ## Train
         trainer.train(model, train_data, val_data, logger)
 
@@ -100,7 +94,6 @@ else:
     seed(train_config.main_config.seed)
 
     model = configmapper.get_object("models", model_config.name)(model_config)
-
 
     ## Trainer
     trainer = configmapper.get_object("trainers", train_config.trainer_name)(

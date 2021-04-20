@@ -11,8 +11,10 @@ from src.modules.losses import *
 from src.modules.metrics import *
 from src.modules.optimizers import *
 from src.modules.schedulers import *
+from src.utils.configuration import Config
 from src.utils.logger import Logger
 from src.utils.mapper import configmapper
+from src.utils.misc import get_item_in_config
 
 
 @configmapper.map("trainers", "base_trainer")
@@ -169,8 +171,11 @@ class BaseTrainer:
                 global_step += 1
 
                 # Need to check if we want global_step or local_step
-                if interval_type == 'step':
-                    if val_dataset is not None and (global_step - 1) % val_interval == 0:
+                if interval_type == "step":
+                    if (
+                        val_dataset is not None
+                        and (global_step - 1) % val_interval == 0
+                    ):
                         # print("\nEvaluating\n")
                         val_scores = self.val(
                             model,
@@ -205,7 +210,10 @@ class BaseTrainer:
                             }
 
                             path = os.path.join(
-                                train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
+                                train_logger.log_path,
+                                self.train_config.save_on.best_path.format(
+                                    self.log_label
+                                ),
                             )
 
                             self.save(store_dict, path, save_flag)
@@ -232,7 +240,8 @@ class BaseTrainer:
                             for metric in self.metrics
                         ]
                         metric_name_list = [
-                            metric["type"] for metric in self._config.main_config.metrics
+                            metric["type"]
+                            for metric in self._config.main_config.metrics
                         ]
 
                         train_scores = self.log(
@@ -266,9 +275,9 @@ class BaseTrainer:
                 path = f"{os.path.join(train_logger.log_path, self.train_config.checkpoint.checkpoint_dir)}epoch_{str(self.train_config.log.log_label)}_{str(epoch)}.pth"
 
                 self.save(store_dict, path, save_flag=1)
-            if interval_type=='epoch':
+            if interval_type == "epoch":
                 if val_dataset is not None and (epoch) % val_interval == 0:
-                    print("\nEvaluating\n")
+                    # print("\nEvaluating\n")
                     val_scores = self.val(
                         model,
                         val_dataset,
@@ -302,7 +311,8 @@ class BaseTrainer:
                         }
 
                         path = os.path.join(
-                            train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
+                            train_logger.log_path,
+                            self.train_config.save_on.best_path.format(self.log_label),
                         )
 
                         self.save(store_dict, path, save_flag)
@@ -319,7 +329,7 @@ class BaseTrainer:
 
                 # pbar.close()
                 if (epoch) % log_interval == 0:
-                    print("\nLogging\n")
+                    # print("\nLogging\n")
                     train_loss_name = self.train_config.criterion.type
                     metric_list = [
                         metric(
@@ -343,10 +353,9 @@ class BaseTrainer:
                         epoch,
                         append_text=self.train_config.append_text,
                     )
-
             if epoch == max_epochs:
                 # print("\nEvaluating\n")
-                if interval_type=='step':
+                if interval_type == "step":
                     val_scores = self.val(
                         model,
                         val_dataset,
@@ -359,7 +368,9 @@ class BaseTrainer:
                     train_loss_name = self.train_config.criterion.type
                     metric_list = [
                         metric(
-                            all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]
+                            all_labels.cpu(),
+                            all_outputs.detach().cpu(),
+                            **self.metrics[metric],
                         )
                         for metric in self.metrics
                     ]
@@ -402,7 +413,8 @@ class BaseTrainer:
                     }
 
                     path = os.path.join(
-                        train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
+                        train_logger.log_path,
+                        self.train_config.save_on.best_path.format(self.log_label),
                     )
 
                     self.save(store_dict, path, save_flag)
@@ -413,7 +425,9 @@ class BaseTrainer:
                             best_hparam_name_list,
                             best_metrics_list,
                             best_metrics_name_list,
-                        ) = self.update_hparams(train_scores, val_scores, desc="best_val")
+                        ) = self.update_hparams(
+                            train_scores, val_scores, desc="best_val"
+                        )
 
                     # FINAL SCORES UPDATING + STORING
                     train_scores = self.get_scores(
@@ -432,7 +446,8 @@ class BaseTrainer:
                     }
 
                     path = os.path.join(
-                        train_logger.log_path, self.train_config.save_on.final_path.format(self.log_label)
+                        train_logger.log_path,
+                        self.train_config.save_on.final_path.format(self.log_label),
                     )
 
                     self.save(store_dict, path, save_flag=1)
@@ -495,7 +510,9 @@ class BaseTrainer:
         hparam_list = []
         hparam_name_list = []
         for hparam in self.train_config.log.vals.hparams:
-            hparam_list.append(dict(self._config, hparam["path"]))
+            hparam_list.append(get_item_in_config(self._config, hparam["path"]))
+            if isinstance(hparam_list[-1], Config):
+                hparam_list[-1] = hparam_list[-1].as_dict()
             hparam_name_list.append(hparam["name"])
 
         val_keys, val_values = zip(*val_scores.items())

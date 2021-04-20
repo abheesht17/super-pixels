@@ -39,11 +39,12 @@ class MnistSlic(Dataset):
             # First 8 bytes contain some metadata
             _ = f.read(8)
             self.labels = np.frombuffer(f.read(), dtype=np.uint8)
-            
+
         if config.filepath.indices_csv != None:
-            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)['index'])
+            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["index"])
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
+
     def __len__(self):
         return self.labels.shape[0]
 
