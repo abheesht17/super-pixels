@@ -39,6 +39,8 @@ model_config = Config(path=os.path.join(args.config_dir, "model.yaml"))
 train_config = Config(path=os.path.join(args.config_dir, "train.yaml"))
 data_config = Config(path=os.path.join(args.config_dir, "dataset.yaml"))
 grid_search = args.grid_search
+# log_dir = "/content/drive/MyDrive/SuperPixels/logs/"
+log_dir = "./logs/"
 # Seed
 seed(train_config.main_config.seed)
 
@@ -68,7 +70,7 @@ else:  # HF Type Data
 
 logger = Logger(
     log_path=os.path.join(
-        "/content/drive/MyDrive/SuperPixels/logs/",
+        log_dir,
         args.config_dir.strip("/").split("/")[-1]
     )
 )

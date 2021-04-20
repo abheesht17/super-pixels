@@ -28,7 +28,8 @@ class BaseTrainer:
         self.log_label = self.train_config.log.log_label
         self.device = torch.device(self._config.main_config.device.name)
         if self.train_config.log_and_val_interval is not None:
-            self.val_log_together = True
+            self.train_config.val_interval = self.train_config.log_and_val_interval
+            self.train_config.log.log_interval = self.train_config.log_and_val_interval
         print("Logging with label: ", self.log_label)
 
     def train(self, model, train_dataset, val_dataset=None, logger=None):
@@ -74,6 +75,7 @@ class BaseTrainer:
 
         max_epochs = self.train_config.max_epochs
         batch_size = self.train_config.loader_params.batch_size
+        interval_type = self.train_config.interval_type
         val_interval = self.train_config.val_interval
         log_interval = self.train_config.log.log_interval
 
@@ -167,13 +169,110 @@ class BaseTrainer:
                 global_step += 1
 
                 # Need to check if we want global_step or local_step
+                if interval_type == 'step':
+                    if val_dataset is not None and (global_step - 1) % val_interval == 0:
+                        # print("\nEvaluating\n")
+                        val_scores = self.val(
+                            model,
+                            val_dataset,
+                            global_step,
+                            train_logger,
+                            train_log_values,
+                        )
 
-                if val_dataset is not None and (global_step - 1) % val_interval == 0:
-                    # print("\nEvaluating\n")
+                        # save_flag = 0
+                        if self.train_config.save_on is not None:
+
+                            # BEST SCORES UPDATING
+
+                            train_scores = self.get_scores(
+                                train_loss,
+                                global_step,
+                                self.train_config.criterion.type,
+                                all_outputs,
+                                all_labels,
+                            )
+
+                            best_score, best_step, save_flag = self.check_best(
+                                val_scores, save_on_score, best_score, global_step
+                            )
+
+                            store_dict = {
+                                "model_state_dict": model.state_dict(),
+                                "best_step": best_step,
+                                "best_score": best_score,
+                                "save_on_score": save_on_score,
+                            }
+
+                            path = os.path.join(
+                                train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
+                            )
+
+                            self.save(store_dict, path, save_flag)
+
+                            if save_flag and train_log_values["hparams"] is not None:
+                                (
+                                    best_hparam_list,
+                                    best_hparam_name_list,
+                                    best_metrics_list,
+                                    best_metrics_name_list,
+                                ) = self.update_hparams(
+                                    train_scores, val_scores, desc="best_val"
+                                )
+                    # pbar.close()
+                    if (global_step - 1) % log_interval == 0:
+                        # print("\nLogging\n")
+                        train_loss_name = self.train_config.criterion.type
+                        metric_list = [
+                            metric(
+                                all_labels.cpu(),
+                                all_outputs.detach().cpu(),
+                                **self.metrics[metric],
+                            )
+                            for metric in self.metrics
+                        ]
+                        metric_name_list = [
+                            metric["type"] for metric in self._config.main_config.metrics
+                        ]
+
+                        train_scores = self.log(
+                            train_loss / (step + 1),
+                            train_loss_name,
+                            metric_list,
+                            metric_name_list,
+                            train_logger,
+                            train_log_values,
+                            global_step,
+                            append_text=self.train_config.append_text,
+                        )
+            pbar.close()
+            if not os.path.exists(
+                os.path.join(
+                    train_logger.log_path, self.train_config.checkpoint.checkpoint_dir
+                )
+            ):
+                os.makedirs(
+                    os.path.join(
+                        train_logger.log_path,
+                        self.train_config.checkpoint.checkpoint_dir,
+                    )
+                )
+
+            if self.train_config.save_after_epoch:
+                store_dict = {
+                    "model_state_dict": model.state_dict(),
+                }
+
+                path = f"{os.path.join(train_logger.log_path, self.train_config.checkpoint.checkpoint_dir)}epoch_{str(self.train_config.log.log_label)}_{str(epoch)}.pth"
+
+                self.save(store_dict, path, save_flag=1)
+            if interval_type=='epoch':
+                if val_dataset is not None and (epoch) % val_interval == 0:
+                    print("\nEvaluating\n")
                     val_scores = self.val(
                         model,
                         val_dataset,
-                        global_step,
+                        epoch,
                         train_logger,
                         train_log_values,
                     )
@@ -185,19 +284,19 @@ class BaseTrainer:
 
                         train_scores = self.get_scores(
                             train_loss,
-                            global_step,
+                            epoch,
                             self.train_config.criterion.type,
                             all_outputs,
                             all_labels,
                         )
 
-                        best_score, best_step, save_flag = self.check_best(
-                            val_scores, save_on_score, best_score, global_step
+                        best_score, best_epoch, save_flag = self.check_best(
+                            val_scores, save_on_score, best_score, epoch
                         )
 
                         store_dict = {
                             "model_state_dict": model.state_dict(),
-                            "best_step": best_step,
+                            "best_epoch": best_epoch,
                             "best_score": best_score,
                             "save_on_score": save_on_score,
                         }
@@ -217,9 +316,10 @@ class BaseTrainer:
                             ) = self.update_hparams(
                                 train_scores, val_scores, desc="best_val"
                             )
+
                 # pbar.close()
-                if (global_step - 1) % log_interval == 0:
-                    # print("\nLogging\n")
+                if (epoch) % log_interval == 0:
+                    print("\nLogging\n")
                     train_loss_name = self.train_config.criterion.type
                     metric_list = [
                         metric(
@@ -234,7 +334,41 @@ class BaseTrainer:
                     ]
 
                     train_scores = self.log(
-                        train_loss / (step + 1),
+                        train_loss / len(train_loader),
+                        train_loss_name,
+                        metric_list,
+                        metric_name_list,
+                        train_logger,
+                        train_log_values,
+                        epoch,
+                        append_text=self.train_config.append_text,
+                    )
+
+            if epoch == max_epochs:
+                # print("\nEvaluating\n")
+                if interval_type=='step':
+                    val_scores = self.val(
+                        model,
+                        val_dataset,
+                        global_step,
+                        train_logger,
+                        train_log_values,
+                    )
+
+                    # print("\nLogging\n")
+                    train_loss_name = self.train_config.criterion.type
+                    metric_list = [
+                        metric(
+                            all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]
+                        )
+                        for metric in self.metrics
+                    ]
+                    metric_name_list = [
+                        metric["type"] for metric in self._config.main_config.metrics
+                    ]
+
+                    train_scores = self.log(
+                        train_loss / len(train_loader),
                         train_loss_name,
                         metric_list,
                         metric_name_list,
@@ -243,141 +377,86 @@ class BaseTrainer:
                         global_step,
                         append_text=self.train_config.append_text,
                     )
-            pbar.close()
-            if not os.path.exists(
-                os.path.join(
-                    train_logger.log_path, self.train_config.checkpoint.checkpoint_dir
-                )
-            ):
-                os.makedirs(
-                    os.path.join(
-                        train_logger.log_path,
-                        self.train_config.checkpoint.checkpoint_dir,
+
+                if self.train_config.save_on is not None:
+
+                    # BEST SCORES UPDATING
+
+                    train_scores = self.get_scores(
+                        train_loss,
+                        len(train_loader),
+                        self.train_config.criterion.type,
+                        all_outputs,
+                        all_labels,
                     )
-                )
 
-            if self.train_config.save_after_epoch:
-                store_dict = {
-                    "model_state_dict": model.state_dict(),
-                }
-
-                path = f"{os.path.join(train_logger.log_path, self.train_config.checkpoint.checkpoint_dir)}epoch_\
-                    {str(self.train_config.log.log_label)}_{str(epoch)}.pth"
-
-                self.save(store_dict, path, save_flag=1)
-
-        if epoch == max_epochs:
-            # print("\nEvaluating\n")
-            val_scores = self.val(
-                model,
-                val_dataset,
-                global_step,
-                train_logger,
-                train_log_values,
-            )
-
-            # print("\nLogging\n")
-            train_loss_name = self.train_config.criterion.type
-            metric_list = [
-                metric(
-                    all_labels.cpu(), all_outputs.detach().cpu(), **self.metrics[metric]
-                )
-                for metric in self.metrics
-            ]
-            metric_name_list = [
-                metric["type"] for metric in self._config.main_config.metrics
-            ]
-
-            train_scores = self.log(
-                train_loss / len(train_loader),
-                train_loss_name,
-                metric_list,
-                metric_name_list,
-                train_logger,
-                train_log_values,
-                global_step,
-                append_text=self.train_config.append_text,
-            )
-
-            if self.train_config.save_on is not None:
-
-                # BEST SCORES UPDATING
-
-                train_scores = self.get_scores(
-                    train_loss,
-                    len(train_loader),
-                    self.train_config.criterion.type,
-                    all_outputs,
-                    all_labels,
-                )
-
-                best_score, best_step, save_flag = self.check_best(
-                    val_scores, save_on_score, best_score, global_step
-                )
-
-                store_dict = {
-                    "model_state_dict": model.state_dict(),
-                    "best_step": best_step,
-                    "best_score": best_score,
-                    "save_on_score": save_on_score,
-                }
-
-                path = os.path.join(
-                    train_logger.log_path, self.train_config.save_on.best_path
-                )
-
-                self.save(store_dict, path, save_flag)
-
-                if save_flag and train_log_values["hparams"] is not None:
-                    (
-                        best_hparam_list,
-                        best_hparam_name_list,
-                        best_metrics_list,
-                        best_metrics_name_list,
-                    ) = self.update_hparams(train_scores, val_scores, desc="best_val")
-
-                # FINAL SCORES UPDATING + STORING
-                train_scores = self.get_scores(
-                    train_loss,
-                    len(train_loader),
-                    self.train_config.criterion.type,
-                    all_outputs,
-                    all_labels,
-                )
-
-                store_dict = {
-                    "model_state_dict": model.state_dict(),
-                    "final_step": global_step,
-                    "final_score": train_scores[save_on_score],
-                    "save_on_score": save_on_score,
-                }
-
-                path = os.path.join(
-                    train_logger.log_path, self.train_config.save_on.final_path
-                )
-
-                self.save(store_dict, path, save_flag=1)
-                if train_log_values["hparams"] is not None:
-                    (
-                        final_hparam_list,
-                        final_hparam_name_list,
-                        final_metrics_list,
-                        final_metrics_name_list,
-                    ) = self.update_hparams(train_scores, val_scores, desc="final")
-                    train_logger.save_hyperparams(
-                        best_hparam_list,
-                        best_hparam_name_list,
-                        [
-                            int(self.log_label),
-                        ]
-                        + best_metrics_list
-                        + final_metrics_list,
-                        [
-                            "hparams/log_label",
-                        ]
-                        + best_metrics_name_list
-                        + final_metrics_name_list,
+                    best_score, best_step, save_flag = self.check_best(
+                        val_scores, save_on_score, best_score, global_step
                     )
+
+                    store_dict = {
+                        "model_state_dict": model.state_dict(),
+                        "best_step": best_step,
+                        "best_score": best_score,
+                        "save_on_score": save_on_score,
+                    }
+
+                    path = os.path.join(
+                        train_logger.log_path, self.train_config.save_on.best_path.format(self.log_label)
+                    )
+
+                    self.save(store_dict, path, save_flag)
+
+                    if save_flag and train_log_values["hparams"] is not None:
+                        (
+                            best_hparam_list,
+                            best_hparam_name_list,
+                            best_metrics_list,
+                            best_metrics_name_list,
+                        ) = self.update_hparams(train_scores, val_scores, desc="best_val")
+
+                    # FINAL SCORES UPDATING + STORING
+                    train_scores = self.get_scores(
+                        train_loss,
+                        len(train_loader),
+                        self.train_config.criterion.type,
+                        all_outputs,
+                        all_labels,
+                    )
+
+                    store_dict = {
+                        "model_state_dict": model.state_dict(),
+                        "final_step": global_step,
+                        "final_score": train_scores[save_on_score],
+                        "save_on_score": save_on_score,
+                    }
+
+                    path = os.path.join(
+                        train_logger.log_path, self.train_config.save_on.final_path.format(self.log_label)
+                    )
+
+                    self.save(store_dict, path, save_flag=1)
+                    if train_log_values["hparams"] is not None:
+                        (
+                            final_hparam_list,
+                            final_hparam_name_list,
+                            final_metrics_list,
+                            final_metrics_name_list,
+                        ) = self.update_hparams(train_scores, val_scores, desc="final")
+                        train_logger.save_hyperparams(
+                            best_hparam_list,
+                            best_hparam_name_list,
+                            [
+                                int(self.log_label),
+                            ]
+                            + best_metrics_list
+                            + final_metrics_list,
+                            [
+                                "hparams/log_label",
+                            ]
+                            + best_metrics_name_list
+                            + final_metrics_name_list,
+                        )
                     #
 
     # Need to check if we want same loggers of different loggers for train and eval
