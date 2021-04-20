@@ -28,7 +28,12 @@ parser.add_argument(
     help="Whether to do a grid_search",
     default=False,
 )
-
+parser.add_argument(
+    "--validation",
+    action='store_true',
+    help="Whether to use validation data or test data",
+    default=False,
+)
 args = parser.parse_args()
 model_config = Config(path=os.path.join(args.config_dir, "model.yaml"))
 train_config = Config(path=os.path.join(args.config_dir, "train.yaml"))
@@ -37,11 +42,19 @@ grid_search = args.grid_search
 # Seed
 seed(train_config.main_config.seed)
 
-
 # Data
 if "main" in data_config.as_dict().keys():  # Regular Data
     train_data_config = data_config.train
     val_data_config = data_config.val
+    if not args.validation:
+        train_filepath_config = train_data_config.filepath
+        train_filepath_config.set_value('indices_csv', None)
+        train_data_config.set_value('filepath',train_filepath_config) 
+        
+        val_filepath_config = val_data_config.filepath
+        val_filepath_config.set_value('indices_csv', None)
+        val_data_config.set_value('filepath',val_filepath_config) 
+
     train_data = configmapper.get_object("datasets", train_data_config.name)(
         train_data_config
     )
