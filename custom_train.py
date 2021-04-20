@@ -40,7 +40,7 @@ train_config = Config(path=os.path.join(args.config_dir, "train.yaml"))
 data_config = Config(path=os.path.join(args.config_dir, "dataset.yaml"))
 grid_search = args.grid_search
 log_dir = "/content/drive/MyDrive/SuperPixels/logs/"
-log_dir = "./logs/"
+# log_dir = "./logs/"
 # Seed
 seed(train_config.main_config.seed)
 
@@ -75,7 +75,6 @@ logger = Logger(
 if grid_search:
     train_configs = generate_grid_search_configs(train_config, train_config.grid_search)
     print(f"Total Configurations Generated: {len(train_configs)}")
-
     for train_config in train_configs:
         print(train_config)
 
@@ -87,7 +86,6 @@ if grid_search:
         trainer = configmapper.get_object("trainers", train_config.trainer_name)(
             train_config
         )
-
         ## Train
         trainer.train(model, train_data, val_data, logger)
 

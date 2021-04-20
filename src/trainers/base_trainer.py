@@ -353,7 +353,6 @@ class BaseTrainer:
                         epoch,
                         append_text=self.train_config.append_text,
                     )
-
             if epoch == max_epochs:
                 # print("\nEvaluating\n")
                 if interval_type == "step":
