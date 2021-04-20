@@ -18,6 +18,7 @@ from src.utils.mapper import configmapper
 
 class ConvBlock(Module):
     def __init__(self, in_channels, out_channels):
+        super(ConvBlock, self).__init__()
         self.block = Sequential(
             Conv2d(in_channels, out_channels, kernel_size=3, stride=1, padding=1),
             BatchNorm2d(out_channels),
@@ -66,7 +67,7 @@ class SimpleCnn(Module):
     def forward(self, image, labels=None):
         out = image
         for cnn_layer in self.cnn_layers:
-            out = self.cnn_layer(out)
+            out = cnn_layer(out)
         # out = out.view(out.size(0), -1)
         # Global Mean Pooling
         out = avg_pool2d(out, kernel_size=out.size()[2:]).view(out.size()[0], -1)

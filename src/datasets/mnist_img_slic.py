@@ -43,6 +43,7 @@ class MnistImgSlic(Dataset):
             if image_transformations != []
             else None
         )
+        filtered_indices = list(pd.read_csv(config.filepath.indices_csv)['index'])
 
         with open(config.filepath.image, "rb") as f:
             # First 16 bytes contain some metadata
@@ -50,11 +51,13 @@ class MnistImgSlic(Dataset):
             size = struct.unpack(">I", f.read(4))[0]
             _ = f.read(8)
             self.images = np.frombuffer(f.read(), dtype=np.uint8).reshape(size, 28, 28)
+            self.images = np.take(self.images, filtered_indices, axis=0)
         # Labels
         with open(config.filepath.labels, "rb") as f:
             # First 8 bytes contain some metadata
             _ = f.read(8)
             self.labels = np.frombuffer(f.read(), dtype=np.uint8)
+            self.labels = np.take(self.labels, filtered_indices, axis=0)
 
     def __len__(self):
         return self.labels.shape[0]

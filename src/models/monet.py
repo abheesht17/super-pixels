@@ -2,11 +2,9 @@
 import math
 
 import torch
-from torch.nn import (Parameter,ModuleList,Sequential,ReLU,Linear, Module)
-from torch_geometric.nn import GMMConv
 import torch.nn.functional as F
 import torch_geometric.transforms as T
-from torch.nn import Parameter
+from torch.nn import Linear, Module, ModuleList, Parameter, ReLU, Sequential
 from torch_geometric.nn import GMMConv, global_mean_pool, graclus, max_pool
 from torch_geometric.utils import normalized_cut
 
@@ -33,7 +31,12 @@ class MoNet(Module):
         )
         self.monet_layers = ModuleList(
             [
-                GMMConv(in_channels=in_channels, out_channels=out_channels, dim=2, kernel_size=config.kernel_size)
+                GMMConv(
+                    in_channels=in_channels,
+                    out_channels=out_channels,
+                    dim=2,
+                    kernel_size=config.kernel_size,
+                )
                 for in_channels, out_channels in zip(
                     monet_hidden_layer_sizes[:-1], monet_hidden_layer_sizes[1:]
                 )
@@ -50,15 +53,15 @@ class MoNet(Module):
 
     def forward(self, graph):
         data = graph
-        for i,monet_layer in enumerate(self.monet_layers[:-1]):
+        for i, monet_layer in enumerate(self.monet_layers[:-1]):
             data.x = F.relu(monet_layer(data.x, data.edge_index, data.edge_attr))
             weight = normalized_cut_2d(data.edge_index, data.pos)
             cluster = graclus(data.edge_index, weight, data.x.size(0))
             if i == 0:
-                data.edge_attr = None #Check what this does!!!
+                data.edge_attr = None  # Check what this does!!!
             data = max_pool(cluster, data, transform=T.Cartesian(cat=False))
 
-        data.x =self.monet_layers[-1](data.x, data.edge_index, data.edge_attr)
+        data.x = self.monet_layers[-1](data.x, data.edge_index, data.edge_attr)
 
         for linear_layer in self.linear_layers[:-1]:
             x = global_mean_pool(data.x, data.batch)
