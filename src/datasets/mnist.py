@@ -45,11 +45,6 @@ class Mnist(Dataset):
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
 
-        if config.filepath.indices_csv != None:
-            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["index"])
-            self.images = np.take(self.images, filtered_indices, axis=0)
-            self.labels = np.take(self.labels, filtered_indices, axis=0)
-
     def __len__(self):
         return self.labels.shape[0]
 
