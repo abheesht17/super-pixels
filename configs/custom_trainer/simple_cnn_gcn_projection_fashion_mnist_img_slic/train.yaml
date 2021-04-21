@@ -76,9 +76,8 @@ grid_search:
         - !!int 50
       loader_params:
         batch_size:
-          - !!int 64
-          - !!int 128
           - !!int 256
+          - !!int 128
       optimizer:
         type:
           - adam_w
@@ -91,7 +90,6 @@ grid_search:
           weight_decay:
             - 0
             - 0.001
-            - 0.0001
 
       log:
         log_label: null
