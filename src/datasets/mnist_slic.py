@@ -9,7 +9,7 @@ from torchvision import transforms
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
-
+import pandas as pd
 @configmapper.map("datasets", "mnist_slic")
 class MnistSlic(Dataset):
     def __init__(self, config):
