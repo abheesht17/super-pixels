@@ -29,7 +29,10 @@ class Cifar(Dataset):
             transforms.Compose(transformations) if transformations != [] else None
         )
         with open(config.filepath.data,'rb') as f:
-            self.data = pickle.load(f)
+            try:
+                self.data = pickle.load(f)
+            except:
+                self.data = pickle.load(f,encoding="bytes")
         self.images = self.data[b'data']
         self.labels = self.data[b'labels']
             
