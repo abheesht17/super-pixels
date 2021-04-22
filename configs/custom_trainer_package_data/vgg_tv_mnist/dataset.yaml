@@ -1,0 +1,25 @@
+main: &main
+  name: tv_mnist
+  load_dataset_args:
+    path: /content/drive/MyDrive/SuperPixels/data/mnist
+  transform_args:
+    - type: Grayscale
+      params:
+        num_output_channels: 3
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.13066062]
+        std: [0.30810776]
+    - type: Resize
+      params:
+        size: 224
+
+train: &train
+  <<: *main
+  split: train
+
+val: &val
+  <<: *main
+  split: val
