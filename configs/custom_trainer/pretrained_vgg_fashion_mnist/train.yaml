@@ -72,7 +72,7 @@ grid_search:
   hyperparams:
     train:
       max_epochs: 
-        - !!int 50
+        - !!int 100
       loader_params:
         batch_size:
           - !!int 256
