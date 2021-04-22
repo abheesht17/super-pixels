@@ -1,0 +1,23 @@
+name: cnn_gcn_projection
+
+cnn_config:
+  name: simple_cnn
+  num_input_channels: 1
+  cnn_params:
+    hidden_layer_sizes: [32,64,64]
+  linear_layer_params:
+    intermediate_layer_sizes: [32]
+  num_classes: 100
+  # input_dim: 28
+
+gcn_config:
+  name: multi_head_gat
+  num_node_features: 3
+  gat_params:
+    hidden_layer_sizes: [32,64,128]
+    num_heads: [2,2,2]
+  linear_layer_params:
+    intermediate_layer_sizes: [32]
+  num_classes: 100
+
+num_classes: 10

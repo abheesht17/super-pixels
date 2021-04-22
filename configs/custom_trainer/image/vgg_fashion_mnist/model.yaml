@@ -3,3 +3,4 @@ vgg_version: "11"
 batch_norm: false
 num_layers_freeze: 8
 num_classes: 10
+pretrained: false
