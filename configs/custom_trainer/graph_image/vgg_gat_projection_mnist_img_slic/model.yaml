@@ -1,0 +1,20 @@
+name: cnn_gcn_projection
+
+cnn_config:
+  name: pretrained_vgg
+  vgg_version: "11"
+  batch_norm: false
+  num_layers_freeze: 8
+  num_classes: 100
+  pretrained: false
+
+gcn_config:
+  name: simple_gat
+  num_node_features: 3
+  gat_params:
+    hidden_layer_sizes: [32,64,64]
+  linear_layer_params:
+    intermediate_layer_sizes: [32]
+  num_classes: 100
+
+num_classes: 10

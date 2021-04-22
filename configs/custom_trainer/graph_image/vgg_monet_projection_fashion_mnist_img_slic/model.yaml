@@ -1,0 +1,21 @@
+name: cnn_gcn_projection
+
+cnn_config:
+  name: pretrained_vgg
+  vgg_version: "11"
+  batch_norm: false
+  num_layers_freeze: 8
+  num_classes: 100
+  pretrained: false
+
+gcn_config:
+  name: monet
+  kernel_size: 25
+  num_input_channels: 1
+  monet_params:
+    hidden_layer_sizes: [32,64,64]
+  linear_layer_params:
+    intermediate_layer_sizes: [128]
+  num_classes: 100
+
+num_classes: 10
