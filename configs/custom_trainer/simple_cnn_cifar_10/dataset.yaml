@@ -1,0 +1,43 @@
+main: &main
+  name: cifar # MNIST Loader can be used with FashionMNIST Data
+  transform_args:
+    - type: ToPILImage
+      params: null
+    - type: Grayscale
+      params:
+        num_output_channels: 1
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.2860402]
+        std: [0.3530239]
+
+train_val:
+  train: &train_2
+    <<: *main
+    split: train
+    filepath:
+      data: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/CIFAR10_train.csv
+  val: &val_2
+    <<: *main
+    split: val
+    filepath: 
+      data: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/CIFAR10_validation.csv
+
+train: &train
+  <<: *main
+  split: train
+  filepath:
+    data: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/train
+    indices_csv: null
+
+val: &val
+  <<: *main
+  split: val
+  filepath: 
+    data: /content/drive/MyDrive/SuperPixels/raw_data/cifar-10-batches-py/test
+    indices_csv: null
+
