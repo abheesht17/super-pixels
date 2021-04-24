@@ -1,5 +1,5 @@
 name: simple_cnn
-num_input_channels: 1
+num_input_channels: 3
 cnn_params:
   hidden_layer_sizes: [32,64,64]
 linear_layer_params:
