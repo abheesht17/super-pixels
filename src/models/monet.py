@@ -21,7 +21,7 @@ def normalized_cut_2d(edge_index, pos):
 class MoNet(Module):
     def __init__(self, config):
         super(MoNet, self).__init__()
-        monet_hidden_layer_sizes = [config.num_input_channels] + list(
+        monet_hidden_layer_sizes = [config.num_node_features] + list(
             config.monet_params.hidden_layer_sizes
         )
         linear_layer_sizes = (

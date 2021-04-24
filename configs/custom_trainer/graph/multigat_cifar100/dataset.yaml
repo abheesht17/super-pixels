@@ -1,0 +1,59 @@
+main:
+  label: fine_labels
+  name: cifar_slic
+  transform_args: &id001
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.5070746
+      - 0.48654896
+      - 0.44091788
+      std:
+      - 0.26733422
+      - 0.25643846
+      - 0.27615058
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 75
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph
+train:
+  filepath:
+    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
+    indices_csv: null
+  label: fine_labels
+  name: cifar_slic
+  split: train
+  transform_args: *id001
+train_val:
+  train:
+    filepath:
+      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/CIFAR100_train.csv
+    label: fine_labels
+    name: cifar_slic
+    split: train
+    transform_args: *id001
+  val:
+    filepath:
+      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/CIFAR100_validation.csv
+    label: fine_labels
+    name: cifar_slic
+    split: val
+    transform_args: *id001
+val:
+  filepath:
+    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/test
+    indices_csv: null
+  label: fine_labels
+  name: cifar_slic
+  split: val
+  transform_args: *id001

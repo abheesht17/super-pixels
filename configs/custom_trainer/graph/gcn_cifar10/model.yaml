@@ -1,0 +1,11 @@
+gcn_params:
+  hidden_layer_sizes:
+  - 32
+  - 64
+  - 64
+linear_layer_params:
+  intermediate_layer_sizes:
+  - 32
+name: gcn
+num_classes: 10
+num_node_features: 5

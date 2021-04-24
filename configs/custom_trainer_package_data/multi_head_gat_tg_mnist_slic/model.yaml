@@ -1,7 +1,7 @@
-name: multi_head_gat
+name: multigat
 num_node_features: 3
 gat_params:
-  hidden_layer_sizes: [32,64,128]
+  hidden_layer_sizes: [32,64,64]
   num_heads: [2,2,2]
 linear_layer_params:
   intermediate_layer_sizes: [32]

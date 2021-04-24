@@ -1,8 +1,8 @@
 name: monet
 kernel_size: 25
-num_input_channels: 1
+num_node_features: 3
 monet_params:
   hidden_layer_sizes: [32,64,64]
 linear_layer_params:
-  intermediate_layer_sizes: [128]
+  intermediate_layer_sizes: [32]
 num_classes: 10

@@ -1,0 +1,77 @@
+main:
+  graph_transform_args: &id001
+  - params: null
+    type: ToPILImage
+  - params:
+      num_output_channels: 1
+    type: Grayscale
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.2860402
+      std:
+      - 0.3530239
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 75
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph
+  - params: null
+    type: PolarTransformation
+  image_transform_args: &id002
+  - params: null
+    type: ToPILImage
+  - params:
+      num_output_channels: 1
+    type: Grayscale
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.2860402
+      std:
+      - 0.3530239
+    type: Normalize
+  name: mnist_img_slic
+train:
+  filepath:
+    image: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-images-idx3-ubyte
+    indices_csv: null
+    labels: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/train-labels-idx1-ubyte
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  name: mnist_img_slic
+  split: train
+train_val:
+  train:
+    filepath:
+      image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-images-idx3-ubyte
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/MNIST_training.csv
+      labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    name: mnist_img_slic
+    split: train
+  val:
+    filepath:
+      image: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-images-idx3-ubyte
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/MNIST_validation.csv
+      labels: /content/drive/MyDrive/SuperPixels/raw_data/MNIST/train-labels-idx1-ubyte
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    name: mnist_img_slic
+    split: val
+val:
+  filepath:
+    image: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/t10k-images-idx3-ubyte
+    indices_csv: null
+    labels: /content/drive/MyDrive/SuperPixels/raw_data/FashionMNIST/t10k-labels-idx1-ubyte
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  name: mnist_img_slic
+  split: val
