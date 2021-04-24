@@ -1,7 +1,7 @@
 
 main: &main
   name: mnist_slic
-  add_slic_mask: true
+  
   transform_args:
     - type: ToPILImage
       params: null

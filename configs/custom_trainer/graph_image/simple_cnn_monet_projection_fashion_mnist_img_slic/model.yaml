@@ -1,7 +1,7 @@
-name: cnn_gcn_projection
+name: projection
 
 cnn_config:
-  name: simple_cnn
+  name: cnn
   num_input_channels: 1
   cnn_params:
     hidden_layer_sizes: [32,64,64]

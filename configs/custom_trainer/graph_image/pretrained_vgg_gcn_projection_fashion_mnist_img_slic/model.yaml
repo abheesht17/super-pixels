@@ -1,7 +1,7 @@
-name: cnn_gcn_projection
+name: projection
 
 cnn_config:
-  name: pretrained_vgg
+  name: vgg
   vgg_version: "11"
   batch_norm: false
   num_layers_freeze: 8
@@ -9,7 +9,7 @@ cnn_config:
   pretrained: true
 
 gcn_config:
-  name: simple_gcn
+  name: gcn
   num_node_features: 3
   gcn_params:
     hidden_layer_sizes: [32,64,64]

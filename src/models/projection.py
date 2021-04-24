@@ -7,10 +7,10 @@ from torch.nn.functional import relu
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("models", "cnn_gcn_projection")
-class CnnGcnProjection(Module):
+@configmapper.map("models", "projection")
+class Projection(Module):
     def __init__(self, config):
-        super(CnnGcnProjection, self).__init__()
+        super(Projection, self).__init__()
         self.cnn = configmapper.get_object("models", config.cnn_config.name)(
             config.cnn_config
         )

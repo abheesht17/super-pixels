@@ -30,7 +30,7 @@ class ConvBlock(Module):
         return self.block(x)
 
 
-@configmapper.map("models", "simple_cnn")
+@configmapper.map("models", "cnn")
 class SimpleCnn(Module):
     def __init__(self, config):
         super(SimpleCnn, self).__init__()

@@ -19,10 +19,10 @@ STR_MODEL_MAPPING = {
 }
 
 
-@configmapper.map("models", "pretrained_vgg")
-class PretrainedVGG(Module):
+@configmapper.map("models", "vgg")
+class Vgg(Module):
     def __init__(self, config):
-        super(PretrainedVGG, self).__init__()
+        super(Vgg, self).__init__()
 
         vgg_version = config.vgg_version
         num_layers = int(vgg_version)
@@ -43,7 +43,7 @@ class PretrainedVGG(Module):
         ), 'VGG version incorrect, should be in ["11","13","16","19"]'
 
         # load the pretrained model
-        self.pretrained_vgg = STR_MODEL_MAPPING[vgg_version](
+        self.model = STR_MODEL_MAPPING[vgg_version](
             pretrained=config.pretrained
         )
 
@@ -56,21 +56,21 @@ class PretrainedVGG(Module):
             num_enc_layers_freeze = num_layers_freeze
 
         if config.batch_norm:
-            self.pretrained_vgg.features = self.freeze_layers(
-                self.pretrained_vgg.features, num_enc_layers_freeze, 4
+            self.model.features = self.freeze_layers(
+                self.model.features, num_enc_layers_freeze, 4
             )
         else:
-            self.pretrained_vgg.features = self.freeze_layers(
-                self.pretrained_vgg.features, num_enc_layers_freeze, 2
+            self.model.features = self.freeze_layers(
+                self.model.features, num_enc_layers_freeze, 2
             )
 
-        self.pretrained_vgg.classifier = self.freeze_layers(
-            self.pretrained_vgg.classifier, num_cls_layers_freeze, 2
+        self.model.classifier = self.freeze_layers(
+            self.model.classifier, num_cls_layers_freeze, 2
         )
 
         # modify the last linear layer
-        in_features_dim = self.pretrained_vgg.classifier[-1].in_features
-        self.pretrained_vgg.classifier[-1] = Linear(in_features_dim, config.num_classes)
+        in_features_dim = self.model.classifier[-1].in_features
+        self.model.classifier[-1] = Linear(in_features_dim, config.num_classes)
 
         self.loss_fn = CrossEntropyLoss()
 
@@ -87,7 +87,7 @@ class PretrainedVGG(Module):
 
     def forward(self, image, labels=None):
 
-        logits = self.pretrained_vgg(image)
+        logits = self.model(image)
         if labels is not None:
             loss = self.loss_fn(logits, labels)
             return loss, logits

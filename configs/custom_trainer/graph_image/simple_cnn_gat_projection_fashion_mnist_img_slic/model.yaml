@@ -1,7 +1,7 @@
-name: cnn_gcn_projection
+name: projection
 
 cnn_config:
-  name: simple_cnn
+  name: cnn
   num_input_channels: 1
   cnn_params:
     hidden_layer_sizes: [32,64,64]
@@ -11,7 +11,7 @@ cnn_config:
   # input_dim: 28
 
 gcn_config: # Has to be named gcn_config for now
-  name: simple_gat
+  name: gat
   num_node_features: 3
   gat_params:
     hidden_layer_sizes: [32,64,64]

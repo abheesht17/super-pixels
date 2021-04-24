@@ -1,0 +1,53 @@
+main: &main
+  name: cifar_slic
+  label: labels
+  
+  transform_args:
+    - type: ToPILImage
+      params: null
+    - type: ToTensor
+      params: null # Need to write it at as null if no parameters are passed,
+    - type: Normalize
+      params:
+        mean: [0.49139968, 0.48215827, 0.44653124]
+        std: [0.24703233, 0.24348505, 0.26158768]
+    - type: ToSLIC
+      params:
+        n_segments: 75
+        add_seg: true
+        add_img: true
+    - type: RadiusGraph
+      params:
+        r: 5
+    - type: PolarTransformation
+      params: null
+
+train_val:
+  train: &train_2
+    <<: *main
+    split: train
+    filepath:
+      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_train.csv
+  val: &val_2
+    <<: *main
+    split: val
+    filepath: 
+      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
+      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_validation.csv
+
+train: &train
+  <<: *main
+  split: train
+  filepath:
+    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
+    indices_csv: null
+
+val: &val
+  <<: *main
+  split: val
+  filepath: 
+    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/test
+    indices_csv: null
+
+

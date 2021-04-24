@@ -1,15 +1,15 @@
 import torch
 from torch.nn import CrossEntropyLoss, Linear, Module, ModuleList
 from torch.nn.functional import dropout, relu
-from torch_geometric.nn import GATConv, global_mean_pool
+from torch_geometric.nn import GatConv, global_mean_pool
 
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("models", "multi_head_gat")
-class MultiHeadGAT(Module):
+@configmapper.map("models", "multigat")
+class MultiGat(Module):
     def __init__(self, config):
-        super(MultiHeadGAT, self).__init__()
+        super(MultiGat, self).__init__()
 
         num_heads = config.gat_params.num_heads
         gat_hidden_layer_sizes = list(config.gat_params.hidden_layer_sizes)
@@ -25,7 +25,7 @@ class MultiHeadGAT(Module):
 
         self.gatconv_layers = ModuleList(
             [
-                GATConv(
+                GatConv(
                     in_channels=in_channels * head_mul,
                     out_channels=out_channels,
                     heads=heads,
