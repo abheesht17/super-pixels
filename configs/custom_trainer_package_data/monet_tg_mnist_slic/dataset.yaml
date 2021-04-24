@@ -1,7 +1,7 @@
 main: &main
   name: tg_mnist_slic
   load_dataset_args:
-    path: /content/drive/MyDrive/SuperPixels/data/tg_mnist_slic
+    path: ./data/tg_mnist_slic
   pre_transform_args:
     - type: PolarTransformation
       params: null

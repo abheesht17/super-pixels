@@ -28,7 +28,7 @@ main:
     type: PolarTransformation
 train:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
+    data: ./raw_data/CIFAR100/train
     indices_csv: null
   label: fine_labels
   name: cifar_slic
@@ -37,23 +37,23 @@ train:
 train_val:
   train:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/CIFAR100_train.csv
+      data: ./raw_data/CIFAR100/train
+      indices_csv: ./raw_data/CIFAR100/CIFAR100_train.csv
     label: fine_labels
     name: cifar_slic
     split: train
     transform_args: *id001
   val:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/CIFAR100_validation.csv
+      data: ./raw_data/CIFAR100/train
+      indices_csv: ./raw_data/CIFAR100/CIFAR100_validation.csv
     label: fine_labels
     name: cifar_slic
     split: val
     transform_args: *id001
 val:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR100/test
+    data: ./raw_data/CIFAR100/test
     indices_csv: null
   label: fine_labels
   name: cifar_slic

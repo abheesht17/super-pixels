@@ -1,7 +1,7 @@
 main: &main
   name: tv_mnist
   load_dataset_args:
-    path: /content/drive/MyDrive/SuperPixels/data/mnist
+    path: ./data/mnist
   transform_args:
     - type: Grayscale
       params:

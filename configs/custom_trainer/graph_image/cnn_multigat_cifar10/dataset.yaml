@@ -41,7 +41,7 @@ main:
   name: cifar_img_slic
 train:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
+    data: ./raw_data/CIFAR10/train
     indices_csv: null
   graph_transform_args: *id001
   image_transform_args: *id002
@@ -51,8 +51,8 @@ train:
 train_val:
   train:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_train.csv
+      data: ./raw_data/CIFAR10/train
+      indices_csv: ./raw_data/CIFAR10/CIFAR10_train.csv
     graph_transform_args: *id001
     image_transform_args: *id002
     label: labels
@@ -60,8 +60,8 @@ train_val:
     split: train
   val:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_validation.csv
+      data: ./raw_data/CIFAR10/train
+      indices_csv: ./raw_data/CIFAR10/CIFAR10_validation.csv
     graph_transform_args: *id001
     image_transform_args: *id002
     label: labels
@@ -69,7 +69,7 @@ train_val:
     split: val
 val:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/test
+    data: ./raw_data/CIFAR10/test
     indices_csv: null
   graph_transform_args: *id001
   image_transform_args: *id002

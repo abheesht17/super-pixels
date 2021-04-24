@@ -26,7 +26,7 @@ main:
     type: RadiusGraph
 train:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
+    data: ./raw_data/CIFAR10/train
     indices_csv: null
   label: labels
   name: cifar_slic
@@ -35,23 +35,23 @@ train:
 train_val:
   train:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_train.csv
+      data: ./raw_data/CIFAR10/train
+      indices_csv: ./raw_data/CIFAR10/CIFAR10_train.csv
     label: labels
     name: cifar_slic
     split: train
     transform_args: *id001
   val:
     filepath:
-      data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/train
-      indices_csv: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/CIFAR10_validation.csv
+      data: ./raw_data/CIFAR10/train
+      indices_csv: ./raw_data/CIFAR10/CIFAR10_validation.csv
     label: labels
     name: cifar_slic
     split: val
     transform_args: *id001
 val:
   filepath:
-    data: /content/drive/MyDrive/SuperPixels/raw_data/CIFAR10/test
+    data: ./raw_data/CIFAR10/test
     indices_csv: null
   label: labels
   name: cifar_slic
