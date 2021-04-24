@@ -1,12 +1,7 @@
 """Combine a custom CNN and GCN based on the config."""
 
 import torch
-from torch.nn import (
-    CrossEntropyLoss,
-    Linear,
-    Module,
-)
-
+from torch.nn import CrossEntropyLoss, Linear, Module
 from torch.nn.functional import relu
 
 from src.utils.mapper import configmapper

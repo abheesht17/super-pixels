@@ -1,4 +1,5 @@
 """Implements CIFAR Dataset"""
+import pickle
 import struct
 
 import numpy as np
@@ -9,8 +10,8 @@ from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-import pandas as pd
-import pickle
+
+
 @configmapper.map("datasets", "cifar")
 class Cifar(Dataset):
     def __init__(self, config):
@@ -28,23 +29,21 @@ class Cifar(Dataset):
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )
-        with open(config.filepath.data,'rb') as f:
-            try:
-                self.data = pickle.load(f)
-            except:
-                self.data = pickle.load(f,encoding="bytes")
-        self.images = self.data[b'data']
-        self.labels = self.data[config.label.encode('UTF-8')]
-            
+        with open(config.filepath.data, "rb") as f:
+
+            self.data = pickle.load(f, encoding="bytes")
+        self.images = self.data[b"data"]
+        self.labels = self.data[config.label.encode("UTF-8")]
+
         if config.filepath.indices_csv != None:
-            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)['index'])
+            filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["index"])
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
 
-        self.images = self.images.reshape(-1, 32,32,3)
-        
+        self.images = self.images.reshape(-1, 32, 32, 3)
+
     def __len__(self):
-        return self.labels.shape[0]
+        return self.images.shape[0]
 
     def __getitem__(self, idx):
         image = self.images[idx]

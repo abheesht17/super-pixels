@@ -2,13 +2,14 @@
 import struct
 
 import numpy as np
+import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-import pandas as pd
+
 
 @configmapper.map("datasets", "mnist_img_slic")
 class MnistImgSlic(Dataset):
@@ -43,7 +44,7 @@ class MnistImgSlic(Dataset):
             if image_transformations != []
             else None
         )
-        
+
         with open(config.filepath.image, "rb") as f:
             # First 16 bytes contain some metadata
             _ = f.read(4)

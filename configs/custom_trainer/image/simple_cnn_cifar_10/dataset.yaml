@@ -4,9 +4,6 @@ main: &main
   transform_args:
     - type: ToPILImage
       params: null
-    - type: Grayscale
-      params:
-        num_output_channels: 1
     - type: ToTensor
       params: null # Need to write it at as null if no parameters are passed,
     - type: Normalize
