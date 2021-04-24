@@ -2,15 +2,12 @@
 
 import torch
 from torch.nn import (
-    BatchNorm2d,
-    Conv2d,
     CrossEntropyLoss,
     Linear,
-    MaxPool2d,
     Module,
-    ReLU,
-    Sequential,
 )
+
+from torch.nn.functional import relu
 
 from src.utils.mapper import configmapper
 
@@ -36,6 +33,7 @@ class CnnGcnProjection(Module):
         cnn_out = self.cnn(image)
         gcn_out = self.gcn(graph)
         out = torch.cat([cnn_out, gcn_out], dim=1)
+        out = relu(out)
         out = self.linear_layer(out)
         if labels is not None:
             loss = self.loss_fn(out, labels)

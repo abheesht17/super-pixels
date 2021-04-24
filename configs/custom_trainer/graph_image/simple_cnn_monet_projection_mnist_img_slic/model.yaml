@@ -6,8 +6,8 @@ cnn_config:
   cnn_params:
     hidden_layer_sizes: [32,64,64]
   linear_layer_params:
-    intermediate_layer_sizes: [32]
-  num_classes: 100
+    intermediate_layer_sizes: []
+  num_classes: 32
   # input_dim: 28
 
 gcn_config:
@@ -17,7 +17,7 @@ gcn_config:
   monet_params:
     hidden_layer_sizes: [32,64,64]
   linear_layer_params:
-    intermediate_layer_sizes: [128]
-  num_classes: 100
+    intermediate_layer_sizes: []
+  num_classes: 32
 
 num_classes: 10

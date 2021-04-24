@@ -5,17 +5,17 @@ cnn_config:
   vgg_version: "11"
   batch_norm: false
   num_layers_freeze: 8
-  num_classes: 100
+  num_classes: 32
   pretrained: false
 
 gcn_config:
   name: multi_head_gat
   num_node_features: 3
   gat_params:
-    hidden_layer_sizes: [32,64,128]
+    hidden_layer_sizes: [32,64,64]
     num_heads: [2,2,2]
   linear_layer_params:
-    intermediate_layer_sizes: [32]
-  num_classes: 100
+    intermediate_layer_sizes: []
+  num_classes: 32
 
 num_classes: 10
