@@ -14,12 +14,12 @@ class Projection(Module):
         self.cnn = configmapper.get_object("models", config.cnn_config.name)(
             config.cnn_config
         )
-        self.gcn = configmapper.get_object("models", config.gcn_config.name)(
-            config.gcn_config
+        self.gcn = configmapper.get_object("models", config.gnn_config.name)(
+            config.gnn_config
         )
 
         self.linear_layer = Linear(
-            config.cnn_config.num_classes + config.gcn_config.num_classes,
+            config.cnn_config.num_classes + config.gnn_config.num_classes,
             config.num_classes,
         )
         self.loss_fn = CrossEntropyLoss()

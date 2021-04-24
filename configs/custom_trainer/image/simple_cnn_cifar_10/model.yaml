@@ -1,8 +1,0 @@
-name: cnn
-num_input_channels: 3
-cnn_params:
-  hidden_layer_sizes: [32,64,64]
-linear_layer_params:
-  intermediate_layer_sizes: [32]
-num_classes: 10
-# input_dim: 28

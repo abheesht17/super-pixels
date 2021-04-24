@@ -1,7 +1,7 @@
 import torch
 from torch.nn import CrossEntropyLoss, Linear, Module, ModuleList
 from torch.nn.functional import dropout, relu
-from torch_geometric.nn import GatConv, global_mean_pool
+from torch_geometric.nn import GATConv, global_mean_pool
 
 from src.utils.mapper import configmapper
 
@@ -25,7 +25,7 @@ class MultiGat(Module):
 
         self.gatconv_layers = ModuleList(
             [
-                GatConv(
+                GATConv(
                     in_channels=in_channels * head_mul,
                     out_channels=out_channels,
                     heads=heads,

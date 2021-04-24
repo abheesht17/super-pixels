@@ -1,7 +1,7 @@
 import torch
 from torch.nn import CrossEntropyLoss, Linear, Module, ModuleList
 from torch.nn.functional import dropout, relu
-from torch_geometric.nn import GatConv, global_mean_pool
+from torch_geometric.nn import GATConv, global_mean_pool
 
 from src.utils.mapper import configmapper
 
@@ -21,7 +21,7 @@ class Gat(Module):
 
         self.gatconv_layers = ModuleList(
             [
-                GatConv(in_channels=in_channels, out_channels=out_channels, heads=1)
+                GATConv(in_channels=in_channels, out_channels=out_channels, heads=1)
                 for in_channels, out_channels in zip(
                     gat_hidden_layer_sizes[:-1], gat_hidden_layer_sizes[1:]
                 )
