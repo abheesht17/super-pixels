@@ -16,6 +16,9 @@ main:
       - 0.25643846
       - 0.27615058
     type: Normalize
+  - params:
+      size: [224,224]
+    type: Resize
 train:
   filepath:
     data: ./raw_data/CIFAR100/train
