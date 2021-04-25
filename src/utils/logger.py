@@ -2,6 +2,7 @@ import json
 import os
 
 import torch
+
 # from omegaconf.dictconfig import DictConfig
 from torch.autograd import Variable
 from torch.utils.tensorboard import SummaryWriter
@@ -87,8 +88,8 @@ class Logger:
                 hparam_list[i] = ",".join(list(map(str, hparam_list[i])))
             if isinstance(hparam_list[i], dict):
                 hparam_list[i] = json.dumps(hparam_list[i])
-#             if type(hparam_list[i]) == DictConfig:
-#                 hparam_list[i] = str(hparam_list[i])
+            #             if type(hparam_list[i]) == DictConfig:
+            #                 hparam_list[i] = str(hparam_list[i])
             if hparam_list[i] is None:
                 hparam_list[i] = "None"
         print(hparam_list, hparam_name_list, metric_list, metric_name_list)

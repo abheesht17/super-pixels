@@ -2,6 +2,7 @@
 import pickle
 import struct
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
@@ -10,7 +11,6 @@ from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-import matplotlib.pyplot as plt
 from src.utils.viz import visualize_geometric_graph
 
 
@@ -43,7 +43,9 @@ class CifarSlic(Dataset):
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
 
-        self.images= np.transpose(np.reshape(self.images, (-1, 3, 32, 32)), (0,2, 3, 1))
+        self.images = np.transpose(
+            np.reshape(self.images, (-1, 3, 32, 32)), (0, 2, 3, 1)
+        )
 
     def __len__(self):
         return self.images.shape[0]
@@ -55,7 +57,6 @@ class CifarSlic(Dataset):
         if self.transform is not None:
             graph = self.transform(image)
         plt.imsave(f"{label}.png", image)
-        visualize_geometric_graph(graph,"{label}_graph.png")
-
+        visualize_geometric_graph(graph, "{label}_graph.png")
 
         return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}

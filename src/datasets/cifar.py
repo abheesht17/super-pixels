@@ -40,8 +40,9 @@ class Cifar(Dataset):
             self.images = np.take(self.images, filtered_indices, axis=0)
             self.labels = np.take(self.labels, filtered_indices, axis=0)
 
-        self.images= np.transpose(np.reshape(self.images, (-1, 3, 32, 32)), (0,2, 3, 1))
-
+        self.images = np.transpose(
+            np.reshape(self.images, (-1, 3, 32, 32)), (0, 2, 3, 1)
+        )
 
     def __len__(self):
         return self.images.shape[0]
