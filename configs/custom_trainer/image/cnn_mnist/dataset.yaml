@@ -10,9 +10,9 @@ main: &main
     type: ToTensor
   - params:
       mean:
-      - 0.2860402
+      - 0.13066062
       std:
-      - 0.3530239
+      - 0.30810776
     type: Normalize
 train:
   << : *main

@@ -50,18 +50,18 @@ train:
 train_val:
   train:
     filepath:
-      image: ./raw_data/MNIST/train-images-idx3-ubyte
-      indices_csv: ./raw_data/MNIST/MNIST_training.csv
-      labels: ./raw_data/MNIST/train-labels-idx1-ubyte
+      image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
+      indices_csv: ./raw_data/FashionMNIST/FashionMNIST_training.csv
+      labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
     graph_transform_args: *id001
     image_transform_args: *id002
     name: mnist_img_slic
     split: train
   val:
     filepath:
-      image: ./raw_data/MNIST/train-images-idx3-ubyte
-      indices_csv: ./raw_data/MNIST/MNIST_validation.csv
-      labels: ./raw_data/MNIST/train-labels-idx1-ubyte
+      image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
+      indices_csv: ./raw_data/FashionMNIST/FashionMNIST_validation.csv
+      labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
     graph_transform_args: *id001
     image_transform_args: *id002
     name: mnist_img_slic

@@ -37,6 +37,11 @@ main:
       - 0.24348505
       - 0.26158768
     type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
   label: labels
   name: cifar_img_slic
 train:
