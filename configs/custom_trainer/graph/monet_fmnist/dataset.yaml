@@ -1,6 +1,6 @@
-main:
+main: &main
   name: mnist_slic
-  transform_args: &id001
+  transform_args:
   - params: null
     type: ToPILImage
   - params:
@@ -25,35 +25,31 @@ main:
   - params: null
     type: PolarTransformation
 train:
+  << : *main
   filepath:
     image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-  name: mnist_slic
   split: train
-  transform_args: *id001
 train_val:
   train:
+    << : *main
     filepath:
       image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/FashionMNIST/FashionMNIST_training.csv
       labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-    name: mnist_slic
     split: train
-    transform_args: *id001
   val:
+    << : *main
     filepath:
       image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/FashionMNIST/FashionMNIST_validation.csv
       labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-    name: mnist_slic
     split: val
-    transform_args: *id001
 val:
+  << : *main
   filepath:
     image: ./raw_data/FashionMNIST/t10k-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/FashionMNIST/t10k-labels-idx1-ubyte
-  name: mnist_slic
   split: val
-  transform_args: *id001

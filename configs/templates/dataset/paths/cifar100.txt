@@ -1,0 +1,25 @@
+train:
+  << : *main
+  filepath:
+    data: ./raw_data/CIFAR100/train
+    indices_csv: null
+  split: train
+train_val:
+  train:
+    << : *main
+    filepath:
+      data: ./raw_data/CIFAR100/train
+      indices_csv: ./raw_data/CIFAR100/CIFAR100_train.csv
+    split: train
+  val:
+    << : *main
+    filepath:
+      data: ./raw_data/CIFAR100/train
+      indices_csv: ./raw_data/CIFAR100/CIFAR100_validation.csv
+    split: val
+val:
+  << : *main
+  filepath:
+    data: ./raw_data/CIFAR100/test
+    indices_csv: null
+  split: val

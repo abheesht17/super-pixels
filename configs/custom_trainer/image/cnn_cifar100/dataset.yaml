@@ -1,7 +1,7 @@
-main:
+main: &main
   label: fine_labels
   name: cifar
-  transform_args: &id001
+  transform_args:
   - params: null
     type: ToPILImage
   - params: null
@@ -17,35 +17,27 @@ main:
       - 0.27615058
     type: Normalize
 train:
+  << : *main
   filepath:
     data: ./raw_data/CIFAR100/train
     indices_csv: null
-  label: fine_labels
-  name: cifar
   split: train
-  transform_args: *id001
 train_val:
   train:
+    << : *main
     filepath:
       data: ./raw_data/CIFAR100/train
       indices_csv: ./raw_data/CIFAR100/CIFAR100_train.csv
-    label: fine_labels
-    name: cifar
     split: train
-    transform_args: *id001
   val:
+    << : *main
     filepath:
       data: ./raw_data/CIFAR100/train
       indices_csv: ./raw_data/CIFAR100/CIFAR100_validation.csv
-    label: fine_labels
-    name: cifar
     split: val
-    transform_args: *id001
 val:
+  << : *main
   filepath:
     data: ./raw_data/CIFAR100/test
     indices_csv: null
-  label: fine_labels
-  name: cifar
   split: val
-  transform_args: *id001

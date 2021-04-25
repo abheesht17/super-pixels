@@ -1,0 +1,24 @@
+main: &main
+  name: mnist_slic
+  transform_args:
+  - params: null
+    type: ToPILImage
+  - params:
+      num_output_channels: 1
+    type: Grayscale
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.2860402
+      std:
+      - 0.3530239
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 75
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph

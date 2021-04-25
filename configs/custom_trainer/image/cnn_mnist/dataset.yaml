@@ -1,6 +1,6 @@
-main:
+main: &main
   name: mnist
-  transform_args: &id001
+  transform_args:
   - params: null
     type: ToPILImage
   - params:
@@ -10,40 +10,36 @@ main:
     type: ToTensor
   - params:
       mean:
-      - 0.13066062
+      - 0.2860402
       std:
-      - 0.30810776
+      - 0.3530239
     type: Normalize
 train:
+  << : *main
   filepath:
     image: ./raw_data/MNIST/train-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/MNIST/train-labels-idx1-ubyte
-  name: mnist
   split: train
-  transform_args: *id001
 train_val:
   train:
+    << : *main
     filepath:
       image: ./raw_data/MNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/MNIST/MNIST_training.csv
       labels: ./raw_data/MNIST/train-labels-idx1-ubyte
-    name: mnist
     split: train
-    transform_args: *id001
   val:
+    << : *main
     filepath:
       image: ./raw_data/MNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/MNIST/MNIST_validation.csv
       labels: ./raw_data/MNIST/train-labels-idx1-ubyte
-    name: mnist
     split: val
-    transform_args: *id001
 val:
+  << : *main
   filepath:
     image: ./raw_data/MNIST/t10k-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/MNIST/t10k-labels-idx1-ubyte
-  name: mnist
   split: val
-  transform_args: *id001
