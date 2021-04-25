@@ -87,7 +87,7 @@ class Vgg(Module):
 
     def forward(self, image, labels=None):
         if image.shape[1] == 1:
-            image = torch.stack([image, image, image], dim=1)
+            image = torch.cat([image, image, image], dim=1)
 
         logits = self.model(image)
         if labels is not None:
