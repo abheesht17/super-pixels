@@ -14,6 +14,9 @@ main:
       std:
       - 0.3530239
     type: Normalize
+  - params:
+      size: [224,224]
+    type: Resize
 train:
   filepath:
     image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
