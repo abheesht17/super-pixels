@@ -57,10 +57,11 @@ def visualize_geometric_graph(
         # print(f"Edgelist has only {len(np.unique(edgelist))} unique nodes.")
         # print(f"However, total number of nodes is {colors.shape[0]}.")
     
-    existing_nodes = np.sort(np.unique(edgelist))
+    # existing_nodes = np.sort(np.unique(edgelist))
 
     pos_dic = dict(zip(list(range(0, colors.shape[0])), pos))
-    nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
+    nx.draw_networkx(g, pos=pos_dic, node_color=colors)
+    # nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
 
     # for element in list(range(0,colors.shape[0])):
     #     if element not in existing_nodes:
