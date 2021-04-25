@@ -15,7 +15,9 @@ main:
       - 0.3530239
     type: Normalize
   - params:
-      size: [224,224]
+      size:
+      - 224
+      - 224
     type: Resize
 train:
   filepath:
