@@ -50,7 +50,6 @@ class CifarSlic(Dataset):
     def __getitem__(self, idx):
         image = self.images[idx]
         label = self.labels[idx]
-        print(image.shape)
         if self.transform is not None:
             graph = self.transform(image)
 
