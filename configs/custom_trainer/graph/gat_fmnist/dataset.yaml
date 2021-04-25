@@ -4,7 +4,7 @@ main:
   - params: null
     type: ToPILImage
   - params:
-      num_output_channels: 1
+      num_output_channels: 3
     type: Grayscale
   - params: null
     type: ToTensor
