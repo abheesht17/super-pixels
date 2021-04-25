@@ -28,7 +28,7 @@ def horizontal_flip(coordinates_list):
 
 
 def visualize_geometric_graph(
-    graph, file_name="Graph.png", normalize_mean=None, normalize_std=None
+    graph, file_name="Graph.png", normalize_mean=None, normalize_std=None, img=None,
 ):
     # print("Pos",graph.pos.shape)
     # print("X", graph.x.shape)
@@ -43,6 +43,9 @@ def visualize_geometric_graph(
     edgelist = list(zip(src, dst))
 
 
+    if img is not None:
+        plt.imshow(img, alpha = 0.8)
+
     g = nx.Graph()
     g.add_edges_from(edgelist)
 
@@ -54,7 +57,7 @@ def visualize_geometric_graph(
     
     existing_nodes = np.sort(np.unique(edgelist))
 
-    pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
+    pos_dic = dict(zip(list(range(0, colors.shape[0])), pos))
     nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
 
     for element in list(range(0,colors.shape[0])):
@@ -62,25 +65,6 @@ def visualize_geometric_graph(
             # print(f"Check for node {element} in {file_name}.")
             plt.scatter(x=[pos_dic[element][1]], y=[pos_dic[element][0]], c = colors[element], label = str(element), s = 300)
             plt.text(x=pos_dic[element][1]-0.5, y=pos_dic[element][0]-0.5, s=str(element), fontsize=12)
-    # base = plt.gca().transData
-    # tr = transforms.Affine2D().rotate_deg(90)
-
-    # For MNIST SLIC
-    # pos_dic = dict(zip(list(range(0, colors.shape[0])), rotate_coordinates_by_90(switch_coordinates(pos))))
-
-    # For RAG
-    # pos_dic = dict(
-    #     zip(
-    #         list(range(0, colors.shape[0])),
-    #         horizontal_flip(rotate_coordinates_by_90(rotate_coordinates_by_90(pos))),
-    #     )
-    # )
-
-    # nx.draw_networkx(
-    #     g,
-    #     pos=pos_dic,
-    #     node_color=colors,
-    # )
 
     plt.savefig(file_name, format="PNG")
     plt.clf()
