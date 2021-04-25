@@ -42,26 +42,40 @@ def visualize_geometric_graph(
     dst = edge_index[1]
     edgelist = list(zip(src, dst))
 
-
     g = nx.Graph()
     g.add_edges_from(edgelist)
 
-
     # if len(np.unique(edgelist)) < colors.shape[0]:
-        # print("="*30)
-        # print(f"Edgelist has only {len(np.unique(edgelist))} unique nodes.")
-        # print(f"However, total number of nodes is {colors.shape[0]}.")
-    
+    # print("="*30)
+    # print(f"Edgelist has only {len(np.unique(edgelist))} unique nodes.")
+    # print(f"However, total number of nodes is {colors.shape[0]}.")
+
     existing_nodes = np.sort(np.unique(edgelist))
 
     pos_dic = dict(zip(list(range(0, colors.shape[0])), switch_coordinates(pos)))
-    nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
+    nx.draw_networkx(
+        g,
+        pos=pos_dic,
+        node_color=colors[existing_nodes],
+        labels=dict(zip(existing_nodes, existing_nodes)),
+    )
 
-    for element in list(range(0,colors.shape[0])):
+    for element in list(range(0, colors.shape[0])):
         if element not in existing_nodes:
             # print(f"Check for node {element} in {file_name}.")
-            plt.scatter(x=[pos_dic[element][1]], y=[pos_dic[element][0]], c = colors[element], label = str(element), s = 300)
-            plt.text(x=pos_dic[element][1]-0.5, y=pos_dic[element][0]-0.5, s=str(element), fontsize=12)
+            plt.scatter(
+                x=[pos_dic[element][1]],
+                y=[pos_dic[element][0]],
+                c=colors[element],
+                label=str(element),
+                s=300,
+            )
+            plt.text(
+                x=pos_dic[element][1] - 0.5,
+                y=pos_dic[element][0] - 0.5,
+                s=str(element),
+                fontsize=12,
+            )
     # base = plt.gca().transData
     # tr = transforms.Affine2D().rotate_deg(90)
 

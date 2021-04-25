@@ -1,6 +1,5 @@
 """Implements CIFAR Dataset"""
 import pickle
-import struct
 
 import numpy as np
 import pandas as pd

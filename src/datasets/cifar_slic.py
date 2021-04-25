@@ -1,8 +1,6 @@
 """Implements CIFAR SLIC Dataset"""
 import pickle
-import struct
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
@@ -11,7 +9,6 @@ from torchvision import transforms
 
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
-from src.utils.viz import visualize_geometric_graph
 
 
 @configmapper.map("datasets", "cifar_slic")
@@ -56,7 +53,5 @@ class CifarSlic(Dataset):
         print(image.shape)
         if self.transform is not None:
             graph = self.transform(image)
-        plt.imsave(f"{label}.png", image)
-        visualize_geometric_graph(graph, "{label}_graph.png")
 
         return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}
