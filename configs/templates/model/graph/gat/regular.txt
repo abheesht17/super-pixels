@@ -8,4 +8,4 @@ linear_layer_params:
   - 32
 name: gat
 num_classes: 10
-num_node_features: 5
+num_node_features: 3

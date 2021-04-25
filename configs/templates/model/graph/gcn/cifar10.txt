@@ -1,4 +1,4 @@
-gat_params:
+gcn_params:
   hidden_layer_sizes:
   - 32
   - 64
@@ -6,6 +6,6 @@ gat_params:
 linear_layer_params:
   intermediate_layer_sizes:
   - 32
-name: gat
+name: gcn
 num_classes: 10
 num_node_features: 5
