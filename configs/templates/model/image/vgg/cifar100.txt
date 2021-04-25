@@ -1,6 +1,6 @@
 batch_norm: false
 name: vgg
 num_classes: 100
-num_layers_freeze: 8
+num_layers_freeze: 0
 pretrained: false
 vgg_version: '11'
