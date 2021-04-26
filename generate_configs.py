@@ -114,7 +114,7 @@ def generate_dataset_yaml(image_path, graph_path, dataset):
     d['train_val']['val']['graph_transform_args'] = d2['val']['transform_args']
 
     return d
-    
+
 # Image and Graph Dataset
 img_transforms_path = './configs/templates/dataset/transforms/image'
 grp_transforms_path = './configs/templates/dataset/transforms/graph'
@@ -186,3 +186,13 @@ for dataset in datasets:
             dataset_yaml = generate_dataset_yaml(os.path.join(image_path,'dataset.yaml'),os.path.join(graph_path,'dataset.yaml'),dataset)
             with open(os.path.join(graph_image_path, 'dataset.yaml'),'w') as f:
                 yaml.dump(dataset_yaml,f)
+
+# Clean save all the train configs
+import yaml
+for root, dirs, fils in os.walk('configs/custom_trainer'):
+    for fil in fils:
+        if 'train.yaml' in fil:
+            with open(os.path.join(root, fil)) as f:
+                d = yaml.safe_load(f)
+            with open(os.path.join(root, fil),'w') as f:
+                yaml.dump(d, f)
