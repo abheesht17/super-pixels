@@ -1,10 +1,10 @@
-main:
+main: &main
   name: mnist
-  transform_args: &id001
+  transform_args:
   - params: null
     type: ToPILImage
   - params:
-      num_output_channels: 1
+      num_output_channels: 3
     type: Grayscale
   - params: null
     type: ToTensor
@@ -14,36 +14,37 @@ main:
       std:
       - 0.3530239
     type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
 train:
+  << : *main
   filepath:
     image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-  name: mnist
   split: train
-  transform_args: *id001
 train_val:
   train:
+    << : *main
     filepath:
       image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/FashionMNIST/FashionMNIST_training.csv
       labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-    name: mnist
     split: train
-    transform_args: *id001
   val:
+    << : *main
     filepath:
       image: ./raw_data/FashionMNIST/train-images-idx3-ubyte
       indices_csv: ./raw_data/FashionMNIST/FashionMNIST_validation.csv
       labels: ./raw_data/FashionMNIST/train-labels-idx1-ubyte
-    name: mnist
     split: val
-    transform_args: *id001
 val:
+  << : *main
   filepath:
     image: ./raw_data/FashionMNIST/t10k-images-idx3-ubyte
     indices_csv: null
     labels: ./raw_data/FashionMNIST/t10k-labels-idx1-ubyte
-  name: mnist
   split: val
-  transform_args: *id001

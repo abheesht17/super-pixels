@@ -1,59 +1,52 @@
-main:
-  label: fine_labels
+main: &main
+  label: labels
   name: cifar_slic
-  transform_args: &id001
+  transform_args:
   - params: null
     type: ToPILImage
   - params: null
     type: ToTensor
   - params:
       mean:
-      - 0.5070746
-      - 0.48654896
-      - 0.44091788
+      - 0.49139968
+      - 0.48215827
+      - 0.44653124
       std:
-      - 0.26733422
-      - 0.25643846
-      - 0.27615058
+      - 0.24703233
+      - 0.24348505
+      - 0.26158768
     type: Normalize
   - params:
       add_img: true
       add_seg: true
-      n_segments: 75
+      n_segments: 100
     type: ToSLIC
   - params:
       r: 5
     type: RadiusGraph
+
 train:
+  << : *main
   filepath:
     data: ./raw_data/CIFAR10/train
     indices_csv: null
-  label: fine_labels
-  name: cifar_slic
   split: train
-  transform_args: *id001
 train_val:
   train:
+    << : *main
     filepath:
       data: ./raw_data/CIFAR10/train
       indices_csv: ./raw_data/CIFAR10/CIFAR10_train.csv
-    label: fine_labels
-    name: cifar_slic
     split: train
-    transform_args: *id001
   val:
+    << : *main
     filepath:
       data: ./raw_data/CIFAR10/train
       indices_csv: ./raw_data/CIFAR10/CIFAR10_validation.csv
-    label: fine_labels
-    name: cifar_slic
     split: val
-    transform_args: *id001
 val:
+  << : *main
   filepath:
     data: ./raw_data/CIFAR10/test
     indices_csv: null
-  label: fine_labels
-  name: cifar_slic
   split: val
-  transform_args: *id001

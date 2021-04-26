@@ -27,7 +27,7 @@ main:
   - params: null
     type: ToPILImage
   - params:
-      num_output_channels: 1
+      num_output_channels: 3
     type: Grayscale
   - params: null
     type: ToTensor
@@ -37,6 +37,11 @@ main:
       std:
       - 0.30810776
     type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
   name: mnist_img_slic
 train:
   filepath:

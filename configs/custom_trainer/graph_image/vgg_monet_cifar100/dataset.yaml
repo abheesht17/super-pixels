@@ -17,7 +17,7 @@ main:
   - params:
       add_img: true
       add_seg: true
-      n_segments: 75
+      n_segments: 100
     type: ToSLIC
   - params:
       r: 5
@@ -39,6 +39,11 @@ main:
       - 0.25643846
       - 0.27615058
     type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
   label: fine_labels
   name: cifar_img_slic
 train:

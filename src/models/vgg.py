@@ -43,9 +43,7 @@ class Vgg(Module):
         ), 'VGG version incorrect, should be in ["11","13","16","19"]'
 
         # load the pretrained model
-        self.model = STR_MODEL_MAPPING[vgg_version](
-            pretrained=config.pretrained
-        )
+        self.model = STR_MODEL_MAPPING[vgg_version](pretrained=config.pretrained)
 
         # freeze specified number of layers
         num_cls_layers_freeze = 3 - num_layers + num_layers_freeze
@@ -86,7 +84,6 @@ class Vgg(Module):
         return model
 
     def forward(self, image, labels=None):
-
         logits = self.model(image)
         if labels is not None:
             loss = self.loss_fn(logits, labels)
