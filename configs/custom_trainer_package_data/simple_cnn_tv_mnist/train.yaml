@@ -1,7 +1,7 @@
 trainer_name: base_trainer
 version: 1.0
 dataloader_type: regular
-input_key: 
+input_key:
   - image
 
 main_config: &main
@@ -23,7 +23,7 @@ train: &train
     batch_size: 64
     num_workers: 2
     shuffle: true
-  save_after_epoch: true
+  save_after_epoch: false
   optimizer:
     type: adam_w
     params:
@@ -71,7 +71,7 @@ grid_search:
   directory: null
   hyperparams:
     train:
-      max_epochs: 
+      max_epochs:
         - !!int 100
       loader_params:
         batch_size:
@@ -93,23 +93,23 @@ grid_search:
       log:
         log_label: null
         vals:
-          hparams:  ## Can have lists inside hparams
-             - name: epochs
-               path:
+          hparams: ## Can have lists inside hparams
+            - name: epochs
+              path:
                 - train
                 - max_epochs
-             - name: batch_size
-               path:
-                  - train
-                  - loader_params
-                  - batch_size
-             - name: optimizer_params
-               path:
-                 - train
-                 - optimizer
-                 - params
-             - name: optimizer_type
-               path:
-                 - train
-                 - optimizer
-                 - type
+            - name: batch_size
+              path:
+                - train
+                - loader_params
+                - batch_size
+            - name: optimizer_params
+              path:
+                - train
+                - optimizer
+                - params
+            - name: optimizer_type
+              path:
+                - train
+                - optimizer
+                - type
