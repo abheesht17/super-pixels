@@ -69,5 +69,5 @@ def visualize_geometric_graph(
     #         plt.scatter(x=[pos_dic[element][1]], y=[pos_dic[element][0]], c = colors[element], label = str(element), s = 300)
     #         plt.text(x=pos_dic[element][1]-0.5, y=pos_dic[element][0]-0.5, s=str(element), fontsize=12)
 
-    plt.savefig(file_name, format="PNG")
+    plt.savefig(file_name, bbox_inches='tight')
     plt.clf()
