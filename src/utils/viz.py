@@ -28,7 +28,11 @@ def horizontal_flip(coordinates_list):
 
 
 def visualize_geometric_graph(
-    graph, file_name="Graph.png", normalize_mean=None, normalize_std=None, img=None,
+    graph,
+    file_name="Graph.png",
+    normalize_mean=None,
+    normalize_std=None,
+    img=None,
 ):
     # print("Pos",graph.pos.shape)
     # print("X", graph.x.shape)
@@ -40,27 +44,25 @@ def visualize_geometric_graph(
         colors = np.clip(colors * normalize_std + normalize_mean, 0, 1)
     src = edge_index[0]
     dst = edge_index[1]
-    
+
     edgelist = list(zip(src, dst))
 
-
     if img is not None:
-        plt.imshow(img, alpha = 0.8)
+        plt.imshow(img, alpha=0.8)
 
     g = nx.Graph()
     g.add_nodes_from(list(range(0, colors.shape[0])))
     g.add_edges_from(edgelist)
 
-
     # if len(np.unique(edgelist)) < colors.shape[0]:
-        # print("="*30)
-        # print(f"Edgelist has only {len(np.unique(edgelist))} unique nodes.")
-        # print(f"However, total number of nodes is {colors.shape[0]}.")
-    
+    # print("="*30)
+    # print(f"Edgelist has only {len(np.unique(edgelist))} unique nodes.")
+    # print(f"However, total number of nodes is {colors.shape[0]}.")
+
     # existing_nodes = np.sort(np.unique(edgelist))
 
     pos_dic = dict(zip(list(range(0, colors.shape[0])), pos))
-    nx.draw_networkx(g, pos=pos_dic, node_color=colors)
+    nx.draw_networkx(g, pos=pos_dic, node_color=colors, edgecolors="black")
     # nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
 
     # for element in list(range(0,colors.shape[0])):
@@ -69,5 +71,5 @@ def visualize_geometric_graph(
     #         plt.scatter(x=[pos_dic[element][1]], y=[pos_dic[element][0]], c = colors[element], label = str(element), s = 300)
     #         plt.text(x=pos_dic[element][1]-0.5, y=pos_dic[element][0]-0.5, s=str(element), fontsize=12)
 
-    plt.savefig(file_name, bbox_inches='tight')
+    plt.savefig(file_name, bbox_inches="tight")
     plt.clf()
