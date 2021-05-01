@@ -59,7 +59,6 @@ class MoNet(Module):
             weight = normalized_cut_2d(data.edge_index, data.pos)
             cluster = graclus(data.edge_index, weight, data.x.size(0))
             if i == 0:
-                data.edge_attr = None  # Check what this does!!!
                 data.edge_attr = None 
             data = max_pool(cluster, data, transform=T.Cartesian(cat=False))
 
