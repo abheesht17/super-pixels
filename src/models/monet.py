@@ -62,7 +62,7 @@ class MoNet(Module):
                 data.edge_attr = None  # Check what this does!!!
                 data.edge_attr = None 
             data = max_pool(cluster, data, transform=T.Cartesian(cat=False))
-            
+
         data.x = self.monet_layers[-1](data.x, data.edge_index, data.edge_attr)
 
         for linear_layer in self.linear_layers[:-1]:
