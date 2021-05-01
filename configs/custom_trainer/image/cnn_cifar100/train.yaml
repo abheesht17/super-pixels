@@ -64,7 +64,7 @@ train:
   interval_type: epoch
   label_type: logit
   loader_params:
-    batch_size: 64
+    batch_size: 128
     num_workers: 2
     shuffle: true
   log:
@@ -82,6 +82,7 @@ train:
       betas:
         - 0.9
         - 0.998
+      weight_decay: 0
       eps: 1.0e-08
       lr: 0.001
     type: adam_w
@@ -99,7 +100,7 @@ val:
   append_text: val
   device: *id001
   loader_params:
-    batch_size: 64
+    batch_size: 128
     num_workers: 2
     shuffle: false
   max_steps: null
