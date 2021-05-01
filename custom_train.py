@@ -69,7 +69,7 @@ else:  # HF Type Data
 # Logger
 
 logger = Logger(
-    log_path=os.path.join(log_dir, args.config_dir.strip("/").split("/")[-1]+'' if args.validation else '_orig')
+    log_path=os.path.join(log_dir, args.config_dir.strip("/").split("/")[-1]+('' if args.validation else '_orig'))
 )
 
 if grid_search:
