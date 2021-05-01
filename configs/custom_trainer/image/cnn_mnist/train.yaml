@@ -1,3 +1,4 @@
+# Final
 dataloader_type: regular
 grid_search:
   directory: null
@@ -64,7 +65,7 @@ train:
   interval_type: epoch
   label_type: logit
   loader_params:
-    batch_size: 64
+    batch_size: 128
     num_workers: 2
     shuffle: true
   log:
@@ -75,7 +76,7 @@ train:
       loss: true
       metrics: true
   log_and_val_interval: 1
-  max_epochs: 100
+  max_epochs: 68
   metrics: *id002
   optimizer:
     params:
@@ -84,8 +85,9 @@ train:
         - 0.998
       eps: 1.0e-08
       lr: 0.001
+      weight_decay: 0
     type: adam_w
-  save_after_epoch: false
+  save_after_epoch: true
   save_on:
     best_path: ckpts/best_{}.pth
     desired: max
