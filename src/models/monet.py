@@ -53,12 +53,13 @@ class MoNet(Module):
 
     def forward(self, graph):
         data = graph
+        data.x = torch.cat([data.pos, data.x], dim=1)
         for i, monet_layer in enumerate(self.monet_layers[:-1]):
             data.x = F.relu(monet_layer(data.x, data.edge_index, data.edge_attr))
             weight = normalized_cut_2d(data.edge_index, data.pos)
             cluster = graclus(data.edge_index, weight, data.x.size(0))
             if i == 0:
-                data.edge_attr = None  # Check what this does!!!
+                data.edge_attr = None 
             data = max_pool(cluster, data, transform=T.Cartesian(cat=False))
 
         data.x = self.monet_layers[-1](data.x, data.edge_index, data.edge_attr)
