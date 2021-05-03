@@ -98,7 +98,7 @@ train:
   scheduler: null
   seed: 42
   val_interval: 1
-trainer_name: base_trainer
+trainer_name: hybrid_trainer
 val:
   append_text: val
   device: *id001
