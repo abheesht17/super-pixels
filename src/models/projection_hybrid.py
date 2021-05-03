@@ -7,8 +7,8 @@ from torch.nn.functional import relu
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("models", "projection")
-class Projection(Module):
+@configmapper.map("models", "projection_hybrid")
+class ProjectionHybrid(Module):
     def __init__(self, config):
         super(Projection, self).__init__()
         self.cnn = configmapper.get_object("models", config.cnn_config.name)(
