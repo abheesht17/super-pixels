@@ -1,0 +1,24 @@
+cnn_config:
+  cnn_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: cnn
+  num_classes: 100
+  num_input_channels: 3
+gnn_config:
+  gat_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: gat
+  num_classes: 100
+  num_node_features: 5
+name: projection_hybrid
+num_classes: 100
