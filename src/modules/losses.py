@@ -16,6 +16,6 @@ class HybridLoss:
 
     def __call__(self, outputs, targets):
         return (
-            self.loss_fn(torch.squeeze(outputs[0], dim=1), targets)
-            + self.loss_fn(torch.squeeze(outputs[1], dim=1), targets) * self.alpha
+            self.loss_fn(torch.squeeze(outputs[0], dim=1), targets) * self.alpha
+            + self.loss_fn(torch.squeeze(outputs[1], dim=1), targets) * (1-self.alpha)
         )

@@ -3,9 +3,16 @@ grid_search:
   directory: null
   hyperparams:
     train:
+      criterion:
+        params: 
+          alpha: 
+            - 0.25
+            - 0.4
+            - 0.5
+            - 0.75
+            - 0.9
       loader_params:
         batch_size:
-          - 256
           - 128
       log:
         log_label: null
@@ -36,10 +43,7 @@ grid_search:
         params:
           lr:
             - 0.001
-            - 0.0001
-            - 1.0e-05
           weight_decay:
-            - 0
             - 0.001
         type:
           - adam_w

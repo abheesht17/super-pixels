@@ -147,7 +147,7 @@ class HybridTrainer:
                 loss.backward()
 
                 all_labels = torch.cat((all_labels, labels), 0)
-                outputs = outputs[0] + outputs[1] * self.alpha
+                outputs = outputs[0] * self.alpha + outputs[1] * (1-self.alpha)
                 if self.train_config.label_type == "float":
                     all_outputs = torch.cat((all_outputs, outputs), 0)
                 else:
@@ -666,7 +666,7 @@ class HybridTrainer:
                 val_loss += loss.item()
 
                 all_labels = torch.cat((all_labels, labels), 0)
-                outputs = outputs[0] + outputs[1] * self.alpha
+                outputs = outputs[0] self.alpha + outputs[1] * (1-self.alpha)
                 if self.train_config.label_type == "float":
                     all_outputs = torch.cat((all_outputs, outputs), 0)
                 else:
