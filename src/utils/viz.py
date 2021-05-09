@@ -48,7 +48,7 @@ def visualize_geometric_graph(
     edgelist = list(zip(src, dst))
 
     if img is not None:
-        plt.imshow(img, alpha=0.8)
+        plt.imshow(img, alpha=0.7)
 
     g = nx.Graph()
     g.add_nodes_from(list(range(0, colors.shape[0])))
@@ -62,7 +62,14 @@ def visualize_geometric_graph(
     # existing_nodes = np.sort(np.unique(edgelist))
 
     pos_dic = dict(zip(list(range(0, colors.shape[0])), pos))
-    nx.draw_networkx(g, pos=pos_dic, node_color=colors, edgecolors="black")
+    nx.draw_networkx(
+        g,
+        pos=pos_dic,
+        node_color=colors,
+        node_size=150,
+        font_size=7,
+        edgecolors="black",
+    )
     # nx.draw_networkx(g, pos=pos_dic, node_color=colors[existing_nodes], labels = dict(zip(existing_nodes, existing_nodes)))
 
     # for element in list(range(0,colors.shape[0])):

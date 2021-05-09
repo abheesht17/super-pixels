@@ -1,0 +1,31 @@
+main: &main
+  name: covid
+  transform_args:
+  - params:
+      size: [256, 256]
+    type: Resize
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+        - 0.5094362248497217
+      std:
+        - 0.25237422057401465
+    type: Normalize
+train:
+  <<: *main
+  data_paths_csv: ./raw_data/COVID/train_paths.csv
+  split: train
+train_val:
+  train:
+    <<: *main
+    data_paths_csv: ./raw_data/COVID/train_sub_paths.csv
+    split: train
+  val:
+    <<: *main
+    data_paths_csv: ./raw_data/COVID/val_paths.csv
+    split: val
+val:
+  <<: *main
+  data_paths_csv: ./raw_data/COVID/test_paths.csv
+  split: val

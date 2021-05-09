@@ -1,0 +1,71 @@
+main:
+  graph_transform_args: &id001
+  - params:
+      size:
+      - 256
+      - 256
+    type: Resize
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.5094362248497217
+      std:
+      - 0.25237422057401465
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 200
+    type: ToSLIC
+  - params:
+      r: 27
+    type: RadiusGraph
+  image_transform_args: &id002
+  - params:
+      num_output_channels: 3
+    type: Grayscale
+  - params:
+      size:
+      - 256
+      - 256
+    type: Resize
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.5094362248497217
+      std:
+      - 0.25237422057401465
+    type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
+  name: covid_img_slic
+train:
+  data_paths_csv: ./raw_data/COVID/train_paths.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  name: covid_img_slic
+  split: train
+train_val:
+  train:
+    data_paths_csv: ./raw_data/COVID/train_sub_paths.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    name: covid_img_slic
+    split: train
+  val:
+    data_paths_csv: ./raw_data/COVID/val_paths.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    name: covid_img_slic
+    split: val
+val:
+  data_paths_csv: ./raw_data/COVID/test_paths.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  name: covid_img_slic
+  split: val
