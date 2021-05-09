@@ -1,108 +1,115 @@
+trainer_name: base_trainer
+version: 1.0
 dataloader_type: regular
-grid_search:
-  directory: null
-  hyperparams:
-    train:
-      loader_params:
-        batch_size:
-        - 256
-        - 128
-      log:
-        log_label: null
-        vals:
-          hparams:
-          - name: epochs
-            path:
-            - train
-            - max_epochs
-          - name: batch_size
-            path:
-            - train
-            - loader_params
-            - batch_size
-          - name: optimizer_params
-            path:
-            - train
-            - optimizer
-            - params
-          - name: optimizer_type
-            path:
-            - train
-            - optimizer
-            - type
-      max_epochs:
-      - 100
-      optimizer:
-        params:
-          lr:
-          - 0.001
-          - 0.0001
-          - 1.0e-05
-          weight_decay:
-          - 0
-          - 0.001
-        type:
-        - adam_w
 input_key:
-- image
-main_config:
-  device: &id001
-    name: cuda
-  metrics: &id002
-  - params:
-      normalize: true
-    type: sklearn_acc
+  - image
+
+main_config: &main
   seed: 42
-train:
-  append_text: train
-  checkpoint:
-    checkpoint_dir: ckpts/
-  criterion:
-    params: null
-    type: CrossEntropyLoss
-  device: *id001
-  interval_type: epoch
+  metrics:
+    - type: sklearn_acc
+      params:
+        normalize: true
+  device:
+    name: cuda
+
+train: &train
+  <<: *main
+  # Can add the max_epochs vs max_steps functionality
   label_type: logit
+  append_text: train
+  max_epochs: 100
   loader_params:
     batch_size: 64
     num_workers: 2
     shuffle: true
+  save_after_epoch: false
+  optimizer:
+    type: adam_w
+    params:
+      lr: !!float 1e-3
+      betas: [0.9, 0.998]
+      eps: !!float 1e-8
+
+  scheduler: null
+
+  criterion:
+    type: CrossEntropyLoss
+    params: null
+
+  save_on: ##Best Model/Final Model Saving
+    score: sklearn_acc
+    desired: max
+    best_path: "ckpts/best_{}.pth" ## Number should be same as log_label
+    final_path: "ckpts/final_{}.pth" ## Number should be same as log_label
+
+  checkpoint:
+    checkpoint_dir: "ckpts/" #For checkpoint saving after every epoch.
+
+  interval_type: epoch
+  log_and_val_interval: 1 ## Set to null if using different val and log intervals, Overrides log_interval nd val_interval
+
+  val_interval: 1 # Global steps
   log:
-    log_interval: 1
+    log_interval: 1 # Global Steps
     log_label: 1
     vals:
-      hparams: null
       loss: true
       metrics: true
-  log_and_val_interval: 1
-  max_epochs: 100
-  metrics: *id002
-  optimizer:
-    params:
-      betas:
-      - 0.9
-      - 0.998
-      eps: 1.0e-08
-      lr: 0.001
-    type: adam_w
-  save_after_epoch: false
-  save_on:
-    best_path: ckpts/best_{}.pth
-    desired: max
-    final_path: ckpts/final_{}.pth
-    score: sklearn_acc
-  scheduler: null
-  seed: 42
-  val_interval: 1
-trainer_name: base_trainer
+      hparams: null
+
 val:
+  <<: *main
   append_text: val
-  device: *id001
+  max_steps: null
   loader_params:
     batch_size: 64
     num_workers: 2
     shuffle: false
-  max_steps: null
-  metrics: *id002
-  seed: 42
-version: 1.0
+
+grid_search:
+  directory: null
+  hyperparams:
+    train:
+      max_epochs:
+        - !!int 100
+      loader_params:
+        batch_size:
+          - !!int 256
+          - !!int 128
+      optimizer:
+        type:
+          - adam_w
+          # - adam
+        params:
+          lr:
+            - !!float 1e-3
+            - !!float 1e-4
+            - !!float 1e-5
+          weight_decay:
+            - 0
+            - 0.001
+
+      log:
+        log_label: null
+        vals:
+          hparams: ## Can have lists inside hparams
+            - name: epochs
+              path:
+                - train
+                - max_epochs
+            - name: batch_size
+              path:
+                - train
+                - loader_params
+                - batch_size
+            - name: optimizer_params
+              path:
+                - train
+                - optimizer
+                - params
+            - name: optimizer_type
+              path:
+                - train
+                - optimizer
+                - type

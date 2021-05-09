@@ -265,10 +265,10 @@ for combo_type in ["projection", "hybrid"]:
 # Clean save all the train configs
 
 
-for root, dirs, fils in os.walk("configs/custom_trainer"):
-    for fil in fils:
-        if "train.yaml" in fil:
-            with open(os.path.join(root, fil)) as f:
-                d = yaml.safe_load(f)
-            with open(os.path.join(root, fil), "w") as f:
-                yaml.dump(d, f)
+# for root, dirs, fils in os.walk("configs/custom_trainer"):
+#     for fil in fils:
+#         if "train.yaml" in fil:
+#             with open(os.path.join(root, fil)) as f:
+#                 d = yaml.safe_load(f)
+#             with open(os.path.join(root, fil), "w") as f:
+#                 yaml.dump(d, f)
