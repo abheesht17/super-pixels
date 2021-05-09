@@ -24,5 +24,5 @@ gnn_config:
   name: multigat
   num_classes: 32
   num_node_features: 3
-name: projection
+name: hybrid
 num_classes: 10

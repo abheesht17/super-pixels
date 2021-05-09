@@ -90,7 +90,7 @@ def generate_train_yaml(typ, model, dataset):
     return content
 
 
-def generate_model_yaml(image_path, graph_path, dataset):
+def generate_model_yaml(image_path, graph_path, dataset, combo_type):
     with open(image_path) as f:
         d1 = yaml.safe_load(f)
 
@@ -105,7 +105,7 @@ def generate_model_yaml(image_path, graph_path, dataset):
         d2["linear_layer_params"]["intermediate_layer_sizes"] = []
     d2["num_classes"] = 32
 
-    d = {"name": "projection"}
+    d = {"name": combo_type}
     d["cnn_config"] = d1
     d["gnn_config"] = d2
     d["num_classes"] = name_to_num_class[dataset]
@@ -250,6 +250,7 @@ for combo_type in ["projection", "hybrid"]:
                     os.path.join(image_path, "model.yaml"),
                     os.path.join(graph_path, "model.yaml"),
                     dataset,
+                    combo_type
                 )
                 with open(os.path.join(graph_image_path, "model.yaml"), "w") as f:
                     yaml.dump(model_yaml, f)

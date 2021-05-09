@@ -16,5 +16,5 @@ gnn_config:
   name: gcn
   num_classes: 32
   num_node_features: 5
-name: projection
+name: hybrid
 num_classes: 100
