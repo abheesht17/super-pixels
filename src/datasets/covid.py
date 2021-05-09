@@ -1,10 +1,11 @@
 """Implements COVID Dataset"""
 
-from PIL import Image
 import os
-from numpy import show_config
+
 import pandas as pd
 import torch
+from numpy import show_config
+from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 
@@ -31,14 +32,16 @@ class Covid(Dataset):
         )
 
         self.data_paths_df = pd.read_csv(config.data_paths_csv)
-        self.data_paths_df['path'] = self.data_paths_df['path'].apply(lambda x: os.path.join('/'.join(config.data_paths_csv.split('/')[:-1]), x))
-        
+        self.data_paths_df["path"] = self.data_paths_df["path"].apply(
+            lambda x: os.path.join("/".join(config.data_paths_csv.split("/")[:-1]), x)
+        )
+
     def __len__(self):
         return self.data_paths_df.shape[0]
 
     def __getitem__(self, idx):
-        image = Image.open(self.data_paths_df.iloc[idx]['path']).convert('L')
-        label = self.data_paths_df.iloc[idx]['label']
+        image = Image.open(self.data_paths_df.iloc[idx]["path"]).convert("L")
+        label = self.data_paths_df.iloc[idx]["label"]
 
         if self.transform is not None:
             image = self.transform(image)

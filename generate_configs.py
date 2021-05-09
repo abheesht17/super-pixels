@@ -3,12 +3,19 @@ import os
 
 import yaml
 
-graph_models = ["gat","gcn","monet","multigat"]
-image_models = ["cnn","vgg","prevgg"]
-datasets = ["mnist","fmnist","cifar10","cifar100","covid"]
-datasets_classes = ["mnist_img_slic","mnist_img_slic","cifar_img_slic","cifar_img_slic","covid_img_slic"]
-num_class = [10,10,10,100, 4]
-name_to_class = dict(zip(datasets,datasets_classes))
+
+graph_models = ["gat", "gcn", "monet", "multigat"]
+image_models = ["cnn", "vgg", "prevgg"]
+datasets = ["mnist", "fmnist", "cifar10", "cifar100", "covid"]
+datasets_classes = [
+    "mnist_img_slic",
+    "mnist_img_slic",
+    "cifar_img_slic",
+    "cifar_img_slic",
+    "covid_img_slic",
+]
+num_class = [10, 10, 10, 100, 4]
+name_to_class = dict(zip(datasets, datasets_classes))
 name_to_num_class = dict(zip(datasets, num_class))
 
 graph_img_dir = "configs/custom_trainer/graph_image"
@@ -127,18 +134,18 @@ grp_transforms_path = "./configs/templates/dataset/transforms/graph"
 
 for dataset in datasets:
     for image_model in image_models:
-        image_path = os.path.join(image_dir, image_model+'_'+dataset)
+        image_path = os.path.join(image_dir, image_model + "_" + dataset)
         if not os.path.exists(image_path):
             os.makedirs(image_path)
-        with open(os.path.join(image_path, 'dataset.yaml'),'w') as f:
-            f.write(generate_dataset_yaml_indiv('image', image_model, dataset))
+        with open(os.path.join(image_path, "dataset.yaml"), "w") as f:
+            f.write(generate_dataset_yaml_indiv("image", image_model, dataset))
 
     for graph_model in graph_models:
-        graph_path = os.path.join(graph_dir, graph_model+'_'+dataset)
+        graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
         if not os.path.exists(graph_path):
             os.makedirs(graph_path)
-        with open(os.path.join(graph_path, 'dataset.yaml'),'w') as f:
-            f.write(generate_dataset_yaml_indiv('graph', graph_model, dataset))
+        with open(os.path.join(graph_path, "dataset.yaml"), "w") as f:
+            f.write(generate_dataset_yaml_indiv("graph", graph_model, dataset))
 
 
 # Image and Graph Model
@@ -147,18 +154,18 @@ grp_transforms_path = "./configs/templates/model/graph"
 
 for dataset in datasets:
     for image_model in image_models:
-        image_path = os.path.join(image_dir, image_model+'_'+dataset)
+        image_path = os.path.join(image_dir, image_model + "_" + dataset)
         if not os.path.exists(image_path):
             os.makedirs(image_path)
-        with open(os.path.join(image_path, 'model.yaml'),'w') as f:
-            f.write(generate_model_yaml_indiv('image', image_model, dataset))
+        with open(os.path.join(image_path, "model.yaml"), "w") as f:
+            f.write(generate_model_yaml_indiv("image", image_model, dataset))
 
     for graph_model in graph_models:
-        graph_path = os.path.join(graph_dir, graph_model+'_'+dataset)
+        graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
         if not os.path.exists(graph_path):
             os.makedirs(graph_path)
-        with open(os.path.join(graph_path, 'model.yaml'),'w') as f:
-            f.write(generate_model_yaml_indiv('graph', graph_model, dataset))
+        with open(os.path.join(graph_path, "model.yaml"), "w") as f:
+            f.write(generate_model_yaml_indiv("graph", graph_model, dataset))
 
 # Image and Graph Train
 with open("./configs/templates/train/image.yaml") as f:
@@ -186,8 +193,10 @@ for dataset in datasets:
     for image_model in image_models:
         image_path = os.path.join(image_dir, image_model + "_" + dataset)
         for graph_model in graph_models:
-            graph_path = os.path.join(graph_dir, graph_model+'_'+dataset)
-            graph_image_path = os.path.join(graph_img_dir, image_model+'_'+graph_model+'_'+dataset)
+            graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
+            graph_image_path = os.path.join(
+                graph_img_dir, image_model + "_" + graph_model + "_" + dataset
+            )
             if not os.path.exists(graph_image_path):
                 os.makedirs(graph_image_path)
             with open(os.path.join(graph_image_path, "train.yaml"), "w") as f:
