@@ -7,7 +7,7 @@ cnn_config:
   linear_layer_params:
     intermediate_layer_sizes: []
   name: cnn
-  num_classes: 32
+  num_classes: 4
   num_input_channels: 1
 gnn_config:
   kernel_size: 25
@@ -19,7 +19,6 @@ gnn_config:
     - 64
     - 64
   name: monet
-  num_classes: 32
+  num_classes: 4
   num_node_features: 3
 name: hybrid
-num_classes: 4

@@ -99,17 +99,17 @@ def generate_model_yaml(image_path, graph_path, dataset, combo_type):
 
     if "linear_layer_params" in d1:
         d1["linear_layer_params"]["intermediate_layer_sizes"] = []
-    d1["num_classes"] = 32
+    d1["num_classes"] = 32 if combo_type=="projection" else name_to_num_class[dataset]
 
     if "linear_layer_params" in d2:
         d2["linear_layer_params"]["intermediate_layer_sizes"] = []
-    d2["num_classes"] = 32
+    d2["num_classes"] = 32 if combo_type=="projection" else name_to_num_class[dataset]
 
     d = {"name": combo_type}
     d["cnn_config"] = d1
     d["gnn_config"] = d2
-    d["num_classes"] = name_to_num_class[dataset]
-
+    if combo_type == "projection":
+        d["num_classes"] = name_to_num_class[dataset]
     return d
 
 

@@ -1,7 +1,7 @@
 cnn_config:
   batch_norm: false
   name: vgg
-  num_classes: 32
+  num_classes: 4
   num_layers_freeze: 0
   pretrained: false
   vgg_version: '11'
@@ -14,7 +14,6 @@ gnn_config:
   linear_layer_params:
     intermediate_layer_sizes: []
   name: gat
-  num_classes: 32
+  num_classes: 4
   num_node_features: 3
 name: hybrid
-num_classes: 4
