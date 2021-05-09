@@ -37,7 +37,8 @@ train: &train
   criterion:
     type: HybridLoss
     params:
-      alpha: 2
+      alpha: 0.75
+      weight: [0.21527,0.12946,0.07636,0.57891]
 
   save_on: ##Best Model/Final Model Saving
     score: sklearn_acc
