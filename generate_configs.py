@@ -69,6 +69,27 @@ def generate_model_yaml_indiv(typ, model, dataset):
     return head
 
 
+def generate_train_yaml(typ, model, dataset):
+    if typ == "image":
+        template_path = "./configs/templates/train/image"
+    elif typ == "graph":
+        template_path = "./configs/templates/train/graph"
+    else:
+        template_path = f"./configs/templates/train/graph_image/{model}"
+    print(model, template_path)
+    list_datasets = os.listdir(template_path)
+    list_datasets = [x.split(".")[0] for x in list_datasets]
+
+    if dataset in list_datasets:
+        train_template = os.path.join(template_path, f"{dataset}.yaml")
+    else:
+        train_template = os.path.join(template_path, "regular.yaml")
+
+    with open(train_template) as f:
+        content = f.read()
+    return content
+
+
 def generate_model_yaml(image_path, graph_path, dataset):
     with open(image_path) as f:
         d1 = yaml.safe_load(f)
@@ -168,56 +189,79 @@ for dataset in datasets:
             f.write(generate_model_yaml_indiv("graph", graph_model, dataset))
 
 # Image and Graph Train
-with open("./configs/templates/train/image.yaml") as f:
-    image_train_yaml = f.read()
-for root, dirs, fils in os.walk("configs/custom_trainer/image"):
-    for fil in fils:
-        if "train.yaml" in fil:
-            with open(os.path.join(root, fil), "w") as f:
-                f.write(image_train_yaml)
+# with open("./configs/templates/train/image.yaml") as f:
+#     image_train_yaml = f.read()
+# for root, dirs, fils in os.walk("configs/custom_trainer/image"):
+#     for fil in fils:
+#         if "train.yaml" in fil:
+#             with open(os.path.join(root, fil), "w") as f:
+#                 f.write(image_train_yaml)
 
-with open("./configs/templates/train/graph.yaml") as f:
-    graph_train_yaml = f.read()
-for root, dirs, fils in os.walk("configs/custom_trainer/graph"):
-    for fil in fils:
-        if "train.yaml" in fil:
-            with open(os.path.join(root, fil), "w") as f:
-                f.write(graph_train_yaml)
+# with open("./configs/templates/train/graph.yaml") as f:
+#     graph_train_yaml = f.read()
+# for root, dirs, fils in os.walk("configs/custom_trainer/graph"):
+#     for fil in fils:
+#         if "train.yaml" in fil:
+#             with open(os.path.join(root, fil), "w") as f:
+#                 f.write(graph_train_yaml)
 
-
-# Graph - Image Entire
-with open("./configs/templates/train/graph_image.yaml") as f:
-    graph_image_train_yaml = f.read()
 
 for dataset in datasets:
     for image_model in image_models:
         image_path = os.path.join(image_dir, image_model + "_" + dataset)
-        for graph_model in graph_models:
-            graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
-            graph_image_path = os.path.join(
-                graph_img_dir, image_model + "_" + graph_model + "_" + dataset
-            )
-            if not os.path.exists(graph_image_path):
-                os.makedirs(graph_image_path)
-            with open(os.path.join(graph_image_path, "train.yaml"), "w") as f:
-                f.write(graph_image_train_yaml)
-            model_yaml = generate_model_yaml(
-                os.path.join(image_path, "model.yaml"),
-                os.path.join(graph_path, "model.yaml"),
-                dataset,
-            )
-            with open(os.path.join(graph_image_path, "model.yaml"), "w") as f:
-                yaml.dump(model_yaml, f)
-            dataset_yaml = generate_dataset_yaml(
-                os.path.join(image_path, "dataset.yaml"),
-                os.path.join(graph_path, "dataset.yaml"),
-                dataset,
-            )
-            with open(os.path.join(graph_image_path, "dataset.yaml"), "w") as f:
-                yaml.dump(dataset_yaml, f)
+        if not os.path.exists(image_path):
+            os.makedirs(image_path)
+        with open(os.path.join(image_path, "train.yaml"), "w") as f:
+            f.write(generate_train_yaml("image", image_model, dataset))
+
+    for graph_model in graph_models:
+        graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
+        if not os.path.exists(graph_path):
+            os.makedirs(graph_path)
+        with open(os.path.join(graph_path, "train.yaml"), "w") as f:
+            f.write(generate_train_yaml("graph", graph_model, dataset))
+
+# Graph - Image Entire
+
+# with open("./configs/templates/train/graph_image.yaml") as f:
+#     graph_image_train_yaml = f.read()
+
+
+# Projection
+
+for combo_type in ["projection", "hybrid"]:
+    for dataset in datasets:
+        for image_model in image_models:
+            image_path = os.path.join(image_dir, image_model + "_" + dataset)
+            for graph_model in graph_models:
+                graph_path = os.path.join(graph_dir, graph_model + "_" + dataset)
+                graph_image_path = os.path.join(
+                    graph_img_dir,
+                    combo_type,
+                    image_model + "_" + graph_model + "_" + dataset,
+                )
+                if not os.path.exists(graph_image_path):
+                    os.makedirs(graph_image_path)
+
+                with open(os.path.join(graph_image_path, "train.yaml"), "w") as f:
+                    f.write(generate_train_yaml("graph_image", combo_type, dataset))
+
+                model_yaml = generate_model_yaml(
+                    os.path.join(image_path, "model.yaml"),
+                    os.path.join(graph_path, "model.yaml"),
+                    dataset,
+                )
+                with open(os.path.join(graph_image_path, "model.yaml"), "w") as f:
+                    yaml.dump(model_yaml, f)
+                dataset_yaml = generate_dataset_yaml(
+                    os.path.join(image_path, "dataset.yaml"),
+                    os.path.join(graph_path, "dataset.yaml"),
+                    dataset,
+                )
+                with open(os.path.join(graph_image_path, "dataset.yaml"), "w") as f:
+                    yaml.dump(dataset_yaml, f)
 
 # Clean save all the train configs
-import yaml
 
 
 for root, dirs, fils in os.walk("configs/custom_trainer"):

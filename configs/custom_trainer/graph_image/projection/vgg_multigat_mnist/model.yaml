@@ -1,0 +1,24 @@
+cnn_config:
+  batch_norm: false
+  name: vgg
+  num_classes: 32
+  num_layers_freeze: 0
+  pretrained: false
+  vgg_version: '11'
+gnn_config:
+  gat_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+    num_heads:
+    - 2
+    - 2
+    - 2
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: multigat
+  num_classes: 32
+  num_node_features: 3
+name: projection
+num_classes: 10
