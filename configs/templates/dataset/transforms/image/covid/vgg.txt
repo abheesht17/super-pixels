@@ -1,0 +1,22 @@
+main: &main
+  name: covid
+  transform_args:
+  - params:
+      num_output_channels: 3
+    type: Grayscale
+  - params:
+      size: [256, 256]
+    type: Resize
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+        - 0.5094362248497217
+      std:
+        - 0.25237422057401465
+    type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize

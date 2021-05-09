@@ -1,0 +1,17 @@
+train:
+  <<: *main
+  data_paths_csv: ./raw_data/COVID/train_paths.csv
+  split: train
+train_val:
+  train:
+    <<: *main
+    data_paths_csv: ./raw_data/COVID/train_sub_paths.csv
+    split: train
+  val:
+    <<: *main
+    data_paths_csv: ./raw_data/COVID/val_paths.csv
+    split: val
+val:
+  <<: *main
+  data_paths_csv: ./raw_data/COVID/test_paths.csv
+  split: val

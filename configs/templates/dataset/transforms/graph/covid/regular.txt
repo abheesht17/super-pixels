@@ -1,0 +1,22 @@
+main: &main
+  name: covid_slic
+  transform_args:
+  - params:
+      size: [256, 256]
+    type: Resize
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+        - 0.5094362248497217
+      std:
+        - 0.25237422057401465
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 200
+    type: ToSLIC
+  - params:
+      r: 27
+    type: RadiusGraph

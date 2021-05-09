@@ -5,54 +5,54 @@ grid_search:
     train:
       loader_params:
         batch_size:
-          - 256
-          - 128
+        - 256
+        - 128
       log:
         log_label: null
         vals:
           hparams:
-            - name: epochs
-              path:
-                - train
-                - max_epochs
-            - name: batch_size
-              path:
-                - train
-                - loader_params
-                - batch_size
-            - name: optimizer_params
-              path:
-                - train
-                - optimizer
-                - params
-            - name: optimizer_type
-              path:
-                - train
-                - optimizer
-                - type
+          - name: epochs
+            path:
+            - train
+            - max_epochs
+          - name: batch_size
+            path:
+            - train
+            - loader_params
+            - batch_size
+          - name: optimizer_params
+            path:
+            - train
+            - optimizer
+            - params
+          - name: optimizer_type
+            path:
+            - train
+            - optimizer
+            - type
       max_epochs:
-        - 100
+      - 100
       optimizer:
         params:
           lr:
-            - 0.001
-            - 0.0001
-            - 1.0e-05
+          - 0.001
+          - 0.0001
+          - 1.0e-05
           weight_decay:
-            - 0
-            - 0.001
+          - 0
+          - 0.001
         type:
-          - adam_w
+        - adam_w
 input_key:
-  - graph
-  - image
+- graph
+- image
 main_config:
   device: &id001
     name: cuda
   metrics: &id002
-    - params:
-        normalize: true
-      type: sklearn_acc
+  - params:
+      normalize: true
+    type: sklearn_acc
   seed: 42
 train:
   append_text: train
@@ -65,7 +65,7 @@ train:
   interval_type: epoch
   label_type: logit
   loader_params:
-    batch_size: 128
+    batch_size: 64
     num_workers: 2
     shuffle: true
   log:
@@ -76,14 +76,13 @@ train:
       loss: true
       metrics: true
   log_and_val_interval: 1
-  max_epochs: 86
+  max_epochs: 100
   metrics: *id002
   optimizer:
     params:
       betas:
-        - 0.9
-        - 0.998
-      weight_decay: 0.001
+      - 0.9
+      - 0.998
       eps: 1.0e-08
       lr: 0.001
     type: adam_w
@@ -101,7 +100,7 @@ val:
   append_text: val
   device: *id001
   loader_params:
-    batch_size: 128
+    batch_size: 64
     num_workers: 2
     shuffle: false
   max_steps: null
