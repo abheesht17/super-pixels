@@ -73,6 +73,10 @@ grid_search:
   directory: null
   hyperparams:
     train:
+      criterion:
+        type: HybridLoss
+        params:
+          alpha: 0.75
       max_epochs:
         - !!int 100
       loader_params:
