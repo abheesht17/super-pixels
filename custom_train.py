@@ -34,6 +34,7 @@ parser.add_argument(
     help="Whether to use validation data or test data",
     default=False,
 )
+
 args = parser.parse_args()
 model_config = Config(path=os.path.join(args.config_dir, "model.yaml"))
 train_config = Config(path=os.path.join(args.config_dir, "train.yaml"))
