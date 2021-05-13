@@ -63,7 +63,7 @@ class HybridTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**criterion_params.as_dict())
+            )(**criterion_params.as_dict(), device=self.device)
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
@@ -613,7 +613,7 @@ class HybridTrainer:
         if criterion_params:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
-            )(**criterion_params.as_dict())
+            )(**criterion_params.as_dict(), device=self.device)
         else:
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
