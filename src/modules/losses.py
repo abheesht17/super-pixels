@@ -15,6 +15,7 @@ class HybridLoss:
         if weight is None:
         	self.loss_fn = CrossEntropyLoss()
         else:
+            weight = torch.tensor(weight)
         	self.loss_fn  = CrossEntropyLoss(weight=weight)
         self.alpha = alpha
 
