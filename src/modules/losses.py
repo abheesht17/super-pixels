@@ -11,11 +11,12 @@ configmapper.map("losses", "CrossEntropyLoss")(CrossEntropyLoss)
 
 @configmapper.map("losses", "HybridLoss")
 class HybridLoss:
-    def __init__(self, alpha=0.75, weight=None):
+    def __init__(self, alpha=0.75, weight=None, device=torch.device("cuda")):
         if weight is None:
-        	self.loss_fn = CrossEntropyLoss()
+            self.loss_fn = CrossEntropyLoss()
         else:
-        	self.loss_fn  = CrossEntropyLoss(weight=weight)
+            weight = torch.tensor(weight).to(device)
+            self.loss_fn = CrossEntropyLoss(weight=weight)
         self.alpha = alpha
 
     def __call__(self, outputs, targets):
