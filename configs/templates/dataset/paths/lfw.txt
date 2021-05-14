@@ -2,7 +2,7 @@ train:
   << : *main
   filepath:
     data: ./raw_data/LFW
-    indices_csv: ./raw_data/original_train_split.csv
+    indices_csv: ./raw_data/LFW_original_train.csv
   split: train
 train_val:
   train:
