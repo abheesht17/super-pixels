@@ -3,6 +3,7 @@ import pickle
 
 import numpy as np
 import pandas as pd
+from sklearn.datasets import fetch_lfw_people
 import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
