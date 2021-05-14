@@ -42,7 +42,7 @@ main:
 train:
   filepath:
     data: ./raw_data/LFW
-    indices_csv: ./raw_data/original_train_split.csv
+    indices_csv: ./raw_data/LFW/LFW_original_train.csv
   graph_transform_args: *id001
   image_transform_args: *id002
   label: labels
