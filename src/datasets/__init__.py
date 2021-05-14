@@ -7,9 +7,9 @@ from src.datasets.cifar_slic import CifarSlic
 from src.datasets.covid import Covid
 from src.datasets.covid_img_slic import CovidImgSlic
 from src.datasets.covid_slic import CovidSlic
-from src.datasets.mnist import Mnist
-from src.datasets.mnist_img_slic import MnistImgSlic
-from src.datasets.mnist_slic import MnistSlic
 from src.datasets.lfw import LFW
 from src.datasets.lfw_img_slic import LFWImgSlic
 from src.datasets.lfw_slic import LFWSlic
+from src.datasets.mnist import Mnist
+from src.datasets.mnist_img_slic import MnistImgSlic
+from src.datasets.mnist_slic import MnistSlic

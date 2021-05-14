@@ -3,8 +3,8 @@ import pickle
 
 import numpy as np
 import pandas as pd
-from sklearn.datasets import fetch_lfw_people
 import torch
+from sklearn.datasets import fetch_lfw_people
 from torch.utils.data import Dataset
 from torchvision import transforms
 
@@ -50,10 +50,15 @@ class LFWImgSlic(Dataset):
 
         if config.filepath.indices_csv != None:
             filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["indices"])
-            self.images = np.take(self.data.images, filtered_indices, axis=0)
+            self.images = np.take(self.data.images, filtered_indices, axis=0) / 255
             self.labels = np.take(self.data.target, filtered_indices, axis=0)
+        else:
+            self.images = self.data.images / 255
+            self.labels = self.data.target
 
-        self.images = np.transpose(self.images, (0, 3, 1, 2))
+        self.images = self.images.astype(np.float64)
+
+        # self.images = np.transpose(self.images, (0, 3, 1, 2))
 
     def __len__(self):
         return self.images.shape[0]
