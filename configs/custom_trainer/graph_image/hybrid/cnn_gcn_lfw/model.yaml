@@ -1,0 +1,23 @@
+cnn_config:
+  cnn_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: cnn
+  num_classes: 5749
+  num_input_channels: 3
+gnn_config:
+  gcn_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: gcn
+  num_classes: 5749
+  num_node_features: 5
+name: hybrid

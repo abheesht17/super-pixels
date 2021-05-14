@@ -3,9 +3,13 @@ gat_params:
   - 32
   - 64
   - 64
+  num_heads:
+  - 2
+  - 2
+  - 2
 linear_layer_params:
   intermediate_layer_sizes:
   - 32
-name: gat
+name: multigat
 num_classes: 5749
 num_node_features: 5

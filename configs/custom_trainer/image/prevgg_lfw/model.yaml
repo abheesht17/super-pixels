@@ -1,0 +1,6 @@
+batch_norm: false
+name: vgg
+num_classes: 5749
+num_layers_freeze: 8
+pretrained: true
+vgg_version: '11'

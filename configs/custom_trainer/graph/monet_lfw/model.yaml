@@ -1,0 +1,12 @@
+kernel_size: 25
+linear_layer_params:
+  intermediate_layer_sizes:
+  - 32
+monet_params:
+  hidden_layer_sizes:
+  - 32
+  - 64
+  - 64
+name: monet
+num_classes: 5749
+num_node_features: 5

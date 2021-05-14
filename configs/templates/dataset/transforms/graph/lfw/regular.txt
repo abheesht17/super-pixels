@@ -1,0 +1,26 @@
+main: &main
+  label: labels
+  name: lfw_slic
+  transform_args:
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.671658
+      - 0.47493604
+      - 0.3727533
+      std:
+      - 0.20880133
+      - 0.18097837
+      - 0.17594668
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 100
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph

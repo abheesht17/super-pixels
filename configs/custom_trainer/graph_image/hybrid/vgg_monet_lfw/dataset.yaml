@@ -1,0 +1,78 @@
+main:
+  graph_transform_args: &id001
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.671658
+      - 0.47493604
+      - 0.3727533
+      std:
+      - 0.20880133
+      - 0.18097837
+      - 0.17594668
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 100
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph
+  image_transform_args: &id002
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.671658
+      - 0.47493604
+      - 0.3727533
+      std:
+      - 0.20880133
+      - 0.18097837
+      - 0.17594668
+    type: Normalize
+  label: labels
+  name: lfw_img_slic
+train:
+  filepath:
+    data: ./raw_data/LFW
+    indices_csv: ./raw_data/original_train_split.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  label: labels
+  name: lfw_img_slic
+  split: train
+train_val:
+  train:
+    filepath:
+      data: ./raw_data/LFW
+      indices_csv: ./raw_data/LFW/LFW_train.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    label: labels
+    name: lfw_img_slic
+    split: train
+  val:
+    filepath:
+      data: ./raw_data/LFW
+      indices_csv: ./raw_data/LFW/LFW_validation.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    label: labels
+    name: lfw_img_slic
+    split: val
+val:
+  filepath:
+    data: ./raw_data/LFW
+    indices_csv: ./raw_data/LFW/LFW_test.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  label: labels
+  name: lfw_img_slic
+  split: val
