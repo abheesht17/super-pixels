@@ -46,7 +46,7 @@ class LFWImgSlic(Dataset):
             else None
         )
 
-        self.data = fetch_lfw_people(data_home=config.data, color=True)
+        self.data = fetch_lfw_people(data_home=config.filepath.data, color=True)
 
         if config.filepath.indices_csv != None:
             filtered_indices = list(pd.read_csv(config.filepath.indices_csv)["indices"])
