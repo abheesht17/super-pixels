@@ -1,0 +1,43 @@
+main: &main
+  label: labels
+  name: lfw
+  transform_args:
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.671658
+      - 0.47493604
+      - 0.3727533
+      std:
+      - 0.20880133
+      - 0.18097837
+      - 0.17594668
+    type: Normalize
+train:
+  << : *main
+  filepath:
+    data: ./raw_data/LFW
+    indices_csv: ./raw_data/LFW/LFW_original_train.csv
+  split: train
+train_val:
+  train:
+    << : *main
+    filepath:
+      data: ./raw_data/LFW
+      indices_csv: ./raw_data/LFW/LFW_train.csv
+    split: train
+  val:
+    << : *main
+    filepath:
+      data: ./raw_data/LFW
+      indices_csv: ./raw_data/LFW/LFW_validation.csv
+    split: val
+val:
+  << : *main
+  filepath:
+    data: ./raw_data/LFW
+    indices_csv: ./raw_data/LFW/LFW_test.csv
+  split: val

@@ -1,4 +1,4 @@
-gat_params:
+cnn_params:
   hidden_layer_sizes:
   - 32
   - 64
@@ -6,6 +6,6 @@ gat_params:
 linear_layer_params:
   intermediate_layer_sizes:
   - 32
-name: gat
-num_classes: 5749
-num_node_features: 5
+name: cnn
+num_classes: 62
+num_input_channels: 3
