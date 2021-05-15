@@ -1,4 +1,4 @@
-"""Sokoto Coventry Fingerprint Dataset (SOCOFing)"""
+"""Sokoto Coventry Fingerprint Dataset (SOCOFing) SLIC"""
 import pickle
 
 import numpy as np
@@ -11,8 +11,8 @@ from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
 
-@configmapper.map("datasets", "socofing")
-class Socofing(Dataset):
+@configmapper.map("datasets", "socofing_slic")
+class SocofingSlic(Dataset):
     def __init__(self, config):
         super().__init__()
         self.config = config
@@ -28,16 +28,17 @@ class Socofing(Dataset):
         self.transform = (
             transforms.Compose(transformations) if transformations != [] else None
         )
+
         if config.filepath.indices_csv != None:
             data_path = config.filepath.indices_csv
         else:
             data_path = config.filepath.data
+        
         self.dir_path = '/'.join(config.filepath.data.split('/')[:-1])
         self.data = pd.read_csv(data_path)
         self.image_paths = np.array(self.data["path"])
         self.labels = np.array(self.data["img_id"])
 
-        
     def __len__(self):
         return len(self.data)
 
@@ -45,6 +46,6 @@ class Socofing(Dataset):
         image = cv2.imread(os.join(self.dir_path,self.image_paths[idx]))
         label = self.labels[idx]
         if self.transform is not None:
-            image = self.transform(image)
+            graph = self.transform(image)
 
-        return {"image": image, "label": torch.tensor(label, dtype=torch.long)}
+        return {"graph": graph, "label": torch.tensor(label, dtype=torch.long)}
