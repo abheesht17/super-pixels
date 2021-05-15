@@ -22,5 +22,5 @@ main: &main
       n_segments: 100
     type: ToSLIC
   - params:
-      r: 5
+      r: 10
     type: RadiusGraph
