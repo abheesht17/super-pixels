@@ -7,5 +7,5 @@ linear_layer_params:
   intermediate_layer_sizes:
   - 32
 name: gcn
-num_classes: 5749
+num_classes: 62
 num_node_features: 5
