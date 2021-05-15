@@ -1,0 +1,19 @@
+cnn_config:
+  batch_norm: false
+  name: vgg
+  num_classes: 600
+  num_layers_freeze: 8
+  pretrained: true
+  vgg_version: '11'
+gnn_config:
+  gcn_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: gcn
+  num_classes: 600
+  num_node_features: 3
+name: hybrid

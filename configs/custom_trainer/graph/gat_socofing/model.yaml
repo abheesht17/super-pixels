@@ -7,5 +7,5 @@ linear_layer_params:
   intermediate_layer_sizes:
   - 32
 name: gat
-num_classes: 10
-num_node_features: 5
+num_classes: 600
+num_node_features: 3

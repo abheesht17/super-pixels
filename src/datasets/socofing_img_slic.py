@@ -59,7 +59,7 @@ class SocofingImgSlic(Dataset):
         return self.images.shape[0]
 
     def __getitem__(self, idx):
-        image = cv2.imread(os.join(self.dir_path,self.image_paths[idx]))
+        image = cv2.imread(os.join(self.dir_path,self.image_paths[idx]), 0)
         label = self.labels[idx]
         
         if self.graph_transform is not None:

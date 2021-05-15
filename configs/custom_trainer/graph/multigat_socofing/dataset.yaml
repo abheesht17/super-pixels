@@ -1,0 +1,53 @@
+main: &main
+  label: labels
+  name: socofing_slic
+  transform_args:
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      size:
+      - 96
+      - 96
+    type: Resize
+  - params:
+      mean:
+      - 0.5731552992397301
+      std:
+      - 0.37681096188795793
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 100
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph
+
+train:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_original_train.csv
+  split: train
+train_val:
+  train:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_train.csv
+    split: train
+  val:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_val.csv
+    split: val
+val:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_test.csv
+  split: val

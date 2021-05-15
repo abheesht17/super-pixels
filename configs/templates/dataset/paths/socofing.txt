@@ -1,0 +1,25 @@
+train:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_original_train.csv
+  split: train
+train_val:
+  train:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_train.csv
+    split: train
+  val:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_val.csv
+    split: val
+val:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_test.csv
+  split: val
