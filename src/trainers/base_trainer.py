@@ -59,6 +59,8 @@ class BaseTrainer:
 
         criterion_params = self.train_config.criterion.params
         if criterion_params:
+            if "weight" in criterion_params.as_dict():
+                criterion_params.weight = torch.tensor(criterion_params.weight).to(self.device)
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )(**criterion_params.as_dict())
@@ -609,6 +611,8 @@ class BaseTrainer:
         append_text = self.val_config.append_text
         criterion_params = self.train_config.criterion.params
         if criterion_params:
+            if "weight" in criterion_params.as_dict():
+                criterion_params.set_value(weight,torch.tensor(criterion_params.weight).to(self.device))
             criterion = configmapper.get_object(
                 "losses", self.train_config.criterion.type
             )(**criterion_params.as_dict())

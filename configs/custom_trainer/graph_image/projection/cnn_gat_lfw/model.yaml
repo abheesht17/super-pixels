@@ -21,4 +21,4 @@ gnn_config:
   num_classes: 32
   num_node_features: 5
 name: projection
-num_classes: 5749
+num_classes: 62
