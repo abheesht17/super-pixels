@@ -13,4 +13,3 @@ from src.datasets.lfw_slic import LFWSlic
 from src.datasets.mnist import Mnist
 from src.datasets.mnist_img_slic import MnistImgSlic
 from src.datasets.mnist_slic import MnistSlic
-from src.datasets.socofing import Socofing

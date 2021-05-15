@@ -15,7 +15,7 @@ datasets_classes = [
     "covid_img_slic",
     "lfw_img_slic",
 ]
-num_class = [10, 10, 10, 100, 4, 5749]
+num_class = [10, 10, 10, 100, 4, 62]
 name_to_class = dict(zip(datasets, datasets_classes))
 name_to_num_class = dict(zip(datasets, num_class))
 

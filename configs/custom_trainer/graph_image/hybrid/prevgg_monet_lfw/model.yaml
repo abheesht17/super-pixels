@@ -1,7 +1,7 @@
 cnn_config:
   batch_norm: false
   name: vgg
-  num_classes: 5749
+  num_classes: 62
   num_layers_freeze: 8
   pretrained: true
   vgg_version: '11'
@@ -15,6 +15,6 @@ gnn_config:
     - 64
     - 64
   name: monet
-  num_classes: 5749
+  num_classes: 62
   num_node_features: 5
 name: hybrid
