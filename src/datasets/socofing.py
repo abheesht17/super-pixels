@@ -1,6 +1,6 @@
 """Sokoto Coventry Fingerprint Dataset (SOCOFing)"""
 import pickle
-
+import os
 import numpy as np
 import pandas as pd
 import torch
@@ -42,7 +42,7 @@ class Socofing(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx):
-        image = cv2.imread(os.join(self.dir_path,self.image_paths[idx]), 0)
+        image = cv2.imread(os.path.join(self.dir_path,self.image_paths[idx]), 0)
         label = self.labels[idx]
         if self.transform is not None:
             image = self.transform(image)
