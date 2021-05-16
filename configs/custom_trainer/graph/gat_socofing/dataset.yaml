@@ -20,7 +20,7 @@ main: &main
   - params:
       add_img: true
       add_seg: true
-      n_segments: 200
+      n_segments: 100
     type: ToSLIC
   - params:
       r: 15
