@@ -20,8 +20,8 @@ main: &main
   - params:
       add_img: true
       add_seg: true
-      n_segments: 100
+      n_segments: 200
     type: ToSLIC
   - params:
-      r: 5
+      r: 15
     type: RadiusGraph
