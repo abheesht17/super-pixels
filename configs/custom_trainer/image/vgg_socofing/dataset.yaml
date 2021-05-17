@@ -1,0 +1,44 @@
+main: &main
+  label: labels
+  name: socofing
+  transform_args:
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.5731552992397301
+      std:
+      - 0.37681096188795793
+    type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
+train:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_original_train.csv
+  split: train
+train_val:
+  train:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_train.csv
+    split: train
+  val:
+    << : *main
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_val.csv
+    split: val
+val:
+  << : *main
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_test.csv
+  split: val

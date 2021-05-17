@@ -1,0 +1,82 @@
+main:
+  graph_transform_args: &id001
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      size:
+      - 96
+      - 96
+    type: Resize
+  - params:
+      mean:
+      - 0.5731552992397301
+      std:
+      - 0.37681096188795793
+    type: Normalize
+  - params:
+      add_img: true
+      add_seg: true
+      n_segments: 100
+    type: ToSLIC
+  - params:
+      r: 5
+    type: RadiusGraph
+  - params: null
+    type: PolarTransformation
+  image_transform_args: &id002
+  - params: null
+    type: ToPILImage
+  - params: null
+    type: ToTensor
+  - params:
+      mean:
+      - 0.5731552992397301
+      std:
+      - 0.37681096188795793
+    type: Normalize
+  - params:
+      size:
+      - 224
+      - 224
+    type: Resize
+  label: labels
+  name: socofing_img_slic
+train:
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_original_train.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  label: labels
+  name: socofing_img_slic
+  split: train
+train_val:
+  train:
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_train.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    label: labels
+    name: socofing_img_slic
+    split: train
+  val:
+    filepath:
+      data: ./raw_data/Socofing
+      indices_csv: ./raw_data/Socofing/socofing_val.csv
+    graph_transform_args: *id001
+    image_transform_args: *id002
+    label: labels
+    name: socofing_img_slic
+    split: val
+val:
+  filepath:
+    data: ./raw_data/Socofing
+    indices_csv: ./raw_data/Socofing/socofing_test.csv
+  graph_transform_args: *id001
+  image_transform_args: *id002
+  label: labels
+  name: socofing_img_slic
+  split: val

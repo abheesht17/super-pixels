@@ -1,7 +1,7 @@
 import numpy as np
 from tqdm import tqdm
 
-from src.datasets import Covid, Mnist
+from src.datasets import Covid, Mnist, Socofing
 from src.utils.configuration import Config
 
 

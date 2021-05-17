@@ -1,0 +1,11 @@
+gat_params:
+  hidden_layer_sizes:
+  - 32
+  - 64
+  - 64
+linear_layer_params:
+  intermediate_layer_sizes:
+  - 32
+name: gat
+num_classes: 600
+num_node_features: 3
