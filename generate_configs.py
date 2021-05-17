@@ -7,6 +7,7 @@ import yaml
 graph_models = ["gat", "gcn", "monet", "multigat"]
 image_models = ["cnn", "vgg", "prevgg"]
 datasets = ["mnist", "fmnist", "cifar10", "cifar100", "covid", "lfw", "socofing"]
+
 datasets_classes = [
     "mnist_img_slic",
     "mnist_img_slic",
@@ -17,6 +18,7 @@ datasets_classes = [
     "socofing_img_slic",
 ]
 num_class = [10, 10, 10, 100, 4, 62, 600]
+
 name_to_class = dict(zip(datasets, datasets_classes))
 name_to_num_class = dict(zip(datasets, num_class))
 
