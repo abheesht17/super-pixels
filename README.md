@@ -112,7 +112,7 @@ You can cite our work as:
 @unpublished{chhablani2021superpixels ,
 author = {Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
 title = {Superpixel-based Domain-Knowledge Infusion in Computer Vision},
-note = {Under Review at ESANN \'21},
+note = {Under Review at ESANN '21},
 year = {2021}
 }
 ```
