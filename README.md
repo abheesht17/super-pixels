@@ -112,14 +112,14 @@ You can cite our work as:
 @unpublished{chhablani2021superpixels ,
 author = {Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
 title = {Superpixel-based Domain-Knowledge Infusion in Computer Vision},
-note = {Under Review at ESANN '21},
+note = {Under Review at ESANN 2021},
 year = {2021}
 }
 ```
 OR
 
 ```sh
-G. Chhablani, A. Sharma, H. Pandey, T. Dash, "Superpixel-based Domain-Knowledge Infusion in Computer Vision", Under Review at ESANN '21, 2021.
+G. Chhablani, A. Sharma, H. Pandey, T. Dash, "Superpixel-based Domain-Knowledge Infusion in Computer Vision", Under Review at ESANN 2021, 2021.
 ```
 
 If you use any part of our code in your work, please use the following citation:
