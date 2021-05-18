@@ -5,7 +5,9 @@ Pre-print: Coming Soon
 
 ## Abstract
 
-![Front Page](./misc/images/paper_front_page.pdf)
+<p align="center">
+  <img src="./misc/images/paper_front_page.svg" alt="Paper Abstract"/>
+</p>
 
 ## Updates
 
