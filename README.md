@@ -67,6 +67,8 @@ Currently, we guarantee that the "cnn" and "cnn_gat" models are in working condi
 
 This will save the logs and the final model at the path specified in the `logs` folder.
 
+Note: Performing Grid Search is not necessary. The default hyperparameters specified in the configs are the ones obtained after performing Grid Search; one can directly run the training and inference command given in the next subsection.  
+
 ### Training and Inference
 
 ```sh
