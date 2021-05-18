@@ -1,7 +1,7 @@
 # Superpixels
 In this work, we demonstrate that infusing domain knowledge in the form of superpixels-based radial graph improves the predictive performance of CNN-based classifiers. We would love to know about any issues found on this repository. Please create an issue for any queries, or contact us at sharmabhee@gmail.com.
 
-Pre-print:
+Pre-print: Coming Soon
 
 ## Abstract
 
@@ -101,9 +101,6 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 |   COVID  | 89.09% |  91.01% |
 |    LFW   | 60.83% |  66.12% |
 | SOCOFing | 65.68% |  93.58% |
-
-
-## References
 
 ## Citation
 
