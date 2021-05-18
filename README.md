@@ -1,5 +1,5 @@
 # Superpixels
-Repository for our submission to ESANN '21, Superpixel-based Domain-Knowledge Infusion in Computer Vision. In our work, we demonstrate that infusing domain-knowledge in the form of superpixels-based radial graph improves the predictive performance of CNN-based classifiers. We would love to know about any issues found on this repository. Please create an issue for any queries, or contact us at sharmabhee@gmail.com.
+In our work, we demonstrate that infusing domain-knowledge in the form of superpixels-based radial graph improves the predictive performance of CNN-based classifiers. We would love to know about any issues found on this repository. Please create an issue for any queries, or contact us at sharmabhee@gmail.com.
 
 Pre-print:
 
@@ -106,3 +106,27 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 ## References
 
 ## Citation
+
+You can cite our work as:
+
+```sh
+@unpublished{chhablani2021superpixels ,
+author = {Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
+title = {Superpixel-based Domain-Knowledge Infusion in Computer Vision},
+note = {Under Review at ESANN \'21},
+year = {2021}
+}
+```
+
+If you use any part of our code in your work, please use the following citation:
+
+```sh
+@misc{sharma2021superpixelsgithub,
+  author = {Abheesht Sharma and Gunjan Chhablani and Harshit Pandey and Tirtharaj Dash},
+  title = {abheesht17/super-pixels},
+  year = {2021},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/abheesht17/super-pixels}},
+}
+```
