@@ -13,6 +13,10 @@ Pre-print: Coming Soon
 
 - [18 May 2021]: Repository is made public.
 
+## Directory Structure
+
+You can find the structure of the repository (i.e., the sub-directories and files) [here](misc/DIRSTRUCTURE.md).
+
 ## Usage
 
 ### Quick Colab Guide
@@ -99,10 +103,6 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 |   COVID  | 89.09% |  91.01% |
 |    LFW   | 60.83% |  66.12% |
 | SOCOFing | 65.68% |  93.58% |
-
-## Directory Structure
-
-You can find the structure of the repository (i.e., the sub-directories and files) [here](misc/DIRSTRUCTURE.md).
 
 ## Citation
 
