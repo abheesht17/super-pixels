@@ -102,7 +102,7 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 ## Directory Structure
 
-You can find the structure of the repository (i.e., the sub-directories and files) [here](DIRSTRUCTURE.md).
+You can find the structure of the repository (i.e., the sub-directories and files) [here](misc/DIRSTRUCTURE.md).
 
 ## Citation
 
