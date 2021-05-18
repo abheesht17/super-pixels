@@ -116,6 +116,11 @@ note = {Under Review at ESANN \'21},
 year = {2021}
 }
 ```
+OR
+
+```sh
+G. Chhablani, A. Sharma, H. Pandey, T. Dash, "Superpixel-based Domain-Knowledge Infusion in Computer Vision", Under Review at ESANN '21, 2021.
+```
 
 If you use any part of our code in your work, please use the following citation:
 
