@@ -6,7 +6,7 @@ Pre-print:
 ## Abstract
 
 <div align=”center”>
-	![Paper Abstract](./misc/images/paper_abstract.jpeg)
+	<img src="./misc/images/paper_abstract.jpeg" >
 </div>
 ## Updates
 
