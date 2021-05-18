@@ -3,6 +3,10 @@ Repository for our submission to ESANN '21, Superpixel-based Domain-Knowledge In
 
 Pre-print:
 
+## Abstract
+
+![Paper Abstract](./misc/images/paper_abstract.jpeg)
+
 ## Updates
 
 - [18 May 2021]: Repository is made public.
