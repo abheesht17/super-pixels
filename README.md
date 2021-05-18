@@ -76,12 +76,14 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 ### Done
 
-- [x] Add usage
+- [x] Add Usage.
+- [x] Add Citation(s).
+- [x] Update `README.md`.
 
 ### Ongoing
 
-- [ ] Update README
-- [ ] Add citation
+- [x] Add Directory Structure.
+
 
 ## Results and Analysis
 
