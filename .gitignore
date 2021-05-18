@@ -2,9 +2,6 @@
 *superpixels-env*
 *ckpts/*
 *logs/*
-*configs/custom_trainer_package_data/*
-*configs/fashion_mnist_gat_graph_search/*
-*configs/hf_trainer/*
 data/tg_mnist_slic/processed/pre_filter.pt
 .gitignore
 *.ipynb
