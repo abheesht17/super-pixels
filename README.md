@@ -9,6 +9,10 @@ Pre-print:
 
 ## Usage
 
+### Quick Colab Guide
+
+[Colab Notebook](https://colab.research.google.com/drive/1zpgNTe1B_RqPzqVPwxwyia8DOPQfnBv2?usp=sharing)
+
 ### Setting Up
 
 Clone the repository.
@@ -71,7 +75,7 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 ### Ongoing
 
 - [ ] Update README
-- [ ] Add citation and references
+- [ ] Add citation
 
 ## Results and Analysis
 
