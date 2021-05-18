@@ -82,7 +82,7 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 ### Ongoing
 
-- [x] Add Directory Structure.
+- [ ] Add Directory Structure.
 
 
 ## Results and Analysis
