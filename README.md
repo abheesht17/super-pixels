@@ -5,8 +5,9 @@ Pre-print:
 
 ## Abstract
 
-![Paper Abstract](./misc/images/paper_abstract.jpeg)
-
+<div align=”center”>
+	![Paper Abstract](./misc/images/paper_abstract.jpeg)
+</div>
 ## Updates
 
 - [18 May 2021]: Repository is made public.
