@@ -34,7 +34,7 @@ class SocofingSlic(Dataset):
         else:
             data_path = config.filepath.data
         
-        self.dir_path = '/'.join(config.filepath.data.split('/')[:-1])
+        self.dir_path = config.filepath.data
         self.data = pd.read_csv(data_path)
         self.image_paths = np.array(self.data["path"])
         self.labels = np.array(self.data["img_id"])
