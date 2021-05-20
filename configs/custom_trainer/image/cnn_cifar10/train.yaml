@@ -20,13 +20,14 @@ train: &train
   append_text: train
   max_epochs: 100
   loader_params:
-    batch_size: 64
+    batch_size: 128
     num_workers: 2
     shuffle: true
   save_after_epoch: false
   optimizer:
     type: adam_w
     params:
+      weight_decay: !!float 1e-3
       lr: !!float 1e-3
       betas: [0.9, 0.998]
       eps: !!float 1e-8
@@ -63,7 +64,7 @@ val:
   append_text: val
   max_steps: null
   loader_params:
-    batch_size: 64
+    batch_size: 128
     num_workers: 2
     shuffle: false
 

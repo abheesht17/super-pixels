@@ -1,4 +1,0 @@
-name: cnn
-num_input_channels: 3
-num_classes: 10
-input_dim: 32
