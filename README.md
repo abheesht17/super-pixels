@@ -1,7 +1,7 @@
 # Superpixels
 In this work, we demonstrate that infusing domain knowledge in the form of superpixels-based radial graph improves the predictive performance of CNN-based classifiers. We would love to know about any issues found on this repository. Please create an issue for any queries, or contact us at sharmabhee@gmail.com.
 
-Pre-print: Coming Soon
+[Pre-print](https://arxiv.org/abs/2105.09448)
 
 ## Abstract
 
@@ -69,7 +69,7 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 Currently, we guarantee that the "cnn" and "cnn_gat" models are in working condition. The rest have to be checked.
 
-This will save the logs and the final model at the path specified in the `logs` folder.
+This will save the logs and the final model at the path specified in the `logs` parameter. The default is the `logs/<model_dataset_name>` folder.
 
 Note: Performing Grid Search is not necessary. The default hyperparameters specified in the configs are the ones obtained after performing Grid Search; one can directly run the training and inference command given in the next subsection.  
 
@@ -106,20 +106,19 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 ## Citation
 
+Our paper is under review at ESANN 2021.
+
 You can cite our work as:
 
 ```sh
-@unpublished{chhablani2021superpixels ,
-author = {Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
-title = {Superpixel-based Domain-Knowledge Infusion in Computer Vision},
-note = {Under Review at ESANN 2021},
-year = {2021}
+@misc{chhablani2021superpixelbased,
+      title={Superpixel-based Domain-Knowledge Infusion in Computer Vision}, 
+      author={Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
+      year={2021},
+      eprint={2105.09448},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
-```
-OR
-
-```sh
-G. Chhablani, A. Sharma, H. Pandey, T. Dash, "Superpixel-based Domain-Knowledge Infusion in Computer Vision", Under Review at ESANN 2021, 2021.
 ```
 
 If you use any part of our code in your work, please use the following citation:
