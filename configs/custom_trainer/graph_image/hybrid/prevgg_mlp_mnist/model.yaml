@@ -1,0 +1,15 @@
+cnn_config:
+  batch_norm: false
+  name: vgg
+  num_classes: 10
+  num_layers_freeze: 8
+  pretrained: true
+  vgg_version: '11'
+gnn_config:
+  mlp_params:
+    hidden_layer_sizes:
+    - 32
+  name: mlp
+  num_classes: 10
+  num_input_features: 784
+name: hybrid
