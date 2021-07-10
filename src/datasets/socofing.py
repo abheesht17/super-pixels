@@ -1,12 +1,14 @@
 """Sokoto Coventry Fingerprint Dataset (SOCOFing)"""
-import pickle
 import os
+import pickle
+
+import cv2
 import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
-import cv2
+
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
@@ -37,12 +39,11 @@ class Socofing(Dataset):
         self.image_paths = np.array(self.data["path"])
         self.labels = np.array(self.data["img_id"])
 
-        
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-        image = cv2.imread(os.path.join(self.dir_path,self.image_paths[idx]), 0)
+        image = cv2.imread(os.path.join(self.dir_path, self.image_paths[idx]), 0)
         label = self.labels[idx]
         if self.transform is not None:
             image = self.transform(image)

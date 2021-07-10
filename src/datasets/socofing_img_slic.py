@@ -1,12 +1,14 @@
 """Sokoto Coventry Fingerprint Dataset (SOCOFing) Image+SLIC"""
-import pickle
 import os
+import pickle
+
+import cv2
 import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
-import cv2
+
 from src.modules.transforms import *
 from src.utils.mapper import configmapper
 
@@ -49,7 +51,7 @@ class SocofingImgSlic(Dataset):
             data_path = config.filepath.indices_csv
         else:
             data_path = config.filepath.data
-        
+
         self.dir_path = config.filepath.data
         self.data = pd.read_csv(data_path)
         self.image_paths = np.array(self.data["path"])
@@ -59,9 +61,9 @@ class SocofingImgSlic(Dataset):
         return self.image_paths.shape[0]
 
     def __getitem__(self, idx):
-        image = cv2.imread(os.path.join(self.dir_path,self.image_paths[idx]), 0)
+        image = cv2.imread(os.path.join(self.dir_path, self.image_paths[idx]), 0)
         label = self.labels[idx]
-        
+
         if self.graph_transform is not None:
             graph = self.graph_transform(image)
 
