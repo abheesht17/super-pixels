@@ -1,0 +1,22 @@
+cnn_config:
+  mlp_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  name: mlp
+  num_classes: 32
+  num_input_features: 3072
+gnn_config:
+  gcn_params:
+    hidden_layer_sizes:
+    - 32
+    - 64
+    - 64
+  linear_layer_params:
+    intermediate_layer_sizes: []
+  name: gcn
+  num_classes: 32
+  num_node_features: 5
+name: projection
+num_classes: 100

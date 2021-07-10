@@ -50,7 +50,7 @@ class SimpleMLP(Module):
         self.loss_fn = CrossEntropyLoss()
 
     def forward(self, image, labels=None):
-        out = torch.flatten(image, start_dim=1, end_dim=2)
+        out = torch.flatten(image, start_dim=1, end_dim=len(list(image.shape))-1)
 
         for mlp_layer in self.mlp_layers:
             out = mlp_layer(out)

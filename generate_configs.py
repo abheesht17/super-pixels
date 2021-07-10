@@ -5,7 +5,7 @@ import yaml
 
 
 graph_models = ["gat", "gcn", "monet", "multigat"]
-image_models = ["cnn", "vgg", "prevgg"]
+image_models = ["cnn", "vgg", "prevgg", "mlp"]
 datasets = ["mnist", "fmnist", "cifar10", "cifar100", "covid", "lfw", "socofing"]
 
 datasets_classes = [
