@@ -14,14 +14,6 @@ main:
       - 0.24348505
       - 0.26158768
     type: Normalize
-  - params:
-      add_img: true
-      add_seg: true
-      n_segments: 100
-    type: ToSLIC
-  - params:
-      r: 5
-    type: RadiusGraph
   image_transform_args: &id002
   - params: null
     type: ToPILImage
