@@ -11,6 +11,7 @@ In this work, we demonstrate that infusing domain knowledge in the form of super
 
 ## Updates
 
+- [4 May 2022]: Paper accepted at ACM SE '22 (best short paper award)!
 - [18 May 2021]: Repository is made public.
 
 ## Directory Structure
@@ -106,24 +107,33 @@ python train.py --config_dir ./configs/custom_trainer/graph_image/hybrid/cnn_gat
 
 ## Citation
 
-Our paper is under review at ESANN 2021.
+Our paper was accepted at ACM SE '22!
 
 You can cite our work as:
 
-```sh
-@misc{chhablani2021superpixelbased,
-      title={Superpixel-based Domain-Knowledge Infusion in Computer Vision}, 
-      author={Gunjan Chhablani and Abheesht Sharma and Harshit Pandey and Tirtharaj Dash},
-      year={2021},
-      eprint={2105.09448},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+```
+@inproceedings{10.1145/3476883.3520216,
+author = {Chhablani, Gunjan and Sharma, Abheesht and Pandey, Harshit and Dash, Tirtharaj},
+title = {Superpixel-Based Knowledge Infusion in Deep Neural Networks for Image Classification},
+year = {2022},
+isbn = {9781450386975},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3476883.3520216},
+doi = {10.1145/3476883.3520216},
+abstract = {Superpixels are higher-order perceptual groups of pixels in an image, often carrying much more information than the raw pixels. There is an inherent relational structure to the relationship among different superpixels of an image such as adjacent superpixels are neighbours of each other. Our interest here is to treat these relative positions of various superpixels as relational information of an image. This relational information can convey higher-order spatial information about the image, such as the relationship between superpixels representing two eyes in an image of a cat. That is, the two eyes are placed adjacent to each other in a straight line or the mouth is below the nose. Our motive in this paper is to assist computer vision models, specifically those based on Deep Neural Networks (DNNs), by incorporating this higher-order information from superpixels. We construct a hybrid model that leverages (a) Convolutional Neural Network (CNN) to deal with spatial information in an image and (b) Graph Neural Network (GNN) to deal with relational superpixel information in the image. The proposed model is learned using a generic hybrid loss function. Our experiments are extensive, and we evaluate the predictive performance of our proposed hybrid vision model on seven different image classification datasets from a variety of domains such as digit and object recognition, biometrics, medical imaging. The results demonstrate that the relational superpixel information processed by a GNN can improve the performance of a standard CNN-based vision system.},
+booktitle = {Proceedings of the 2022 ACM Southeast Conference},
+pages = {243–247},
+numpages = {5},
+keywords = {SLIC, superpixels, convolutional neural networks, knowledge-infused learning, graph neural networks},
+location = {Virtual Event},
+series = {ACM SE '22}
 }
 ```
 
 If you use any part of our code in your work, please use the following citation:
 
-```sh
+```
 @misc{sharma2021superpixelsgithub,
   author = {Abheesht Sharma and Gunjan Chhablani and Harshit Pandey and Tirtharaj Dash},
   title = {abheesht17/super-pixels},
