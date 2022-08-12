@@ -1,7 +1,9 @@
 # Superpixels
 In this work, we demonstrate that infusing domain knowledge in the form of superpixels-based radial graph improves the predictive performance of CNN-based classifiers. We would love to know about any issues found on this repository. Please create an issue for any queries, or contact us at sharmabhee@gmail.com.
 
-[Pre-print](https://arxiv.org/abs/2105.09448)
+[Paper](https://dl.acm.org/doi/10.1145/3476883.3520216)
+[arXiv](https://arxiv.org/abs/2105.09448)
+
 
 ## Abstract
 
